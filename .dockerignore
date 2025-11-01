@@ -4,12 +4,9 @@ npm-debug.log
 .gitignore
 README.md
 .env
-.env.local
 .DS_Store
 *.md
 .vscode
 .idea
 coverage
 .nyc_output
-*.log
-.github

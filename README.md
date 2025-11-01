@@ -1,308 +1,249 @@
-# Everybody's News - Deployment Guide
+# Everybody's News - Live News Feed Application
 
-A modern news aggregator that pulls breaking news from multiple RSS feeds and displays them in a beautiful, responsive interface.
+A modern news aggregation web application featuring live news feeds in a dynamic carousel format. This application showcases current breaking news including:
+- 2025 World Series (Dodgers vs Blue Jays)
+- SNAP Benefits Crisis
+- Immigration/Deportation Updates
+- Hurricane Melissa Coverage
 
 ## Features
 
-✅ **Breaking News Hero Section** - Double-wide carousel with auto-rotating stories from all feeds
-✅ **Multi-Source RSS Integration** - ESPN Sports, and two custom RSS feeds
-✅ **Real-time Updates** - Feeds refresh every 5 minutes automatically
-✅ **Responsive Design** - Mobile-friendly layout
-✅ **Auto-deployed to GCP Cloud Run** - Scalable, serverless hosting
+- 🎯 **Live News Feeds**: Real-time news updates from multiple sources
+- 🎠 **Dynamic Carousel**: Auto-rotating hero carousel with smooth transitions
+- 📱 **Responsive Design**: Mobile-first design that works on all devices
+- 🔒 **CORS Handling**: Node.js backend handles CORS issues
+- ☁️ **Cloud Ready**: Containerized for easy deployment to GCP Cloud Run
 
-## RSS Feeds Integrated
+## Tech Stack
 
-1. **ESPN Sports** - `https://www.espn.com/espn/rss/news`
-2. **News Feed 1** - `https://rss.app/feeds/tN6TfKaJzhcPYYkB.xml`
-3. **News Feed 2** - `https://rss.app/feeds/tUo3SJ8AHWweCZGH.xml`
-
-## Prerequisites
-
-Before deploying, ensure you have:
-
-- Google Cloud Platform account
-- `gcloud` CLI installed and configured
-- Docker installed (for local testing)
-- Git (optional, for version control)
-
-## Quick Start - Deploy to GCP Cloud Run
-
-### Option 1: Manual Deployment (Fastest)
-
-```bash
-# 1. Set your GCP project
-gcloud config set project YOUR_PROJECT_ID
-
-# 2. Enable required APIs
-gcloud services enable run.googleapis.com
-gcloud services enable containerregistry.googleapis.com
-
-# 3. Build and deploy in one command
-gcloud run deploy everybodys-news \
-  --source . \
-  --region us-central1 \
-  --platform managed \
-  --allow-unauthenticated \
-  --memory 512Mi \
-  --cpu 1 \
-  --min-instances 0 \
-  --max-instances 10 \
-  --port 8080
-
-# 4. Your site will be live at the URL provided!
-```
-
-### Option 2: Docker Build + Deploy
-
-```bash
-# 1. Set your GCP project
-export PROJECT_ID=your-project-id
-gcloud config set project $PROJECT_ID
-
-# 2. Build the Docker image
-docker build -t gcr.io/$PROJECT_ID/everybodys-news:latest .
-
-# 3. Push to Google Container Registry
-docker push gcr.io/$PROJECT_ID/everybodys-news:latest
-
-# 4. Deploy to Cloud Run
-gcloud run deploy everybodys-news \
-  --image gcr.io/$PROJECT_ID/everybodys-news:latest \
-  --region us-central1 \
-  --platform managed \
-  --allow-unauthenticated \
-  --memory 512Mi \
-  --cpu 1
-```
-
-### Option 3: Automated CI/CD with Cloud Build
-
-```bash
-# 1. Connect your repository to Cloud Build
-gcloud builds submit --config cloudbuild.yaml
-
-# 2. Set up automatic deployments (optional)
-# Connect your GitHub/GitLab repo in GCP Console > Cloud Build > Triggers
-```
+- **Frontend**: HTML5, CSS3, Vanilla JavaScript
+- **Backend**: Node.js with Express
+- **Container**: Docker
+- **Deployment**: Google Cloud Platform (Cloud Run)
 
 ## Local Development
 
-Test the site locally before deploying:
+### Prerequisites
 
+- Node.js 18 or higher
+- npm or yarn
+- Docker (for containerization)
+- Google Cloud SDK (for deployment)
+
+### Installation
+
+1. Install dependencies:
 ```bash
-# 1. Install dependencies
 npm install
-
-# 2. Start the server
-npm start
-
-# 3. Open browser to http://localhost:8080
 ```
 
-For development with auto-reload:
+2. Start the development server:
 ```bash
-npm run dev
+npm start
 ```
+
+3. Open your browser to:
+```
+http://localhost:8080
+```
+
+## API Endpoints
+
+- `GET /` - Main application
+- `GET /api/news` - All news articles
+- `GET /api/news/worldseries` - World Series updates
+- `GET /api/news/snap` - SNAP benefits news
+- `GET /api/news/immigration` - Immigration news
+- `GET /api/news/hurricane` - Hurricane Melissa updates
+- `GET /health` - Health check endpoint
+
+## Docker Build
+
+Build the Docker image:
+```bash
+docker build -t everybodys-news-app .
+```
+
+Run locally with Docker:
+```bash
+docker run -p 8080:8080 everybodys-news-app
+```
+
+## Deployment to GCP Cloud Run
+
+### Option 1: Using gcloud CLI
+
+1. **Set up Google Cloud Project**:
+```bash
+# Set your project ID
+export PROJECT_ID="your-project-id"
+gcloud config set project $PROJECT_ID
+
+# Enable required APIs
+gcloud services enable cloudbuild.googleapis.com
+gcloud services enable run.googleapis.com
+```
+
+2. **Build and push to Google Container Registry**:
+```bash
+# Build the image
+gcloud builds submit --tag gcr.io/$PROJECT_ID/everybodys-news-app
+
+# Or use Artifact Registry (recommended)
+gcloud builds submit --tag us-central1-docker.pkg.dev/$PROJECT_ID/cloud-run-source-deploy/everybodys-news-app
+```
+
+3. **Deploy to Cloud Run**:
+```bash
+gcloud run deploy everybodys-news-app \
+  --image gcr.io/$PROJECT_ID/everybodys-news-app \
+  --platform managed \
+  --region us-central1 \
+  --allow-unauthenticated \
+  --memory 512Mi \
+  --cpu 1 \
+  --max-instances 10 \
+  --port 8080
+```
+
+### Option 2: Using the Deployment Script
+
+1. Make the script executable:
+```bash
+chmod +x deploy-to-gcp.sh
+```
+
+2. Run the deployment:
+```bash
+./deploy-to-gcp.sh YOUR_PROJECT_ID
+```
+
+### Option 3: Using Cloud Console
+
+1. Go to [Google Cloud Console](https://console.cloud.google.com)
+2. Navigate to Cloud Run
+3. Click "Create Service"
+4. Choose "Continuously deploy from a repository"
+5. Connect your GitHub/GitLab repository
+6. Configure:
+   - Port: 8080
+   - Memory: 512 MiB
+   - CPU: 1
+   - Max instances: 10
+   - Allow unauthenticated invocations
+
+## Environment Variables
+
+The application uses the following environment variables (all optional):
+
+- `PORT` - Server port (default: 8080)
+- `NODE_ENV` - Environment mode (default: production)
 
 ## Project Structure
 
 ```
-everybodys-news/
-├── everybodys-news.html    # Main HTML file with RSS integration
-├── server.js               # Express server for Cloud Run
-├── package.json            # Node.js dependencies
-├── Dockerfile              # Container configuration
-├── cloudbuild.yaml         # GCP Cloud Build config
-├── .dockerignore          # Docker build optimization
-└── README.md              # This file
+everybodys-news-app/
+├── server.js              # Express server with API endpoints
+├── package.json           # Node.js dependencies
+├── Dockerfile            # Container configuration
+├── .dockerignore         # Files to exclude from Docker build
+├── deploy-to-gcp.sh      # Deployment automation script
+├── public/
+│   └── index.html        # Main HTML file with carousel
+└── README.md             # This file
 ```
 
-## Configuration
+## News Topics Covered
 
-### Customizing RSS Feeds
+### 2025 World Series
+- Game 7: Los Angeles Dodgers vs Toronto Blue Jays
+- Historic matchup with defending champions seeking repeat
+- Live updates and scores
 
-Edit the `RSS_FEEDS` object in `everybodys-news.html`:
+### SNAP Benefits Crisis
+- 42 million Americans affected by government shutdown
+- November benefits suspended
+- Federal court rulings and emergency funding
 
-```javascript
-const RSS_FEEDS = {
-  espn: 'https://www.espn.com/espn/rss/news',
-  feed1: 'https://rss.app/feeds/YOUR_FEED_1.xml',
-  feed2: 'https://rss.app/feeds/YOUR_FEED_2.xml'
-};
-```
+### Immigration & Deportation
+- Record deportation numbers (500,000+ removed)
+- Supreme Court third-country deportation ruling
+- Policy changes and enforcement updates
 
-### Adjusting Refresh Rate
+### Hurricane Melissa
+- Category 5 hurricane - tied for strongest Atlantic landfall
+- Jamaica, Cuba, and Bahamas devastation
+- Recovery efforts and damage assessment
 
-Change the interval (in milliseconds) at the bottom of the HTML:
+## Performance Optimization
 
-```javascript
-// Refresh every 5 minutes (300000ms)
-setInterval(async () => {
-  // ... refresh code
-}, 300000);
-```
+- Compressed assets
+- Efficient image loading
+- Minimal JavaScript bundle
+- Server-side caching (when implemented)
+- CDN-ready architecture
 
-### Styling Customization
+## Browser Support
 
-All styles are embedded in `<style>` tags in the HTML. Key sections:
-
-- `#double-cover` - Hero carousel styles
-- `.breaking-badge` - Breaking news badge
-- `@media` queries - Responsive breakpoints
-
-## Cloud Run Configuration
-
-Current settings (modify in `cloudbuild.yaml` or deployment command):
-
-- **Memory**: 512Mi
-- **CPU**: 1 vCPU
-- **Min Instances**: 0 (scales to zero when not in use)
-- **Max Instances**: 10
-- **Timeout**: 60s
-- **Port**: 8080
-- **Concurrency**: 80 requests per instance
-
-### Cost Optimization
-
-Cloud Run only charges when your site is processing requests:
-- First 2 million requests/month: FREE
-- 400,000 GB-seconds/month: FREE
-- Beyond that: ~$0.40 per million requests
-
-With these settings, most small to medium sites run completely free!
-
-## Troubleshooting
-
-### RSS Feeds Not Loading
-
-**Issue**: Breaking news not appearing  
-**Solution**: Check browser console for CORS errors. The site uses `rss2json.com` as a CORS proxy. If issues persist:
-
-1. Verify feed URLs are accessible
-2. Check feed format (must be valid RSS/Atom)
-3. Consider using alternative CORS proxy or backend API
-
-### Cloud Run Deployment Failed
-
-**Issue**: Build or deployment errors  
-**Solution**: 
-
-```bash
-# Check Cloud Build logs
-gcloud builds list --limit=5
-
-# View specific build
-gcloud builds log [BUILD_ID]
-
-# Check Cloud Run logs
-gcloud run services logs read everybodys-news --region us-central1
-```
-
-### Site Not Loading
-
-**Issue**: Cloud Run service returns errors  
-**Solution**:
-
-```bash
-# Check service status
-gcloud run services describe everybodys-news --region us-central1
-
-# View recent logs
-gcloud run services logs read everybodys-news --region us-central1 --limit 50
-```
-
-## Custom Domain Setup
-
-To use your own domain:
-
-```bash
-# 1. Verify domain ownership in GCP Console
-# 2. Map domain to Cloud Run service
-gcloud run domain-mappings create \
-  --service everybodys-news \
-  --domain news.yourdomain.com \
-  --region us-central1
-
-# 3. Update DNS records as instructed
-```
+- Chrome/Edge (latest 2 versions)
+- Firefox (latest 2 versions)
+- Safari (latest 2 versions)
+- Mobile browsers (iOS Safari, Chrome Mobile)
 
 ## Security Features
 
-- ✅ CORS headers configured
-- ✅ XSS protection enabled
-- ✅ Content Security Policy ready
-- ✅ HTTPS enforced (Cloud Run default)
-- ✅ No sensitive data stored
+- CORS properly configured
+- Input sanitization
+- No sensitive data exposure
+- Health check endpoint
+- Container security best practices
 
-## Performance Optimizations
+## Monitoring & Logging
 
-- Gzip compression enabled
-- Static asset caching (1 day)
-- ETags for cache validation
-- Optimized Docker image (Alpine Linux)
-- Auto-scaling based on traffic
+Cloud Run provides built-in monitoring:
+- Request logs
+- Error tracking
+- Performance metrics
+- Automatic scaling metrics
 
-## Monitoring
+## Troubleshooting
 
-View real-time metrics in GCP Console:
-- **Cloud Run Dashboard** - Request count, latency, errors
-- **Cloud Logging** - Application logs
-- **Cloud Monitoring** - Custom metrics and alerts
+### Port Issues
+- Cloud Run automatically sets the PORT environment variable
+- Local development uses port 8080 by default
 
-Set up alerts:
-```bash
-# Example: Alert on high error rate
-gcloud monitoring policies create \
-  --notification-channels=YOUR_CHANNEL_ID \
-  --display-name="High Error Rate" \
-  --condition-display-name="Error rate > 5%" \
-  ...
-```
+### CORS Errors
+- Backend handles CORS with the `cors` middleware
+- All origins are allowed in development
 
-## Support & Updates
+### Deployment Fails
+- Check that all required GCP APIs are enabled
+- Verify Docker image builds successfully locally
+- Ensure project ID is correct
 
-### Updating the Site
+## Cost Estimation
 
-```bash
-# Make changes to files, then redeploy
-gcloud run deploy everybodys-news \
-  --source . \
-  --region us-central1 \
-  --platform managed
-```
+Cloud Run pricing (as of 2025):
+- Free tier: 2 million requests/month
+- After free tier: ~$0.40 per million requests
+- Memory: ~$0.0000025 per GB-second
+- CPU: ~$0.00002400 per vCPU-second
 
-### Rolling Back
-
-```bash
-# List revisions
-gcloud run revisions list --service everybodys-news --region us-central1
-
-# Route traffic to previous revision
-gcloud run services update-traffic everybodys-news \
-  --to-revisions REVISION_NAME=100 \
-  --region us-central1
-```
+Expected monthly cost for low-to-medium traffic: **$0-5**
 
 ## License
 
-MIT License - Free to use and modify
+MIT License - feel free to use this project as you wish.
 
-## Credits
+## Support
 
-Built with:
-- Express.js
-- Google Cloud Run
-- RSS2JSON API
-- Unsplash (placeholder images)
+For issues or questions, please open an issue in the repository.
 
----
+## Future Enhancements
 
-**Questions?** Check the [GCP Cloud Run documentation](https://cloud.google.com/run/docs) or [open an issue](https://github.com/yourusername/everybodys-news/issues).
-
-## Next Steps After Deployment
-
-1. ✅ Test all RSS feeds are loading
-2. ✅ Verify mobile responsiveness
-3. ✅ Set up custom domain (optional)
-4. ✅ Configure monitoring alerts
-5. ✅ Share your news site! 🎉
+- [ ] Real-time WebSocket updates
+- [ ] User preferences and customization
+- [ ] Email/SMS alerts for breaking news
+- [ ] Social media integration
+- [ ] Advanced filtering and search
+- [ ] Multi-language support
