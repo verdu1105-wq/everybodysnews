@@ -1,0 +1,674 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Everybody's News — Your Source for Breaking Stories</title>
+  <link rel="stylesheet" href="bkstyle.css">
+  <link rel="stylesheet" href="rex-modules.css">
+  <link rel="stylesheet" href="rex-frontend.css">
+  <style id="fallback-css">
+    /* TEMP fallback so the page renders even if external CSS isn't picked up */
+    :root{--keyline:rgba(0,0,0,.08)}
+    html,body{margin:0;padding:0;background:#fff;color:#111;font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+    body{display:block !important;visibility:visible !important;opacity:1 !important}
+    .container,.bkwrapper{max-width:1200px;margin:0 auto;padding:0 16px}
+    header.rex-header{position:sticky;top:0;background:#fff;border-bottom:1px solid var(--keyline);z-index:10}
+    .rex-nav{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 0}
+    .rex-menu{display:flex;gap:20px;list-style:none;margin:0;padding:0}
+    .rex-menu a{text-decoration:none;color:#111;font-size:14px}
+
+    /* Hero */
+    #rex-hero .rex-hero-block{min-height:280px;background:#0f172a;color:#fff;display:flex;align-items:flex-end;padding:32px;border-bottom:1px solid var(--keyline)}
+    .rex-hero-headline{margin:0;font-weight:800;font-size:36px}
+
+    /* Under-hero feature */
+    #rex-underhero{margin:28px auto}
+    .rex-feature-grid{display:grid;grid-template-columns:2fr 1.1fr;gap:24px}
+    .rex-media-aspect{position:relative;border:1px solid var(--keyline);border-radius:12px;overflow:hidden;background:#000}
+    .rex-media-aspect:before{content:"";display:block;aspect-ratio:16/9}
+    .rex-caption{position:absolute;left:16px;right:16px;bottom:16px;color:#fff}
+    .rex-side-list{display:flex;flex-direction:column;gap:12px}
+    .rex-side-item{border:1px solid var(--keyline);border-radius:8px;padding:12px}
+
+    /* Sport module */
+    #rex-sport{margin:36px auto}
+    #rex-sport .row{display:grid;grid-template-columns:1.35fr 1fr;gap:24px}
+    #rex-sport .thumb{height:280px;background:#e5e7eb;border:1px solid var(--keyline);border-radius:12px}
+    #rex-sport .bk-calendar-meta{margin-top:-260px;margin-left:12px;background:#000a;color:#fff;padding:8px 10px;border-radius:6px;width:56px;text-align:center}
+    #rex-sport .list-small-post{list-style:none;margin:0;padding:0;border-top:1px solid var(--keyline)}
+    #rex-sport .list-small-post li{display:grid;grid-template-columns:1fr 120px;gap:12px;align-items:center;padding:14px 0;border-bottom:1px solid var(--keyline)}
+    #rex-sport .list-small-post .thumb{height:72px;grid-column:2;background:#e5e7eb;border:1px solid var(--keyline);border-radius:6px}#rex-sport .list-small-post .title{grid-column:1} @media(max-width:680px){#rex-sport .list-small-post li{grid-template-columns:1fr 96px}#rex-sport .list-small-post .thumb{width:96px;height:64px}}
+
+    /* Fashion grid */
+    #rex-fashion-grid{margin:36px auto}
+    .bk-square-grid-wrap{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .bk-square-grid-wrap .thumb{aspect-ratio:1/1;background:#e5e7eb;border:1px solid var(--keyline);border-radius:8px}
+    .bk-square-grid-wrap li{border:1px solid var(--keyline);border-radius:8px;padding:10px}
+
+    /* Tech section + promo */
+    #rex-tech{margin:36px auto}
+    #rex-tech .row{display:grid;grid-template-columns:1.6fr 1fr .8fr;gap:24px}
+    #rex-tech .large-post{border:1px solid var(--keyline);border-radius:12px;min-height:260px;display:flex;align-items:flex-end;padding:16px;background:linear-gradient(180deg,#dfe7f1 0,#ccd6e3 100%)}
+    #rex-tech .col-list .list-small-post{list-style:none;margin:0;padding:0;border-top:1px solid var(--keyline); /* enforce subcat list structure */ }
+    #rex-tech .col-list .list-small-post li{display:grid;grid-template-columns:1fr 120px;gap:16px;align-items:center;padding:12px 0;border-bottom:1px solid var(--keyline)} #rex-tech .col-list .list-small-post .post-c-wrap{grid-column:1} #rex-tech .col-list .list-small-post .thumb{grid-column:2;width:120px;height:80px;background:#e5e7eb;border:1px solid var(--keyline);border-radius:6px} @media(max-width:680px){#rex-tech .col-list .list-small-post li{grid-template-columns:1fr 96px}#rex-tech .col-list .list-small-post .thumb{width:96px;height:64px}}
+    .tech-sidebar .promo-card{position:sticky;top:88px;border:1px solid var(--keyline);border-radius:12px;padding:16px;background:#fff}
+
+    /* Utilities */
+    .module-title h2{margin:0 0 16px;font-size:26px;font-weight:900;letter-spacing:.01em}
+    .module-title .main-title h2 span{color:#111;text-transform:uppercase;font-size:.9em;letter-spacing:.08em}
+    .module-title{display:flex;align-items:baseline;gap:12px;margin-bottom:12px}
+    .module-title .sub-title{color:#666;font-size:14px}
+    .title{margin:6px 0 0;font-size:16px}
+    @media(max-width:1024px){
+      .rex-feature-grid{grid-template-columns:1fr}
+      #rex-sport .row{grid-template-columns:1fr}
+      #rex-tech .row{grid-template-columns:1fr}
+      .bk-square-grid-wrap{grid-template-columns:1fr 1fr}
+    }
+    @media(max-width:560px){.bk-square-grid-wrap{grid-template-columns:1fr}}
+  </style>
+  <style id="fallback-additions">
+    /* Layout helper for new sections */
+    #rex-fashion-travel .two-col{display:grid;grid-template-columns:2fr 1fr;gap:32px;align-items:start}
+    @media(max-width:1024px){#rex-fashion-travel .two-col{grid-template-columns:1fr}}
+    #rex-fashion-travel .bk-square-grid-content{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    #rex-fashion-travel .bk-square-grid-content .thumb{aspect-ratio:1/1;background:#e5e7eb;border:1px solid var(--keyline);border-radius:8px}
+    #rex-fashion-travel .bk-list-post{list-style:none;margin:0;padding:0;border-top:1px solid var(--keyline);counter-reset:subcat} 
+    #rex-fashion-travel .bk-list-post li{display:grid;grid-template-columns:1fr 120px;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--keyline)}
+    /* text left, image right */
+    #rex-fashion-travel .bk-list-post li .post-c-wrap{grid-column:1}
+    #rex-fashion-travel .bk-list-post li .thumb{grid-column:2}
+    #rex-fashion-travel .bk-list-post .thumb{height:72px;background:#e5e7eb;border:1px solid var(--keyline);border-radius:6px;justify-self:end;width:120px} 
+    @media(max-width:1024px){#rex-fashion-travel .two-col{grid-template-columns:1fr}}
+    @media(max-width:680px){
+      /* keep two columns on mobile but shrink thumbnail; text stays left, image right */
+      #rex-fashion-travel .bk-list-post li{grid-template-columns:1fr 96px}
+      #rex-fashion-travel .bk-list-post .thumb{width:96px;height:64px}
+    }
+
+    #rex-loadmore .bk-loadmore{display:flex;justify-content:center;margin:32px 0}
+    #rex-loadmore .bk-btn-loadmore{display:inline-block;border:2px solid #d32f2f;background:#fff;padding:12px 32px;border-radius:999px;text-decoration:none;color:#d32f2f;font-weight:700;font-size:14px;text-transform:uppercase;letter-spacing:0.05em;transition:all 0.3s ease}
+    #rex-loadmore .bk-btn-loadmore:hover{background:#d32f2f;color:#fff;transform:translateY(-2px);box-shadow:0 4px 12px rgba(211,47,47,0.3)}
+
+    #rex-home-carousel .bk-carousel{list-style:none;margin:0;padding:0;display:flex;gap:16px;overflow:hidden;scroll-behavior:smooth}
+    #rex-home-carousel .bk-carousel > li{min-width:33.333%;flex:0 0 33.333%;box-sizing:border-box}
+    @media(max-width:1024px){#rex-home-carousel .bk-carousel > li{min-width:50%;flex-basis:50%}}
+    @media(max-width:680px){#rex-home-carousel .bk-carousel > li{min-width:100%;flex-basis:100%}}
+    #rex-home-carousel .thumb{background:#e5e7eb;border:1px solid var(--keyline);border-radius:8px;aspect-ratio:16/9}
+    #rex-home-carousel .flex-prev,#rex-home-carousel .flex-next{display:inline-block;width:36px;height:36px;border:1px solid var(--keyline);border-radius:50%;text-indent:-9999px;margin-top:12px;background:#fff}
+    #rex-home-carousel .bk-carousel-wrap{position:relative}
+    #rex-home-carousel .flex-prev{position:absolute;left:-8px;top:calc(50% - 18px)}
+    #rex-home-carousel .flex-next{position:absolute;right:-8px;top:calc(50% - 18px)}
+    
+    /* Everybody's News Styles */
+    .news-section{margin:60px auto;padding:0 16px}
+    .news-section .container{max-width:1200px;margin:0 auto}
+    
+    /* Loading spinner */
+    .loading-spinner{text-align:center;padding:40px;color:#666;font-size:14px}
+    .spinner{display:inline-block;width:40px;height:40px;border:4px solid #f3f3f3;border-top:4px solid #d32f2f;border-radius:50%;animation:spin 1s linear infinite}
+    @keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+  </style>
+  <style id="double-cover-hero">
+    /* BREAKING NEWS DOUBLE-WIDE HERO */
+    #double-cover{
+      position:relative;
+      margin:0 auto;
+      background:#0f172a;
+      overflow:hidden;
+      width:100%;
+    }
+    #double-cover .slides{
+      position:relative;
+      width:100%;
+      height:600px;
+    }
+    #double-cover .slide{
+      position:absolute;
+      top:0;left:0;width:100%;height:100%;
+      opacity:0;
+      transition:opacity 1s ease-in-out;
+      background-size:cover;
+      background-position:center;
+    }
+    #double-cover .slide.active{opacity:1;z-index:1}
+    #double-cover .slide-content{
+      position:absolute;
+      bottom:0;left:0;right:0;
+      padding:40px;
+      background:linear-gradient(to top,rgba(0,0,0,0.95) 0%,rgba(0,0,0,0.7) 50%,transparent 100%);
+    }
+    #double-cover .breaking-badge{
+      display:inline-block;
+      background:#d32f2f;
+      color:#fff;
+      padding:8px 16px;
+      font-size:11px;
+      font-weight:700;
+      letter-spacing:0.1em;
+      text-transform:uppercase;
+      margin-bottom:12px;
+      animation:pulse 2s infinite;
+    }
+    @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.7}}
+    #double-cover .category{
+      display:inline-block;
+      background:rgba(255,255,255,0.2);
+      color:#fff;
+      padding:6px 12px;
+      font-size:11px;
+      font-weight:700;
+      letter-spacing:0.08em;
+      text-transform:uppercase;
+      margin-left:8px;
+      border-radius:4px;
+    }
+    #double-cover .title{
+      color:#fff;
+      font-size:32px;
+      font-weight:800;
+      line-height:1.2;
+      margin:12px 0;
+      max-width:800px;
+    }
+    #double-cover .title a{
+      color:#fff;
+      text-decoration:none;
+      transition:color 0.2s;
+    }
+    #double-cover .title a:hover{color:#fe6c61}
+    #double-cover .excerpt{
+      color:#ddd;
+      font-size:16px;
+      line-height:1.6;
+      margin:12px 0;
+      max-width:700px;
+    }
+    #double-cover .meta{
+      color:#bbb;
+      font-size:13px;
+      text-transform:uppercase;
+      letter-spacing:0.05em;
+      margin-top:12px;
+    }
+    #double-cover .source{
+      color:#fe6c61;
+      font-weight:600;
+    }
+    
+    /* Navigation */
+    #double-cover .nav{
+      position:absolute;
+      top:50%;
+      transform:translateY(-50%);
+      z-index:10;
+    }
+    #double-cover .prev{left:20px}
+    #double-cover .next{right:20px}
+    #double-cover .nav button{
+      width:48px;
+      height:48px;
+      background:rgba(0,0,0,0.6);
+      border:2px solid rgba(255,255,255,0.3);
+      color:#fff;
+      cursor:pointer;
+      font-size:20px;
+      border-radius:50%;
+      transition:all 0.3s;
+      line-height:1;
+    }
+    #double-cover .nav button:hover{
+      background:#d32f2f;
+      border-color:#d32f2f;
+      transform:scale(1.1);
+    }
+    
+    /* Quick thumbs rail at bottom */
+    #double-cover .rail{
+      position:absolute;
+      bottom:20px;
+      right:40px;
+      display:flex;
+      gap:8px;
+      z-index:10;
+      align-items:center;
+    }
+    #double-cover .qthumb{
+      width:60px;
+      height:40px;
+      background-size:cover;
+      background-position:center;
+      border:2px solid transparent;
+      cursor:pointer;
+      opacity:0.6;
+      transition:all 0.3s;
+      border-radius:4px;
+    }
+    #double-cover .qthumb.active{
+      border-color:#d32f2f;
+      opacity:1;
+      transform:scale(1.1);
+    }
+    #double-cover .qthumb:hover{
+      opacity:1;
+      transform:scale(1.05);
+    }
+    #double-cover .rail .next{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      background:rgba(0,0,0,0.7);
+      padding:8px 12px;
+      border-radius:6px;
+      cursor:pointer;
+      transition:background 0.3s;
+      margin-left:8px;
+    }
+    #double-cover .rail .next:hover{
+      background:#d32f2f;
+    }
+    #double-cover .rail .next .thumb{
+      width:50px;
+      height:35px;
+      border-radius:4px;
+      overflow:hidden;
+    }
+    #double-cover .rail .next .thumb img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+    }
+    #double-cover .rail .next .name{
+      color:#fff;
+      font-size:12px;
+      max-width:120px;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+    
+    @media(max-width:1024px){
+      #double-cover .slides{height:500px}
+      #double-cover .title{font-size:28px}
+      #double-cover .rail{display:none}
+    }
+    @media(max-width:680px){
+      #double-cover .slides{height:400px}
+      #double-cover .title{font-size:22px}
+      #double-cover .slide-content{padding:20px}
+      #double-cover .excerpt{font-size:14px}
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="rex-header">
+    <div class="container">
+      <nav class="rex-nav">
+        <div class="logo"><strong>EVERYBODY'S NEWS</strong></div>
+        <ul class="rex-menu">
+          <li><a href="#breaking">Breaking</a></li>
+          <li><a href="#sports">Sports</a></li>
+          <li><a href="#tech">Tech</a></li>
+          <li><a href="#lifestyle">Lifestyle</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- BREAKING NEWS HERO with RSS Feeds -->
+  <section id="double-cover">
+    <div class="slides" id="breaking-slides">
+      <div class="loading-spinner">
+        <div class="spinner"></div>
+        <p>Loading breaking news...</p>
+      </div>
+    </div>
+    
+    <!-- Navigation -->
+    <div class="nav prev">
+      <button aria-label="Previous">‹</button>
+    </div>
+    <div class="nav next">
+      <button aria-label="Next">›</button>
+    </div>
+    
+    <!-- Quick thumbs rail -->
+    <div class="rail">
+      <div class="qthumbs" id="quick-thumbs"></div>
+      <div class="next" data-target="1">
+        <div class="thumb"><img src="" alt="Next"></div>
+        <div class="name">Next Story</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- REST OF CONTENT SECTIONS -->
+  <div class="container">
+    
+    <!-- Sports Section -->
+    <section id="rex-sport">
+      <div class="module-title">
+        <div class="main-title"><h2><span>SPORTS</span></h2></div>
+        <div class="sub-title">Latest from ESPN & More</div>
+      </div>
+      <div class="row">
+        <div class="featured-sport">
+          <div class="thumb"></div>
+          <div class="bk-calendar-meta">
+            <div>OCT</div>
+            <div style="font-size:24px;font-weight:800">31</div>
+          </div>
+          <h3 class="title">Featured Sports Story</h3>
+          <p>Loading sports content...</p>
+        </div>
+        <div class="col-list">
+          <ul class="list-small-post" id="sports-feed">
+            <li>
+              <div class="post-c-wrap">
+                <div class="title">Loading ESPN feed...</div>
+              </div>
+              <div class="thumb"></div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tech Section -->
+    <section id="rex-tech">
+      <div class="module-title">
+        <div class="main-title"><h2><span>TECHNOLOGY</span></h2></div>
+        <div class="sub-title">Latest Tech News</div>
+      </div>
+      <div class="row">
+        <div class="large-post">
+          <h3 class="title">Featured Tech Story</h3>
+        </div>
+        <div class="col-list">
+          <ul class="list-small-post" id="tech-feed">
+            <li>
+              <div class="post-c-wrap">
+                <div class="title">Loading tech feed...</div>
+              </div>
+              <div class="thumb"></div>
+            </li>
+          </ul>
+        </div>
+        <div class="tech-sidebar">
+          <div class="promo-card">
+            <h4>Subscribe to Everybody's News</h4>
+            <p>Get the latest breaking news delivered to your inbox.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="bk-footer">
+    <div class="container bk-footer-widgets">
+      <div class="bk-footer-col">
+        <h4 class="title">About Everybody's News</h4>
+        <p>Your trusted source for breaking news, sports, technology, and lifestyle stories from around the world.</p>
+      </div>
+      <div class="bk-footer-col">
+        <h4 class="title">Categories</h4>
+        <ul class="bk-footer-list"><li>Breaking News</li><li>Sports</li><li>Tech</li><li>Lifestyle</li></ul>
+      </div>
+      <div class="bk-footer-col">
+        <h4 class="title">Follow Us</h4>
+        <ul class="bk-footer-social"><li>Facebook</li><li>Twitter</li><li>Instagram</li></ul>
+      </div>
+    </div>
+    <div class="container bk-copyright">
+      <p>© 2025 Everybody's News — All Rights Reserved</p>
+    </div>
+  </footer>
+
+  <!-- RSS FEED INTEGRATION SCRIPT -->
+  <script>
+    // RSS Feed Configuration
+    const RSS_FEEDS = {
+      espn: 'https://www.espn.com/espn/rss/news',
+      feed1: 'https://rss.app/feeds/tN6TfKaJzhcPYYkB.xml',
+      feed2: 'https://rss.app/feeds/tUo3SJ8AHWweCZGH.xml'
+    };
+
+    // CORS Proxy for RSS feeds
+    const CORS_PROXY = 'https://api.rss2json.com/v1/api.json?rss_url=';
+
+    // Fetch and parse RSS feed
+    async function fetchRSSFeed(url) {
+      try {
+        const response = await fetch(CORS_PROXY + encodeURIComponent(url));
+        const data = await response.json();
+        return data.items || [];
+      } catch (error) {
+        console.error('Error fetching RSS feed:', error);
+        return [];
+      }
+    }
+
+    // Fetch all feeds and combine
+    async function loadAllFeeds() {
+      try {
+        const [espnItems, feed1Items, feed2Items] = await Promise.all([
+          fetchRSSFeed(RSS_FEEDS.espn),
+          fetchRSSFeed(RSS_FEEDS.feed1),
+          fetchRSSFeed(RSS_FEEDS.feed2)
+        ]);
+
+        // Combine and tag with source
+        const allItems = [
+          ...espnItems.map(item => ({...item, source: 'ESPN', category: 'Sports'})),
+          ...feed1Items.map(item => ({...item, source: 'News Feed 1', category: 'News'})),
+          ...feed2Items.map(item => ({...item, source: 'News Feed 2', category: 'News'}))
+        ];
+
+        // Sort by publication date (newest first)
+        allItems.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
+
+        return allItems.slice(0, 10); // Top 10 stories
+      } catch (error) {
+        console.error('Error loading feeds:', error);
+        return [];
+      }
+    }
+
+    // Get image from content or use placeholder
+    function getImageUrl(item) {
+      if (item.thumbnail) return item.thumbnail;
+      if (item.enclosure && item.enclosure.link) return item.enclosure.link;
+      
+      // Try to extract image from description/content
+      const imgMatch = item.description?.match(/<img[^>]+src="([^">]+)"/);
+      if (imgMatch) return imgMatch[1];
+      
+      // Category-based placeholders
+      const placeholders = {
+        'Sports': 'https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=800',
+        'News': 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=800',
+        'Tech': 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=800'
+      };
+      return placeholders[item.category] || placeholders['News'];
+    }
+
+    // Strip HTML from description
+    function stripHTML(html) {
+      const tmp = document.createElement('div');
+      tmp.innerHTML = html;
+      return tmp.textContent || tmp.innerText || '';
+    }
+
+    // Format date
+    function formatDate(dateString) {
+      const date = new Date(dateString);
+      const now = new Date();
+      const diffMs = now - date;
+      const diffMins = Math.floor(diffMs / 60000);
+      
+      if (diffMins < 60) return `${diffMins}m ago`;
+      if (diffMins < 1440) return `${Math.floor(diffMins / 60)}h ago`;
+      return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    }
+
+    // Create hero slides from feed items
+    function createHeroSlides(items) {
+      const slidesContainer = document.getElementById('breaking-slides');
+      const thumbsContainer = document.getElementById('quick-thumbs');
+      
+      slidesContainer.innerHTML = '';
+      thumbsContainer.innerHTML = '';
+
+      items.forEach((item, index) => {
+        // Create slide
+        const slide = document.createElement('div');
+        slide.className = 'slide' + (index === 0 ? ' active' : '');
+        slide.style.backgroundImage = `url('${getImageUrl(item)}')`;
+        
+        const excerpt = stripHTML(item.description || item.content || '').substring(0, 200);
+        
+        slide.innerHTML = `
+          <div class="slide-content">
+            <div>
+              <span class="breaking-badge">BREAKING NEWS</span>
+              <span class="category">${item.category}</span>
+            </div>
+            <h2 class="title">
+              <a href="${item.link}" target="_blank" rel="noopener">${item.title}</a>
+            </h2>
+            <p class="excerpt">${excerpt}...</p>
+            <div class="meta">
+              <span class="source">${item.source}</span> • ${formatDate(item.pubDate)}
+            </div>
+          </div>
+        `;
+        slidesContainer.appendChild(slide);
+
+        // Create quick thumb
+        const qthumb = document.createElement('div');
+        qthumb.className = 'qthumb' + (index === 0 ? ' active' : '');
+        qthumb.dataset.i = index;
+        qthumb.style.backgroundImage = `url('${getImageUrl(item)}')`;
+        thumbsContainer.appendChild(qthumb);
+      });
+
+      // Initialize carousel after slides are created
+      initCarousel(items);
+    }
+
+    // Carousel functionality
+    function initCarousel(items) {
+      const root = document.getElementById('double-cover');
+      const slides = Array.from(root.querySelectorAll('.slide'));
+      const prev = root.querySelector('.prev button');
+      const next = root.querySelector('.next button');
+      const railNext = root.querySelector('.rail .next');
+      const qthumbs = Array.from(root.querySelectorAll('.qthumb'));
+      let i = 0;
+      const dur = 8000; // 8 seconds per slide
+      let timer;
+
+      const titles = items.map(item => item.title);
+      const thumbs = items.map(item => getImageUrl(item));
+
+      function setActive(idx) {
+        i = (idx + slides.length) % slides.length;
+        slides.forEach(s => s.classList.remove('active'));
+        qthumbs.forEach(t => t.classList.remove('active'));
+        slides[i].classList.add('active');
+        const qi = qthumbs.find(t => +t.dataset.i === i);
+        if (qi) qi.classList.add('active');
+
+        // Update NEXT card
+        const nextI = (i + 1) % slides.length;
+        railNext.dataset.target = nextI;
+        const img = railNext.querySelector('.thumb img');
+        const name = railNext.querySelector('.name');
+        img.src = thumbs[nextI];
+        name.textContent = titles[nextI];
+      }
+
+      function play() {
+        clearInterval(timer);
+        timer = setInterval(() => setActive(i + 1), dur);
+      }
+
+      if (prev) prev.addEventListener('click', () => { setActive(i - 1); play(); });
+      if (next) next.addEventListener('click', () => { setActive(i + 1); play(); });
+      if (railNext) railNext.addEventListener('click', () => { setActive((i + 1) % slides.length); play(); });
+      qthumbs.forEach(t => t.addEventListener('click', () => { setActive(+t.dataset.i); play(); }));
+
+      // Init
+      setActive(0);
+      play();
+    }
+
+    // Load sports feed into sidebar
+    async function loadSportsFeed() {
+      const espnItems = await fetchRSSFeed(RSS_FEEDS.espn);
+      const feedContainer = document.getElementById('sports-feed');
+      
+      if (espnItems.length === 0) {
+        feedContainer.innerHTML = '<li><div class="post-c-wrap"><div class="title">No sports news available</div></div></li>';
+        return;
+      }
+
+      feedContainer.innerHTML = espnItems.slice(0, 5).map(item => `
+        <li>
+          <div class="post-c-wrap">
+            <div class="title"><a href="${item.link}" target="_blank" rel="noopener">${item.title}</a></div>
+            <div class="meta" style="font-size:12px;color:#666;margin-top:4px">${formatDate(item.pubDate)}</div>
+          </div>
+          <div class="thumb" style="background-image:url('${getImageUrl(item)}');background-size:cover;background-position:center"></div>
+        </li>
+      `).join('');
+    }
+
+    // Load tech feed
+    async function loadTechFeed() {
+      const feed1Items = await fetchRSSFeed(RSS_FEEDS.feed1);
+      const feedContainer = document.getElementById('tech-feed');
+      
+      if (feed1Items.length === 0) {
+        feedContainer.innerHTML = '<li><div class="post-c-wrap"><div class="title">No tech news available</div></div></li>';
+        return;
+      }
+
+      feedContainer.innerHTML = feed1Items.slice(0, 5).map(item => `
+        <li>
+          <div class="post-c-wrap">
+            <div class="title"><a href="${item.link}" target="_blank" rel="noopener">${item.title}</a></div>
+            <div class="meta" style="font-size:12px;color:#666;margin-top:4px">${formatDate(item.pubDate)}</div>
+          </div>
+          <div class="thumb" style="background-image:url('${getImageUrl(item)}');background-size:cover;background-position:center"></div>
+        </li>
+      `).join('');
+    }
+
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', async () => {
+      // Load all content
+      const allItems = await loadAllFeeds();
+      createHeroSlides(allItems);
+      
+      // Load sidebar feeds
+      loadSportsFeed();
+      loadTechFeed();
+      
+      // Refresh feeds every 5 minutes
+      setInterval(async () => {
+        const refreshedItems = await loadAllFeeds();
+        createHeroSlides(refreshedItems);
+        loadSportsFeed();
+        loadTechFeed();
+      }, 300000);
+    });
+  </script>
+
+</body>
+</html>
