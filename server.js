@@ -20,7 +20,9 @@ const mockNewsData = {
       category: "SPORTS",
       author: "MLB News Wire",
       pubDate: new Date().toISOString(),
-      imageUrl: "https://images.unsplash.com/photo-1566577739112-5180d4bf9390?w=1920&q=80"
+      imageUrl: "https://images.unsplash.com/photo-1566577739112-5180d4bf9390?w=1920&q=80",
+      source: "ESPN",
+      sourceIcon: "https://www.google.com/s2/favicons?domain=espn.com&sz=32"
     },
     {
       title: "World Series Game 7: Dodgers vs Blue Jays Tonight at 8 PM ET",
@@ -28,7 +30,9 @@ const mockNewsData = {
       category: "SPORTS",
       author: "Sports Desk",
       pubDate: new Date(Date.now() - 3600000).toISOString(),
-      imageUrl: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=1920&q=80"
+      imageUrl: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=1920&q=80",
+      source: "ESPN",
+      sourceIcon: "https://www.google.com/s2/favicons?domain=espn.com&sz=32"
     }
   ],
   snap: [
@@ -38,7 +42,9 @@ const mockNewsData = {
       category: "US NEWS",
       author: "Policy Reporter",
       pubDate: new Date(Date.now() - 7200000).toISOString(),
-      imageUrl: "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=1920&q=80"
+      imageUrl: "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=1920&q=80",
+      source: "New York Times",
+      sourceIcon: "https://www.google.com/s2/favicons?domain=nytimes.com&sz=32"
     },
     {
       title: "Food Banks Brace for Crisis as SNAP Cliff Takes Effect",
@@ -46,7 +52,9 @@ const mockNewsData = {
       category: "US NEWS",
       author: "Social Services Beat",
       pubDate: new Date(Date.now() - 10800000).toISOString(),
-      imageUrl: "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=1920&q=80"
+      imageUrl: "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=1920&q=80",
+      source: "New York Times",
+      sourceIcon: "https://www.google.com/s2/favicons?domain=nytimes.com&sz=32"
     }
   ],
   immigration: [
@@ -56,7 +64,9 @@ const mockNewsData = {
       category: "US NEWS",
       author: "Immigration Correspondent",
       pubDate: new Date(Date.now() - 14400000).toISOString(),
-      imageUrl: "https://images.unsplash.com/photo-1585829365295-ab7cd400c167?w=1920&q=80"
+      imageUrl: "https://images.unsplash.com/photo-1585829365295-ab7cd400c167?w=1920&q=80",
+      source: "World News Network",
+      sourceIcon: "https://www.google.com/s2/favicons?domain=rss.app&sz=32"
     },
     {
       title: "Supreme Court Allows Third-Country Deportations to Continue",
@@ -64,7 +74,9 @@ const mockNewsData = {
       category: "US NEWS",
       author: "Legal Affairs",
       pubDate: new Date(Date.now() - 18000000).toISOString(),
-      imageUrl: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=1920&q=80"
+      imageUrl: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=1920&q=80",
+      source: "World News Network",
+      sourceIcon: "https://www.google.com/s2/favicons?domain=rss.app&sz=32"
     }
   ],
   hurricane: [
@@ -74,7 +86,9 @@ const mockNewsData = {
       category: "WORLD NEWS",
       author: "Weather Center",
       pubDate: new Date(Date.now() - 21600000).toISOString(),
-      imageUrl: "https://images.unsplash.com/photo-1527482797697-8795b05a13fe?w=1920&q=80"
+      imageUrl: "https://images.unsplash.com/photo-1527482797697-8795b05a13fe?w=1920&q=80",
+      source: "World News Network",
+      sourceIcon: "https://www.google.com/s2/favicons?domain=rss.app&sz=32"
     },
     {
       title: "Death Toll Rises in Jamaica After Hurricane Melissa's Catastrophic Strike",
@@ -82,7 +96,9 @@ const mockNewsData = {
       category: "WORLD NEWS",
       author: "International Desk",
       pubDate: new Date(Date.now() - 25200000).toISOString(),
-      imageUrl: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=1920&q=80"
+      imageUrl: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=1920&q=80",
+      source: "World News Network",
+      sourceIcon: "https://www.google.com/s2/favicons?domain=rss.app&sz=32"
     }
   ]
 };
