@@ -887,7 +887,10 @@
 }
 #double-cover .kicker{font-size:12px;letter-spacing:.16em;text-transform:uppercase;opacity:.95}
 #double-cover .title{font-size:clamp(28px, 5vw, 62px);line-height:1.04;font-weight:800;margin-top:6px}
-#double-cover .meta{margin-top:10px;opacity:.9}
+#double-cover .meta{margin-top:10px;opacity:.9;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+#double-cover .meta .source-icon{width:20px;height:20px;border-radius:4px;vertical-align:middle;background:#fff;padding:2px}
+#double-cover .meta .source-name{font-weight:600}
+#double-cover .meta .meta-separator{margin:0 4px}
 /* Arrows centered vertically */
 #double-cover .ctrl{position:absolute;inset:0;display:flex;align-items:center;justify-content:space-between;pointer-events:none}
 #double-cover .ctrl button{
@@ -1032,7 +1035,7 @@
   <main>
     <section id="rex-hero">
       <div class="rex-hero-block">
-        <h1 class="rex-hero-headline">Breaking News from Around the World</h1>
+        <h1 class="rex-hero-headline">Latest Updates</h1>
       </div>
     </section>
 
@@ -1081,7 +1084,7 @@
 
     <section id="rex-sport" class="rex-module">
       <div class="module-title">
-        <h2><span>Sport</span> News</h2>
+        <h2><span>Sports</span></h2>
       </div>
       <div class="row">
         <div class="large-post">
@@ -1110,7 +1113,7 @@
 
     <section id="rex-fashion-grid">
       <div class="module-title">
-        <h2><span>Fashion</span> News</h2>
+        <h2><span>Fashion</span></h2>
       </div>
       <ul class="bk-square-grid-wrap">
         <li><div class="thumb"></div><h4 class="title">Ligula bibendum laoreet inceptos gravida</h4></li>
@@ -1572,7 +1575,7 @@
           <!-- Row 1, Item 1 - VIDEO -->
           <article class="hero-item">
             <video class="hero-video" muted loop playsinline>
-              <source src="https://via.placeholder.com/600x400/1e293b/64748b?text=Video+1" type="video/mp4">
+              <source src="https://via.placeholder.com/600x400/1e293b/64748b?text=Content" type="video/mp4">
             </video>
             <div class="hero-overlay">
               <span class="hero-category cat-fashion">FASHION</span>
@@ -1590,7 +1593,7 @@
           <!-- Row 1, Item 2 - VIDEO -->
           <article class="hero-item">
             <video class="hero-video" muted loop playsinline>
-              <source src="https://via.placeholder.com/600x400/0f766e/14b8a6?text=Video+2" type="video/mp4">
+              <source src="https://via.placeholder.com/600x400/0f766e/14b8a6?text=Content" type="video/mp4">
             </video>
             <div class="hero-overlay">
               <span class="hero-category cat-nutrition">NUTRITION</span>
@@ -1608,7 +1611,7 @@
           <!-- Row 1, Item 3 - VIDEO -->
           <article class="hero-item">
             <video class="hero-video" muted loop playsinline>
-              <source src="https://via.placeholder.com/600x400/7e22ce/a855f7?text=Video+3" type="video/mp4">
+              <source src="https://via.placeholder.com/600x400/7e22ce/a855f7?text=Content" type="video/mp4">
             </video>
             <div class="hero-overlay">
               <span class="hero-category cat-family">FAMILY</span>
@@ -1626,7 +1629,7 @@
           <!-- Row 2, Item 4 - VIDEO -->
           <article class="hero-item">
             <video class="hero-video" muted loop playsinline>
-              <source src="https://via.placeholder.com/600x400/be123c/f43f5e?text=Video+4" type="video/mp4">
+              <source src="https://via.placeholder.com/600x400/be123c/f43f5e?text=Content" type="video/mp4">
             </video>
             <div class="hero-overlay">
               <span class="hero-category cat-design">DESIGN</span>
@@ -1660,7 +1663,7 @@
           <!-- Row 2, Item 6 - VIDEO -->
           <article class="hero-item">
             <video class="hero-video" muted loop playsinline>
-              <source src="https://via.placeholder.com/600x400/0891b2/06b6d4?text=Video+5" type="video/mp4">
+              <source src="https://via.placeholder.com/600x400/0891b2/06b6d4?text=Content" type="video/mp4">
             </video>
             <div class="hero-overlay">
               <span class="hero-category cat-lifestyle">LIFESTYLE</span>
@@ -2120,7 +2123,7 @@
       </div>
       <div class="bk-footer-col">
         <h4 class="title">Categories</h4>
-        <ul class="bk-footer-list"><li>News</li><li>Sport</li><li>Tech</li><li>Lifestyle</li></ul>
+        <ul class="bk-footer-list"><li>Updates</li><li>Sports</li><li>Technology</li><li>Lifestyle</li></ul>
       </div>
       <div class="bk-footer-col">
         <h4 class="title">Follow</h4>
@@ -2191,29 +2194,37 @@
   <script>
     // YOUR 3 RSS FEEDS + 1 General News Feed for specific topics
     const RSS_FEEDS = [
-      { 
-        url: 'https://www.espn.com/espn/rss/news', 
-        category: 'SPORTS', 
+      {
+        url: 'https://www.espn.com/espn/rss/news',
+        category: 'SPORTS',
         color: '#d32f2f',
-        topics: ['World Series', '2025 World Series', 'MLB']
+        topics: ['World Series', '2025 World Series', 'MLB'],
+        source: 'ESPN',
+        sourceIcon: 'https://www.google.com/s2/favicons?domain=espn.com&sz=32'
       },
-      { 
-        url: 'https://rss.app/feeds/tN6TfKaJzhcPYYkB.xml', 
-        category: 'WORLD NEWS', 
+      {
+        url: 'https://rss.app/feeds/tN6TfKaJzhcPYYkB.xml',
+        category: 'WORLD NEWS',
         color: '#1976d2',
-        topics: ['Hurricane', 'Immigration', 'Deportation']
+        topics: ['Hurricane', 'Immigration', 'Deportation'],
+        source: 'World News Network',
+        sourceIcon: 'https://www.google.com/s2/favicons?domain=rss.app&sz=32'
       },
-      { 
-        url: 'https://rss.app/feeds/tUo3SJ8AHWweCZGH.xml', 
-        category: 'TECHNOLOGY', 
+      {
+        url: 'https://rss.app/feeds/tUo3SJ8AHWweCZGH.xml',
+        category: 'TECHNOLOGY',
         color: '#7b1fa2',
-        topics: ['Tech', 'Innovation']
+        topics: ['Tech', 'Innovation'],
+        source: 'Tech News Network',
+        sourceIcon: 'https://www.google.com/s2/favicons?domain=rss.app&sz=32'
       },
-      { 
-        url: 'https://rss.nytimes.com/services/xml/rss/nyt/US.xml', 
-        category: 'US NEWS', 
+      {
+        url: 'https://rss.nytimes.com/services/xml/rss/nyt/US.xml',
+        category: 'US NEWS',
         color: '#d32f2f',
-        topics: ['SNAP', 'Benefits', 'Government', 'Hurricane Melissa']
+        topics: ['SNAP', 'Benefits', 'Government', 'Hurricane Melissa'],
+        source: 'New York Times',
+        sourceIcon: 'https://www.google.com/s2/favicons?domain=nytimes.com&sz=32'
       }
     ];
     
@@ -2252,7 +2263,9 @@
             ...item,
             category: feed.category,
             categoryColor: feed.color,
-            feedTopics: feed.topics
+            feedTopics: feed.topics,
+            source: feed.source,
+            sourceIcon: feed.sourceIcon
           }));
         } catch (error) {
           console.error(`Attempt ${attempt + 1} failed for ${feed.category}:`, error);
@@ -2287,7 +2300,9 @@
             categoryColor: getCategoryColor(article.category),
             pubDate: article.pubDate || new Date().toISOString(),
             author: article.author || 'News Wire',
-            thumbnail: article.imageUrl
+            thumbnail: article.imageUrl,
+            source: article.source || 'News Wire',
+            sourceIcon: article.sourceIcon || 'https://www.google.com/s2/favicons?domain=example.com&sz=32'
           }));
         }
       } catch (err) {
@@ -2320,7 +2335,9 @@
           categoryColor: '#d32f2f',
           pubDate: new Date().toISOString(),
           author: 'MLB News Wire',
-          thumbnail: 'https://images.unsplash.com/photo-1566577739112-5180d4bf9390?w=1920&q=80'
+          thumbnail: 'https://images.unsplash.com/photo-1566577739112-5180d4bf9390?w=1920&q=80',
+          source: 'ESPN',
+          sourceIcon: 'https://www.google.com/s2/favicons?domain=espn.com&sz=32'
         },
         {
           title: 'Hurricane Melissa Devastates Jamaica as One of Strongest Atlantic Hurricanes',
@@ -2330,7 +2347,9 @@
           categoryColor: '#1976d2',
           pubDate: new Date(Date.now() - 3600000).toISOString(),
           author: 'Weather Center',
-          thumbnail: 'https://images.unsplash.com/photo-1527482797697-8795b05a13fe?w=1920&q=80'
+          thumbnail: 'https://images.unsplash.com/photo-1527482797697-8795b05a13fe?w=1920&q=80',
+          source: 'World News Network',
+          sourceIcon: 'https://www.google.com/s2/favicons?domain=rss.app&sz=32'
         },
         {
           title: 'SNAP Benefits Suspended: 42 Million Americans Face Food Assistance Delay',
@@ -2340,7 +2359,9 @@
           categoryColor: '#d32f2f',
           pubDate: new Date(Date.now() - 7200000).toISOString(),
           author: 'Policy Reporter',
-          thumbnail: 'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=1920&q=80'
+          thumbnail: 'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=1920&q=80',
+          source: 'New York Times',
+          sourceIcon: 'https://www.google.com/s2/favicons?domain=nytimes.com&sz=32'
         },
         {
           title: 'DHS Announces Record Deportations: Over 500,000 Removed Since January',
@@ -2350,7 +2371,9 @@
           categoryColor: '#d32f2f',
           pubDate: new Date(Date.now() - 10800000).toISOString(),
           author: 'Immigration Correspondent',
-          thumbnail: 'https://images.unsplash.com/photo-1585829365295-ab7cd400c167?w=1920&q=80'
+          thumbnail: 'https://images.unsplash.com/photo-1585829365295-ab7cd400c167?w=1920&q=80',
+          source: 'World News Network',
+          sourceIcon: 'https://www.google.com/s2/favicons?domain=rss.app&sz=32'
         },
         {
           title: 'Dodgers Force Game 7 with Dramatic 3-1 Victory Over Blue Jays',
@@ -2360,7 +2383,9 @@
           categoryColor: '#d32f2f',
           pubDate: new Date(Date.now() - 14400000).toISOString(),
           author: 'Sports Desk',
-          thumbnail: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=1920&q=80'
+          thumbnail: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=1920&q=80',
+          source: 'ESPN',
+          sourceIcon: 'https://www.google.com/s2/favicons?domain=espn.com&sz=32'
         },
         {
           title: 'Food Banks Prepare for Surge as SNAP Cliff Takes Effect',
@@ -2370,7 +2395,9 @@
           categoryColor: '#d32f2f',
           pubDate: new Date(Date.now() - 18000000).toISOString(),
           author: 'Social Services Beat',
-          thumbnail: 'https://images.unsplash.com/photo-1593113598332-cd288d649433?w=1920&q=80'
+          thumbnail: 'https://images.unsplash.com/photo-1593113598332-cd288d649433?w=1920&q=80',
+          source: 'New York Times',
+          sourceIcon: 'https://www.google.com/s2/favicons?domain=nytimes.com&sz=32'
         }
       ];
     }
@@ -2429,7 +2456,12 @@
           <div class="caption">
             <div class="kicker">${item.category}</div>
             <div class="title">${item.title}</div>
-            <div class="meta">${item.author || 'News Wire'} · ${formatDate(item.pubDate)}</div>
+            <div class="meta">
+              ${item.sourceIcon ? `<img src="${item.sourceIcon}" alt="${item.source || 'Source'}" class="source-icon">` : ''}
+              <span class="source-name">${item.source || item.author || 'News Wire'}</span>
+              <span class="meta-separator">·</span>
+              <span class="meta-date">${formatDate(item.pubDate)}</span>
+            </div>
           </div>
         `;
         container.appendChild(slide);
