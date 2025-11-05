@@ -879,7 +879,9 @@
   transition:opacity .7s ease, transform 1.2s ease;
   background:#000 center/cover no-repeat;
 }
-#double-cover .slide.active{opacity:1;transform:scale(1)}
+##double-cover .slide.active{opacity:1;transform:scale(1)}
+#double-cover .slide-link{position:absolute;inset:0;display:block;color:inherit;text-decoration:none;cursor:pointer}
+#double-cover .slide-link:hover .title{text-decoration:underline}
 #double-cover .scrim{position:absolute;inset:0;background:var(--capGrad)}
 #double-cover .caption{
   position:absolute;left:0;right:0;bottom:calc(var(--thumbH) + 18px);
@@ -2452,17 +2454,18 @@
         slide.style.backgroundImage = `url('${getImageUrl(item)}')`;
         
         slide.innerHTML = `
-          <div class="scrim"></div>
-          <div class="caption">
+          <a href="${item.link || '#'}" target="_blank" rel="noopener noreferrer" class="slide-link">
+            <div class="scrim"></div>
+            <div class="caption">
             <div class="kicker">${item.category}</div>
             <div class="title">${item.title}</div>
             <div class="meta">
               ${item.sourceIcon ? `<img src="${item.sourceIcon}" alt="${item.source || 'Source'}" class="source-icon">` : ''}
               <span class="source-name">${item.source || item.author || 'News Wire'}</span>
               <span class="meta-separator">·</span>
-              <span class="meta-date">${formatDate(item.pubDate)}</span>
             </div>
           </div>
+          </a>
         `;
         container.appendChild(slide);
       });
