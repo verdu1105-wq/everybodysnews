@@ -93,6 +93,19 @@
     #rex-loadmore .bk-btn-loadmore{display:inline-block;border:2px solid #d32f2f;background:#fff;padding:12px 32px;border-radius:999px;text-decoration:none;color:#d32f2f;font-weight:700;font-size:14px;text-transform:uppercase;letter-spacing:0.05em;transition:all 0.3s ease}
     #rex-loadmore .bk-btn-loadmore:hover{background:#d32f2f;color:#fff;transform:translateY(-2px);box-shadow:0 4px 12px rgba(211,47,47,0.3)}
 
+    /* Latest Updates Carousel (rex-hero) */
+    #rex-hero{margin:28px auto}
+    #rex-hero .bk-carousel{list-style:none;margin:0;padding:0;display:flex;gap:16px;overflow:hidden;scroll-behavior:smooth}
+    #rex-hero .bk-carousel > li{min-width:33.333%;flex:0 0 33.333%;box-sizing:border-box}
+    @media(max-width:1024px){#rex-hero .bk-carousel > li{min-width:50%;flex-basis:50%}}
+    @media(max-width:680px){#rex-hero .bk-carousel > li{min-width:100%;flex-basis:100%}}
+    #rex-hero .thumb{background:#e5e7eb;border:1px solid var(--keyline);border-radius:8px;aspect-ratio:16/9}
+    #rex-hero .flex-prev,#rex-hero .flex-next{display:inline-block;width:36px;height:36px;border:1px solid var(--keyline);border-radius:50%;text-indent:-9999px;margin-top:12px;background:#fff}
+    #rex-hero .bk-carousel-wrap{position:relative}
+    #rex-hero .flex-prev{position:absolute;left:-8px;top:calc(50% - 18px)}
+    #rex-hero .flex-next{position:absolute;right:-8px;top:calc(50% - 18px)}
+
+    /* Breaking News Carousel (rex-home-carousel) */
     #rex-home-carousel .bk-carousel{list-style:none;margin:0;padding:0;display:flex;gap:16px;overflow:hidden;scroll-behavior:smooth}
     #rex-home-carousel .bk-carousel > li{min-width:33.333%;flex:0 0 33.333%;box-sizing:border-box}
     @media(max-width:1024px){#rex-home-carousel .bk-carousel > li{min-width:50%;flex-basis:50%}}
@@ -1038,9 +1051,22 @@
     </nav>
   </header>
   <main>
-    <section id="rex-hero">
-      <div class="rex-hero-block">
-        <h1 class="rex-hero-headline">Latest Updates</h1>
+    <section id="rex-hero" class="container">
+      <div class="module-title">
+        <div class="main-title"><h2><span>Latest Updates</span></h2></div>
+      </div>
+      <div class="module-breaking-carousel">
+        <div class="bk-carousel-wrap">
+          <ul class="bk-carousel" id="latest-updates-carousel">
+            <!-- Will be populated with news -->
+            <li class="content_out small-post clearfix">
+              <div class="thumb" aria-hidden="true"></div>
+              <div class="post-c-wrap"><h4 class="title"><a href="#">Loading news...</a></h4></div>
+            </li>
+          </ul>
+          <a class="flex-prev" href="#" aria-label="Previous"></a>
+          <a class="flex-next" href="#" aria-label="Next"></a>
+        </div>
       </div>
     </section>
 
@@ -2077,6 +2103,65 @@
       next && next.addEventListener('click', function(e){e.preventDefault(); advance(1)});
     }
 
+    // Populate Latest Updates Carousel (rex-hero section)
+    async function loadLatestUpdatesCarousel() {
+      try {
+        const response = await fetch('/api/rex-carousel');
+        const data = await response.json();
+
+        if (data.status === 'success' && data.articles && data.articles.length > 0) {
+          const wrap = document.querySelector('#latest-updates-carousel');
+          if (!wrap) return;
+
+          // Clear placeholder content
+          wrap.innerHTML = '';
+
+          // Create carousel items
+          data.articles.forEach(article => {
+            const li = document.createElement('li');
+            li.className = 'content_out small-post clearfix';
+
+            const imageUrl = article.imageUrl || 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=800&q=80';
+
+            li.innerHTML = `
+              <div class="thumb" style="background-image: url('${imageUrl}'); background-size: cover; background-position: center;"></div>
+              <div class="post-c-wrap">
+                <h4 class="title">
+                  <a href="${article.link || '#'}" target="_blank" rel="noopener noreferrer">${article.title}</a>
+                </h4>
+                <div class="post-meta" style="margin-top: 6px; font-size: 12px; color: #999;">
+                  ${article.source || 'News'}
+                </div>
+              </div>
+            `;
+
+            wrap.appendChild(li);
+          });
+
+          console.log(`✓ Latest Updates Carousel populated with ${data.articles.length} items`);
+          initLatestUpdatesCarouselNav();
+        }
+      } catch (err) {
+        console.error('Failed to load Latest Updates carousel:', err);
+      }
+    }
+
+    // Initialize Latest Updates Carousel navigation
+    function initLatestUpdatesCarouselNav() {
+      var wrap = document.querySelector('#latest-updates-carousel');
+      if(!wrap) return;
+      var prev = document.querySelector('#rex-hero .flex-prev');
+      var next = document.querySelector('#rex-hero .flex-next');
+      function advance(dir){
+        var items = wrap.querySelectorAll('li');
+        if(items.length < 2) return;
+        if(dir>0){ wrap.appendChild(items[0]); }
+        else { wrap.insertBefore(items[items.length-1], items[0]); }
+      }
+      prev && prev.addEventListener('click', function(e){e.preventDefault(); advance(-1)});
+      next && next.addEventListener('click', function(e){e.preventDefault(); advance(1)});
+    }
+
     // Populate Rex Under-Hero section (Latest Updates section)
     async function loadRexUnderhero() {
       try {
@@ -2683,12 +2768,14 @@
       createHeroSlides(items);
 
       // Load Rex sections
+      await loadLatestUpdatesCarousel();
       await loadRexCarousel();
       await loadRexUnderhero();
 
       // Refresh every 5 minutes
       setInterval(async () => {
         const refreshed = await loadAllFeeds();
+        await loadLatestUpdatesCarousel();
         await loadRexCarousel();
         await loadRexUnderhero();
         createHeroSlides(refreshed);
