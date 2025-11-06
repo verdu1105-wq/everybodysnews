@@ -149,6 +149,35 @@ app.get('/api/news/hurricane', (req, res) => {
   res.json({ status: 'success', articles: mockNewsData.hurricane });
 });
 
+// Rex carousel endpoint - returns a mix of recent articles
+app.get('/api/rex-carousel', (req, res) => {
+  try {
+    // Combine all news categories
+    const allNews = [
+      ...mockNewsData.worldSeries,
+      ...mockNewsData.snap,
+      ...mockNewsData.immigration,
+      ...mockNewsData.hurricane
+    ];
+
+    // Shuffle and limit to 6 items for the carousel
+    const shuffled = allNews.sort(() => 0.5 - Math.random());
+    const carouselItems = shuffled.slice(0, 6);
+
+    res.json({
+      status: 'success',
+      articles: carouselItems,
+      totalResults: carouselItems.length
+    });
+  } catch (error) {
+    console.error('Error fetching rex carousel:', error);
+    res.status(500).json({
+      status: 'error',
+      message: 'Failed to fetch carousel data'
+    });
+  }
+});
+
 // Serve the main HTML file
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
