@@ -2060,7 +2060,7 @@
         console.error('Failed to load Rex carousel:', err);
       }
     }
-    
+
     // Initialize Rex Carousel navigation after content is loaded
     function initRexCarouselNav() {
       var wrap = document.querySelector('#rex-home-carousel .bk-carousel');
@@ -2075,6 +2075,87 @@
       }
       prev && prev.addEventListener('click', function(e){e.preventDefault(); advance(-1)});
       next && next.addEventListener('click', function(e){e.preventDefault(); advance(1)});
+    }
+
+    // Populate Rex Under-Hero section (Latest Updates section)
+    async function loadRexUnderhero() {
+      try {
+        const response = await fetch('/api/news');
+        const data = await response.json();
+
+        if (data.status === 'success' && data.articles && data.articles.length >= 4) {
+          const articles = data.articles;
+
+          // Format date
+          function formatDate(dateStr) {
+            const date = new Date(dateStr);
+            const months = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+            const longMonths = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+            return {
+              day: date.getDate(),
+              month: months[date.getMonth()],
+              full: `${longMonths[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`
+            };
+          }
+
+          // Update main feature (left side)
+          const mainArticle = articles[0];
+          const mainDate = formatDate(mainArticle.pubDate);
+          const mainFeature = document.querySelector('#rex-underhero .rex-feature');
+          if (mainFeature) {
+            const imageUrl = mainArticle.imageUrl || 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=1920&q=80';
+            mainFeature.innerHTML = `
+              <div class="rex-media">
+                <div class="rex-media-aspect">
+                  <div class="rex-media-placeholder" style="background-image: url('${imageUrl}'); background-size: cover; background-position: center;"></div>
+                  <div class="rex-badge-date">
+                    <span class="rex-date-day">${mainDate.day}</span>
+                    <span class="rex-date-mon">${mainDate.month}</span>
+                  </div>
+                  <div class="rex-caption">
+                    <div class="rex-meta">
+                      <span class="rex-chip">${mainArticle.category || 'NEWS'}</span>
+                      <span class="rex-dot">•</span>
+                      <span class="rex-time">${mainDate.full.toUpperCase()}</span>
+                    </div>
+                    <h3 class="rex-head">
+                      <a href="${mainArticle.link || '#'}" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">
+                        ${mainArticle.title}
+                      </a>
+                    </h3>
+                  </div>
+                </div>
+              </div>
+            `;
+          }
+
+          // Update side items (right side)
+          const sideList = document.querySelector('#rex-underhero .rex-side-list');
+          if (sideList) {
+            sideList.innerHTML = '';
+            for (let i = 1; i < 4 && i < articles.length; i++) {
+              const article = articles[i];
+              const date = formatDate(article.pubDate);
+              const sideItem = document.createElement('div');
+              sideItem.className = 'rex-side-item';
+              sideItem.innerHTML = `
+                <span class="rex-chip">${article.category || 'NEWS'}</span>
+                <h4 class="rex-side-title">
+                  <a href="${article.link || '#'}" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">
+                    ${article.title}
+                  </a>
+                </h4>
+                <div class="rex-side-date">${date.full}</div>
+              `;
+              sideList.appendChild(sideItem);
+            }
+          }
+
+          console.log('✓ Rex Under-Hero populated with latest news');
+        }
+      } catch (err) {
+        console.error('Failed to load Rex under-hero:', err);
+      }
     }
 
 
@@ -2600,14 +2681,16 @@
       console.log('Initializing Everybody\'s News...');
       const items = await loadAllFeeds();
       createHeroSlides(items);
-      
-      // Load Rex Carousel
+
+      // Load Rex sections
       await loadRexCarousel();
-      
+      await loadRexUnderhero();
+
       // Refresh every 5 minutes
       setInterval(async () => {
         const refreshed = await loadAllFeeds();
         await loadRexCarousel();
+        await loadRexUnderhero();
         createHeroSlides(refreshed);
       }, 300000);
     });
