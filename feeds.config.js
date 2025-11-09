@@ -43,7 +43,6 @@ module.exports = {
   ],
   
   // REX CAROUSEL FEEDS (Horizontal carousel below hero)
-  // UPDATED: Added ABC News, Removed Rex Feed 4 (U.S. News placeholder)
   rexFeeds: [
     {
       url: 'https://rss.app/feeds/t9YE5uF7k6PbmNn7.xml',
@@ -66,7 +65,7 @@ module.exports = {
       sourceIcon: 'https://www.google.com/s2/favicons?domain=rss.app&sz=32',
       enabled: true
     },
-    // NEW: ABC News Top Stories
+    // *** CHANGE 1: ABC News feed added - replaces Rex Feed 4 ***
     {
       url: 'http://feeds.abcnews.com/abcnews/topstories',
       category: 'ABC NEWS',
@@ -74,5 +73,6 @@ module.exports = {
       sourceIcon: 'https://www.google.com/s2/favicons?domain=abcnews.go.com&sz=32',
       enabled: true
     }
+    // *** END CHANGE 1 ***
   ]
 };
