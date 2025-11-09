@@ -51,25 +51,33 @@ function truncateText(text, maxLength = 200) {
 function createSlide(item, category = '') {
   const title = item.title || 'No title available';
   const description = truncateText(item.description || 'No description available', 200);
-  const image = item.image || 'https://via.placeholder.com/800x400/333/fff?text=News';
+  const imageUrl = item.imageUrl || item.image || 'https://via.placeholder.com/800x400/333/fff?text=News';
   const link = item.link || '#';
   const date = formatDate(item.pubDate || new Date());
   const source = item.source || '';
-  
+  const sourceIcon = item.sourceIcon || `https://www.google.com/s2/favicons?domain=${new URL(link).hostname}&sz=32`;
+
   return `
-    <div class="carousel-slide" style="background-image: url('${image}');">
+    <div class="carousel-slide" style="background-image: url('${imageUrl}');">
       <div class="slide-content">
         <div>
           ${category ? `<span class="slide-category">${category}</span>` : ''}
           <div class="slide-date">
             <span>📅</span> ${date}
-            ${source ? `<span class="news-source">${source}</span>` : ''}
+            ${source ? `
+              <span class="news-source">
+                <img src="${sourceIcon}" alt="${source}" class="source-favicon" onerror="this.style.display='none'">
+                ${source}
+              </span>
+            ` : ''}
           </div>
-          <h3 class="slide-title">${title}</h3>
+          <a href="${link}" target="_blank" rel="noopener noreferrer" class="slide-title-link">
+            <h3 class="slide-title">${title}</h3>
+          </a>
           <p class="slide-description">${description}</p>
         </div>
         <a href="${link}" target="_blank" rel="noopener noreferrer" class="read-more-btn">
-          Read More
+          Read Full Article →
         </a>
       </div>
     </div>

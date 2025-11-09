@@ -313,13 +313,38 @@ body {
 
 /* News Source Badge */
 .news-source {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
   background: rgba(255,255,255,0.2);
   padding: 0.2rem 0.6rem;
   border-radius: 12px;
   font-size: 0.7rem;
   margin-left: 0.5rem;
   font-weight: 500;
+}
+
+.source-favicon {
+  width: 16px;
+  height: 16px;
+  border-radius: 2px;
+  vertical-align: middle;
+}
+
+/* Clickable Title */
+.slide-title-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  transition: opacity 0.3s ease;
+}
+
+.slide-title-link:hover {
+  opacity: 0.8;
+}
+
+.slide-title-link:hover .slide-title {
+  text-decoration: underline;
 }
 
 /* Responsive Design */
