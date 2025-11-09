@@ -3,8 +3,10 @@ const cors = require('cors');
 const path = require('path');
 const fs = require('fs');
 const Parser = require('rss-parser');
-const axios = require('axios');
 const feedsConfig = require('./feeds-config-custom');
+// *** CHANGE 2: Added axios for MediaStack API integration ***
+const axios = require('axios');
+// *** END CHANGE 2a ***
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -19,9 +21,10 @@ const parser = new Parser({
   }
 });
 
-// MediaStack API Configuration
+// *** CHANGE 2b: MediaStack API Configuration ***
 const MEDIASTACK_API_KEY = '96759e8f7a664ec0ee650f1fa7043992';
 const MEDIASTACK_BASE_URL = 'http://api.mediastack.com/v1/news';
+// *** END CHANGE 2b ***
 
 // CORS configuration
 app.use(cors());
@@ -247,105 +250,6 @@ async function getCachedRexArticles() {
   return [];
 }
 
-// MediaStack API integration
-async function fetchMediaStackNews(params = {}) {
-  try {
-    const defaultParams = {
-      access_key: MEDIASTACK_API_KEY,
-      languages: 'en',
-      sort: 'published_desc',
-      limit: 10,
-      ...params
-    };
-    
-    const response = await axios.get(MEDIASTACK_BASE_URL, {
-      params: defaultParams,
-      timeout: 10000
-    });
-    
-    if (response.data && response.data.data) {
-      return response.data.data.map(article => ({
-        title: article.title || 'No title',
-        description: article.description || 'No description',
-        link: article.url || '#',
-        category: article.category ? article.category.toUpperCase() : 'NEWS',
-        author: article.source || 'MediaStack',
-        pubDate: article.published_at || new Date().toISOString(),
-        imageUrl: article.image || null,
-        source: article.source || 'Unknown',
-        sourceIcon: article.source ? `https://www.google.com/s2/favicons?domain=${article.source}&sz=32` : null
-      }));
-    }
-    
-    return [];
-  } catch (error) {
-    console.error('Error fetching MediaStack news:', error.message);
-    return [];
-  }
-}
-
-// MediaStack API endpoints
-app.get('/api/mediastack/live-news', async (req, res) => {
-  try {
-    const {
-      sources,
-      categories,
-      countries,
-      languages,
-      keywords,
-      sort,
-      offset,
-      limit
-    } = req.query;
-    
-    const params = {};
-    if (sources) params.sources = sources;
-    if (categories) params.categories = categories;
-    if (countries) params.countries = countries;
-    if (languages) params.languages = languages;
-    if (keywords) params.keywords = keywords;
-    if (sort) params.sort = sort;
-    if (offset) params.offset = parseInt(offset);
-    if (limit) params.limit = parseInt(limit);
-    
-    const news = await fetchMediaStackNews(params);
-    res.json({
-      status: 'success',
-      articles: news,
-      totalResults: news.length,
-      source: 'mediastack-api'
-    });
-  } catch (error) {
-    console.error('Error in /api/mediastack/live-news:', error);
-    res.status(500).json({
-      status: 'error',
-      message: 'Failed to fetch live news'
-    });
-  }
-});
-
-app.get('/api/mediastack/breaking-news', async (req, res) => {
-  try {
-    const news = await fetchMediaStackNews({
-      sources: 'cnn,bbc',
-      sort: 'published_desc',
-      limit: 20
-    });
-    res.json({
-      status: 'success',
-      articles: news,
-      totalResults: news.length,
-      source: 'mediastack-breaking'
-    });
-  } catch (error) {
-    console.error('Error in /api/mediastack/breaking-news:', error);
-    res.status(500).json({
-      status: 'error',
-      message: 'Failed to fetch breaking news'
-    });
-  }
-});
-
 // Hero carousel endpoint - uses heroFeeds
 app.get('/api/news', async (req, res) => {
   try {
@@ -449,6 +353,108 @@ app.get('/api/config', (req, res) => {
     }
   });
 });
+
+// *** CHANGE 2c: MediaStack API Integration - Function and Endpoints ***
+// Fetch news from MediaStack API
+async function fetchMediaStackNews(params = {}) {
+  try {
+    const defaultParams = {
+      access_key: MEDIASTACK_API_KEY,
+      languages: 'en',
+      sort: 'published_desc',
+      limit: 10,
+      ...params
+    };
+    
+    const response = await axios.get(MEDIASTACK_BASE_URL, {
+      params: defaultParams,
+      timeout: 10000
+    });
+    
+    if (response.data && response.data.data) {
+      return response.data.data.map(article => ({
+        title: article.title || 'No title',
+        description: article.description || 'No description',
+        link: article.url || '#',
+        category: article.category ? article.category.toUpperCase() : 'NEWS',
+        author: article.source || 'MediaStack',
+        pubDate: article.published_at || new Date().toISOString(),
+        imageUrl: article.image || null,
+        source: article.source || 'Unknown',
+        sourceIcon: article.source ? `https://www.google.com/s2/favicons?domain=${article.source}&sz=32` : null
+      }));
+    }
+    
+    return [];
+  } catch (error) {
+    console.error('Error fetching MediaStack news:', error.message);
+    return [];
+  }
+}
+
+// MediaStack Live News endpoint - supports all parameters
+app.get('/api/mediastack/live-news', async (req, res) => {
+  try {
+    const {
+      sources,
+      categories,
+      countries,
+      languages,
+      keywords,
+      sort,
+      offset,
+      limit
+    } = req.query;
+    
+    const params = {};
+    if (sources) params.sources = sources;
+    if (categories) params.categories = categories;
+    if (countries) params.countries = countries;
+    if (languages) params.languages = languages;
+    if (keywords) params.keywords = keywords;
+    if (sort) params.sort = sort;
+    if (offset) params.offset = parseInt(offset);
+    if (limit) params.limit = parseInt(limit);
+    
+    const news = await fetchMediaStackNews(params);
+    res.json({
+      status: 'success',
+      articles: news,
+      totalResults: news.length,
+      source: 'mediastack-api'
+    });
+  } catch (error) {
+    console.error('Error in /api/mediastack/live-news:', error);
+    res.status(500).json({
+      status: 'error',
+      message: 'Failed to fetch live news'
+    });
+  }
+});
+
+// MediaStack Breaking News endpoint - pre-configured
+app.get('/api/mediastack/breaking-news', async (req, res) => {
+  try {
+    const news = await fetchMediaStackNews({
+      sources: 'cnn,bbc',
+      sort: 'published_desc',
+      limit: 20
+    });
+    res.json({
+      status: 'success',
+      articles: news,
+      totalResults: news.length,
+      source: 'mediastack-breaking'
+    });
+  } catch (error) {
+    console.error('Error in /api/mediastack/breaking-news:', error);
+    res.status(500).json({
+      status: 'error',
+      message: 'Failed to fetch breaking news'
+    });
+  }
+});
+// *** END CHANGE 2c ***
 
 // Force refresh cache
 app.post('/api/refresh', async (req, res) => {
