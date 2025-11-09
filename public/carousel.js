@@ -1,13 +1,13 @@
 // API Configuration
 const API_BASE_URL = window.location.origin;
 
-// Carousel State Management
+// Carousel State Management - All 5 carousels
 const carousels = {
-  breaking: { currentSlide: 0, items: [], autoplayInterval: null },
-  abc: { currentSlide: 0, items: [], autoplayInterval: null },
-  sports: { currentSlide: 0, items: [], autoplayInterval: null },
-  world: { currentSlide: 0, items: [], autoplayInterval: null },
-  tech: { currentSlide: 0, items: [], autoplayInterval: null }
+  breaking: { currentSlide: 0, items: [], autoplayInterval: null },  // Hero carousel
+  abc: { currentSlide: 0, items: [], autoplayInterval: null },       // Rex carousel (2nd)
+  sports: { currentSlide: 0, items: [], autoplayInterval: null },    // Sports carousel (3rd)
+  world: { currentSlide: 0, items: [], autoplayInterval: null },     // World carousel (4th)
+  tech: { currentSlide: 0, items: [], autoplayInterval: null }       // Tech carousel (5th)
 };
 
 // Format date for display
@@ -245,22 +245,43 @@ async function fetchRexCarousel() {
 // Initialize all carousels
 async function initAllCarousels() {
   try {
-    // Fetch HERO Carousel (ABC News, Reuters, BBC, AP + MediaStack API)
+    // Fetch HERO Carousel (First carousel - uses /api/news)
     const breakingNews = await fetchBreakingNews();
     console.log('Hero carousel articles:', breakingNews.length);
     if (breakingNews.length > 0) {
       initCarousel('breaking', breakingNews, 'BREAKING');
-    } else {
-      console.error('No articles returned from /api/news');
     }
 
-    // Fetch REX Carousel (ESPN, Tech, CNN + MediaStack)
+    // Fetch REX Carousel (Second carousel - ABC News + MediaStack + ESPN + Tech + CNN)
     const rexNews = await fetchRexCarousel();
     console.log('Rex carousel articles:', rexNews.length);
     if (rexNews.length > 0) {
       initCarousel('abc', rexNews, 'LATEST NEWS');
-    } else {
-      console.error('No articles returned from /api/rex-carousel');
+    }
+
+    // Fetch Sports News (Third carousel - same as Rex for now)
+    if (rexNews.length > 0) {
+      const sportsArticles = rexNews.filter(a => a.category && a.category.toLowerCase().includes('sport'));
+      if (sportsArticles.length > 0) {
+        initCarousel('sports', sportsArticles, 'SPORTS');
+      } else {
+        initCarousel('sports', rexNews.slice(0, 10), 'SPORTS');
+      }
+    }
+
+    // Fetch World News (Fourth carousel - same as Hero for now)
+    if (breakingNews.length > 0) {
+      initCarousel('world', breakingNews.slice(0, 15), 'WORLD');
+    }
+
+    // Fetch Technology News (Fifth carousel - tech articles from Rex)
+    if (rexNews.length > 0) {
+      const techArticles = rexNews.filter(a => a.category && a.category.toLowerCase().includes('tech'));
+      if (techArticles.length > 0) {
+        initCarousel('tech', techArticles, 'TECHNOLOGY');
+      } else {
+        initCarousel('tech', rexNews.slice(0, 10), 'TECHNOLOGY');
+      }
     }
   } catch (error) {
     console.error('Error initializing carousels:', error);
