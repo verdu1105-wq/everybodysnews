@@ -1,43 +1,116 @@
 const express = require('express');
+const Parser = require('rss-parser');
 const cors = require('cors');
 const path = require('path');
-const fs = require('fs');
-const Parser = require('rss-parser');
-const feedsConfig = require('./feeds-config-custom');// *** CHANGE 2: Added axios for MediaStack API integration ***
 const axios = require('axios');
-// *** END CHANGE 2a ***
+const fs = require('fs');
+const { URL } = require('url'); 
 
 const app = express();
-const PORT = process.env.PORT || 8080;
 const parser = new Parser({
-  customFields: {
-    item: [
-      ['media:content', 'media'],
-      ['media:thumbnail', 'thumbnail'],
-      ['enclosure', 'enclosure'],
-      ['dc:creator', 'creator']
-    ]
+  timeout: 10000,
+  headers: {
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
   }
 });
 
-// MediaStack API Configuration
-const MEDIASTACK_API_KEY = feedsConfig.mediastackApiKey || process.env.MEDIASTACK_API_KEY || '96759e8f7a664ec0ee650f1fa7043992';
-const MEDIASTACK_BASE_URL = 'http://api.mediastack.com/v1/news';
-const MEDIASTACK_ENABLED = feedsConfig.mediastackEnabled !== false;
+// =================================================================
+// 🚨 CRITICAL FIX: Defined feedsConfig variable
+// =================================================================
 
-// CORS configuration
+const feedsConfig = {
+  // How many articles to fetch from each feed
+  articlesPerFeed: 10,
+  
+  // Auto-refresh interval on frontend (milliseconds)
+  refreshInterval: 180000, // 3 minutes
+  
+  // HERO CAROUSEL FEEDS (Top full-screen carousel)
+  heroFeeds: [
+    {
+      url: 'https://rss.app/feeds/tUqVtqZPdYfXDvOb.xml',
+      category: 'BREAKING NEWS',
+      source: 'Hero Feed 1',
+      sourceIcon: 'https://www.google.com/s2/favicons?domain=rss.app&sz=32',
+      enabled: true
+    },
+    {
+      url: 'https://rss.app/feeds/tUo3SJ8AHWweCZGH.xml',
+      category: 'BREAKING NEWS',
+      source: 'Hero Feed 2',
+      sourceIcon: 'https://www.google.com/s2/favicons?domain=rss.app&sz=32',
+      enabled: true
+    },
+    {
+      url: 'https://rss.app/feeds/tBLoUxhBvRIBKfsK.xml',
+      category: 'BREAKING NEWS',
+      source: 'Hero Feed 3',
+      sourceIcon: 'https://www.google.com/s2/favicons?domain=rss.app&sz=32',
+      enabled: true
+    },
+    {
+      url: 'https://rss.app/feeds/tN6TfKaJzhcPYYkB.xml',
+      category: 'BREAKING NEWS',
+      source: 'Hero Feed 4',
+      sourceIcon: 'https://www.google.com/s2/favicons?domain=rss.app&sz=32',
+      enabled: true
+    }
+  ],
+  
+  // REX CAROUSEL FEEDS (Horizontal carousel below hero)
+  rexFeeds: [
+    {
+      url: 'https://rss.app/feeds/t9YE5uF7k6PbmNn7.xml',
+      category: 'BREAKING NEWS',
+      source: 'Rex Feed 1',
+      sourceIcon: 'https://www.google.com/s2/favicons?domain=rss.app&sz=32',
+      enabled: true
+    },
+    {
+      url: 'https://rss.app/feeds/t23WWkbxOWm3y6t9.xml',
+      category: 'BREAKING NEWS',
+      source: 'Rex Feed 2',
+      sourceIcon: 'https://www.google.com/s2/favicons?domain=rss.app&sz=32',
+      enabled: true
+    },
+    {
+      url: 'https://rss.app/feeds/tFILwOrbAZf3SkTa.xml',
+      category: 'BREAKING NEWS',
+      source: 'Rex Feed 3',
+      sourceIcon: 'https://www.google.com/s2/favicons?domain=rss.app&sz=32',
+      enabled: true
+    },
+    // ABC News feed added to Rex Carousel as requested
+    {
+      url: 'http://feeds.abcnews.com/abcnews/topstories',
+      category: 'ABC NEWS',
+      source: 'ABC News',
+      sourceIcon: 'https://www.google.com/s2/favicons?domain=abcnews.go.com&sz=32',
+      enabled: true
+    }
+  ]
+};
+
+// =================================================================
+// MediaStack API Configuration
+// =================================================================
+const MEDIASTACK_API_KEY = '96759e8f7a664ec0ee650f1fa7043992';
+const MEDIASTACK_BASE_URL = 'http://api.mediastack.com/v1/news';
+
+// Enable CORS and JSON parsing
 app.use(cors());
 app.use(express.json());
 
-// Verify public folder exists
-const publicPath = path.join(__dirname, 'public');
+// Set correct paths for Cloud Run deployment (using root directory)
+const publicPath = path.join(__dirname, '.'); 
 const indexPath = path.join(publicPath, 'index.html');
 
 console.log('🔍 Checking file system...');
+// The log statements below assume index.html is in the root directory
 console.log(`📁 Public folder exists: ${fs.existsSync(publicPath)}`);
 console.log(`📄 Index.html exists: ${fs.existsSync(indexPath)}`);
 
-// Serve static files from public directory
+// Serve static files from the root directory
 app.use(express.static(publicPath));
 
 // Get enabled feeds for both carousels
@@ -47,12 +120,17 @@ const rexFeeds = feedsConfig.rexFeeds ? feedsConfig.rexFeeds.filter(f => f.enabl
 console.log(`📡 Hero Carousel: ${heroFeeds.length} feeds`);
 console.log(`📡 Rex Carousel: ${rexFeeds.length} feeds`);
 
+
+// =================================================================
+// HELPER FUNCTIONS 
+// =================================================================
+
 // Helper to extract image from RSS item
 function extractImage(item) {
-  if (item.media && item.media.$) {
+  if (item.media && item.media.$ && item.media.$.url) {
     return item.media.$.url;
   }
-  if (item.thumbnail && item.thumbnail.$) {
+  if (item.thumbnail && item.thumbnail.$ && item.thumbnail.$.url) {
     return item.thumbnail.$.url;
   }
   if (item.enclosure && item.enclosure.url) {
@@ -76,52 +154,19 @@ function extractSourceFromLink(link) {
     
     // Map common domains to readable names
     const sourceMap = {
-      'espn.com': 'ESPN',
-      'nbcsports.com': 'NBC Sports',
-      'cbssports.com': 'CBS Sports',
-      'foxsports.com': 'Fox Sports',
       'nytimes.com': 'New York Times',
-      'washingtonpost.com': 'Washington Post',
+      'abcnews.go.com': 'ABC News',
       'cnn.com': 'CNN',
       'bbc.com': 'BBC News',
-      'bbc.co.uk': 'BBC News',
-      'msnbc.com': 'MSNBC',
-      'reuters.com': 'Reuters',
-      'apnews.com': 'AP News',
-      'npr.org': 'NPR',
-      'foxnews.com': 'Fox News',
-      'abcnews.go.com': 'ABC News',
-      'cbsnews.com': 'CBS News',
-      'nbcnews.com': 'NBC News',
-      'usatoday.com': 'USA Today',
-      'theguardian.com': 'The Guardian',
-      'wsj.com': 'Wall Street Journal',
-      'bloomberg.com': 'Bloomberg',
-      'forbes.com': 'Forbes',
-      'techcrunch.com': 'TechCrunch',
-      'theverge.com': 'The Verge',
-      'wired.com': 'WIRED',
-      'arstechnica.com': 'Ars Technica',
-      'sportskeeda.com': 'Sportskeeda',
-      'wildcat.arizona.edu': 'Arizona Wildcat',
-      'profootballnetwork.com': 'Pro Football Network',
-      'atozsports.com': 'A to Z Sports',
-      'devilsindetail.com': 'Devils in Detail',
-      'hollywoodreporter.com': 'Hollywood Reporter',
-      'variety.com': 'Variety',
-      'deadline.com': 'Deadline',
-      'tmz.com': 'TMZ',
-      'eonline.com': 'E! Online'
+      // Add more as needed
     };
     
-    // Check if we have a mapping for this domain
     for (const [key, value] of Object.entries(sourceMap)) {
       if (domain.includes(key)) {
         return value;
       }
     }
     
-    // If no mapping, return a cleaned version of the domain
     const parts = domain.split('.');
     if (parts.length >= 2) {
       const name = parts[parts.length - 2];
@@ -160,9 +205,8 @@ async function fetchRSSFeeds(feedsList, feedType = 'feeds') {
       const articles = feedData.items
         .slice(0, feedsConfig.articlesPerFeed)
         .map(item => {
-          // Extract actual source from the article link
-          const actualSource = extractSourceFromLink(item.link);
-          const actualSourceIcon = getFaviconForLink(item.link);
+          const actualSource = extractSourceFromLink(item.link || feed.url);
+          const actualSourceIcon = getFaviconForLink(item.link || feed.url);
           
           return {
             title: item.title,
@@ -249,48 +293,31 @@ async function getCachedRexArticles() {
   return [];
 }
 
-// Hero carousel endpoint - combines heroFeeds with MediaStack API
+
+// =================================================================
+// API ENDPOINTS
+// =================================================================
+
+// Hero carousel endpoint - uses heroFeeds (mapped to /api/news for existing frontend JS)
 app.get('/api/news', async (req, res) => {
   try {
-    // Fetch RSS feed articles
-    const rssArticles = await getCachedHeroArticles();
-
-    // Fetch MediaStack articles if enabled
-    let mediastackArticles = [];
-    if (MEDIASTACK_ENABLED) {
-      mediastackArticles = await fetchMediaStackNews({
-        sources: 'cnn,bbc,abc-news',
-        categories: 'general,business,sports',
-        languages: 'en',
-        sort: 'published_desc',
-        limit: 25
-      });
-    }
-
-    // Combine both sources
-    const allArticles = [...rssArticles, ...mediastackArticles];
-
-    if (allArticles.length > 0) {
-      // Sort by date and take top items
-      const sorted = [...allArticles].sort((a, b) =>
-        new Date(b.pubDate) - new Date(a.pubDate)
-      );
-      const topStories = sorted.slice(0, 40);
-
+    const articles = await getCachedHeroArticles();
+    
+    if (articles.length > 0) {
+      const shuffled = [...articles].sort(() => 0.5 - Math.random());
+      const topStories = shuffled.slice(0, 8);
+      
       res.json({
         status: 'success',
         articles: topStories,
         totalResults: topStories.length,
-        sources: {
-          rss: rssArticles.length,
-          mediastack: mediastackArticles.length
-        },
+        source: 'hero-feeds',
         cached: (Date.now() - heroLastFetch) < CACHE_DURATION,
         cacheAge: Math.floor((Date.now() - heroLastFetch) / 1000)
       });
       return;
     }
-
+    
     res.json({
       status: 'error',
       message: 'No articles available',
@@ -305,46 +332,26 @@ app.get('/api/news', async (req, res) => {
   }
 });
 
-// Rex carousel endpoint - combines rexFeeds with MediaStack API
+// Rex carousel endpoint - uses rexFeeds
 app.get('/api/rex-carousel', async (req, res) => {
   try {
-    // Fetch RSS feed articles
-    const rssArticles = await getCachedRexArticles();
-
-    // Fetch MediaStack articles if enabled
-    let mediastackArticles = [];
-    if (MEDIASTACK_ENABLED) {
-      mediastackArticles = await fetchMediaStackNews({
-        sources: 'cnn,bbc',
-        categories: 'general,business',
-        languages: 'en',
-        sort: 'published_desc',
-        limit: 15
-      });
-    }
-
-    // Combine both sources
-    const allArticles = [...rssArticles, ...mediastackArticles];
-
-    if (allArticles.length > 0) {
-      // Sort by date and take top items
-      const sorted = [...allArticles].sort((a, b) =>
+    const articles = await getCachedRexArticles();
+    
+    if (articles.length > 0) {
+      const sorted = [...articles].sort((a, b) => 
         new Date(b.pubDate) - new Date(a.pubDate)
       );
-      const carouselItems = sorted.slice(0, 20);
-
+      const carouselItems = sorted.slice(0, 12);
+      
       res.json({
         status: 'success',
         articles: carouselItems,
         totalResults: carouselItems.length,
-        sources: {
-          rss: rssArticles.length,
-          mediastack: mediastackArticles.length
-        }
+        source: 'rex-feeds'
       });
       return;
     }
-
+    
     res.json({
       status: 'error',
       message: 'No articles available',
@@ -381,22 +388,8 @@ app.get('/api/news/all', async (req, res) => {
   }
 });
 
-// Get feed configuration
-app.get('/api/config', (req, res) => {
-  res.json({
-    status: 'success',
-    config: {
-      refreshInterval: feedsConfig.refreshInterval,
-      articlesPerFeed: feedsConfig.articlesPerFeed,
-      heroFeeds: heroFeeds.length,
-      rexFeeds: rexFeeds.length,
-      totalFeeds: heroFeeds.length + rexFeeds.length
-    }
-  });
-});
 
-// *** CHANGE 2c: MediaStack API Integration - Function and Endpoints ***
-// Fetch news from MediaStack API
+// MediaStack API Integration - Function and Endpoints
 async function fetchMediaStackNews(params = {}) {
   try {
     const defaultParams = {
@@ -436,16 +429,7 @@ async function fetchMediaStackNews(params = {}) {
 // MediaStack Live News endpoint - supports all parameters
 app.get('/api/mediastack/live-news', async (req, res) => {
   try {
-    const {
-      sources,
-      categories,
-      countries,
-      languages,
-      keywords,
-      sort,
-      offset,
-      limit
-    } = req.query;
+    const { sources, categories, countries, languages, keywords, sort, offset, limit } = req.query;
     
     const params = {};
     if (sources) params.sources = sources;
@@ -495,7 +479,6 @@ app.get('/api/mediastack/breaking-news', async (req, res) => {
     });
   }
 });
-// *** END CHANGE 2c ***
 
 // Force refresh cache
 app.post('/api/refresh', async (req, res) => {
@@ -529,7 +512,7 @@ app.get('/', (req, res) => {
   res.sendFile(indexPath);
 });
 
-// Health check
+// Health check (used by Cloud Run)
 app.get('/health', (req, res) => {
   res.status(200).json({ 
     status: 'healthy',
@@ -543,6 +526,8 @@ app.get('/health', (req, res) => {
   });
 });
 
+const PORT = process.env.PORT || 8080;
+
 // Start server
 app.listen(PORT, '0.0.0.0', async () => {
   console.log(`\n🚀 Everybody's News Server`);
@@ -553,7 +538,24 @@ app.listen(PORT, '0.0.0.0', async () => {
   console.log(`📰 Hero API: http://localhost:${PORT}/api/news`);
   console.log(`📰 Rex API: http://localhost:${PORT}/api/rex-carousel\n`);
   
-  // Initial feed fetch for both carousels
+  // Set up background refresh
+  const REFRESH_MS = feedsConfig.refreshInterval || 180000;
+  
+  setInterval(async () => {
+    try {
+      console.log('⏱️ Background refresh starting…');
+      heroArticlesCache = [];
+      heroLastFetch = 0;
+      rexArticlesCache = [];
+      rexLastFetch = 0;
+      await Promise.all([ getCachedHeroArticles(), getCachedRexArticles() ]);
+      console.log('✅ Background refresh complete');
+    } catch (e) {
+      console.error('Background refresh failed:', e.message);
+    }
+  }, REFRESH_MS);
+  
+  // Initial feed fetch (must happen *after* app.listen or server won't be ready)
   console.log('🔄 Initial feed fetch...');
   await Promise.all([
     getCachedHeroArticles(),
