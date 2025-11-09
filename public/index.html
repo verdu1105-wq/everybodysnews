@@ -1,105 +1,149 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>Everybody's News</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-  <!-- Your committed styles -->
-  <link rel="stylesheet" href="/bkstyle.css">
-  <link rel="stylesheet" href="/rex-frontend.css">
-  <link rel="stylesheet" href="/rex-modules.css">
-
-  <style>
-    /* Lightweight defaults so you see a good layout even if the CSS files are minimal */
-    :root {
-      --bg:#0c0f14; --card:#121620; --muted:#99a2b4; --fg:#eaf0ff; --accent:#2aa8ff;
-    }
-    html,body {margin:0; padding:0; background:var(--bg); color:var(--fg); font:16px/1.45 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, "Helvetica Neue", Arial, "Apple Color Emoji","Segoe UI Emoji";}
-    a {color:inherit; text-decoration:none}
-    .wrap {max-width:1200px; margin:0 auto; padding:16px}
-    header.nav {position:sticky; top:0; background:#0b0f14cc; backdrop-filter:saturate(140%) blur(6px); z-index:9; border-bottom:1px solid #111827;}
-    header.nav .row {display:flex; align-items:center; gap:16px; padding:12px 16px}
-    .brand {font-weight:700; letter-spacing:.3px}
-    .chip {font-size:12px; color:#c9d5ee; opacity:.8; padding:2px 8px; border:1px solid #253149; border-radius:999px}
-    .navlinks {display:flex; gap:12px; flex-wrap:wrap}
-    .navlinks a {color:#bcd1ff; opacity:.9; font-size:14px}
-
-    /* HERO */
-    .hero {margin-top:18px; display:grid; grid-template-columns:2fr 1fr; gap:16px}
-    .hero-card {background:var(--card); border:1px solid #192132; border-radius:16px; overflow:hidden; display:grid; grid-template-rows: 220px auto}
-    .hero-img {background:#111a28 center/cover no-repeat; min-height:220px}
-    .hero-body {padding:16px}
-    .hero-meta {display:flex; align-items:center; gap:8px; color:var(--muted); font-size:13px; margin-bottom:6px}
-    .hero-title {font-size:24px; font-weight:800; line-height:1.2; margin:0 0 6px}
-    .hero-desc {color:#b5c1d8; font-size:14px}
-    .hero-list {display:grid; gap:10px}
-    .mini {display:grid; grid-template-columns: 1fr 96px; gap:10px; background:var(--card); border:1px solid #192132; border-radius:12px; overflow:hidden}
-    .mini .img {background:#0e1624 center/cover no-repeat; min-height:70px}
-    .mini .body {padding:10px}
-    .mini .ttl {font-size:15px; font-weight:700; margin:0 0 2px}
-    .mini .meta {color:var(--muted); font-size:12px}
-
-    /* REX DOUBLE SLIDER (simple marquee-like lanes) */
-    .rex {margin-top:26px; display:grid; gap:14px}
-    .lane {display:grid; grid-auto-flow:column; grid-auto-columns: minmax(260px,1fr); gap:14px; overflow-x:auto; scroll-snap-type:x mandatory; padding-bottom:6px}
-    .card {scroll-snap-align:start; background:var(--card); border:1px solid #192132; border-radius:14px; overflow:hidden; display:grid; grid-template-rows:160px auto}
-    .card .img {background:#0f1726 center/cover no-repeat; min-height:160px}
-    .card .body {padding:12px}
-    .card .src {display:flex; align-items:center; gap:8px; color:var(--muted); font-size:12px; margin-bottom:6px}
-    .card .src img {width:16px; height:16px; border-radius:4px}
-    .card .ttl {font-weight:700; line-height:1.25; margin:0 0 4px; font-size:15px}
-    .card .meta {color:var(--muted); font-size:12px}
-
-    footer {margin:28px 0 14px; color:#93a3c7; font-size:12px; text-align:center; opacity:.8}
-    .pill {display:inline-flex; align-items:center; gap:8px; background:#0c1422; border:1px solid #192132; padding:6px 10px; border-radius:999px}
-    .muted {color:var(--muted)}
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Everybody's News - Your Source for Current Events</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <header class="nav">
-    <div class="row wrap">
-      <div class="brand">Everybody’s News</div>
-      <span class="chip">Live • Auto-refresh</span>
-      <nav class="navlinks" aria-label="Sections">
-        <a href="#">Top</a><a href="#">US</a><a href="#">World</a><a href="#">Politics</a>
-        <a href="#">Business</a><a href="#">Tech</a><a href="#">Sports</a><a href="#">Entertainment</a>
-      </nav>
-    </div>
-  </header>
+    <header class="site-header">
+        <h1 class="site-title">Everybody's News</h1>
+    </header>
 
-  <main class="wrap">
-    <!-- HERO -->
-    <section aria-label="Top Stories">
-      <div class="hero" id="hero">
-        <!-- Filled by app.js -->
-        <div class="hero-card" id="hero-main">
-          <div class="hero-img" style="background-image:linear-gradient(180deg,#0f1524, #0b101a)"></div>
-          <div class="hero-body">
-            <div class="hero-meta"><span class="muted">Loading top stories…</span></div>
-            <h1 class="hero-title">Please wait</h1>
-            <p class="hero-desc muted">Fetching headlines…</p>
-          </div>
-        </div>
-        <div class="hero-list" id="hero-side">
-          <!-- Mini cards inserted here -->
-        </div>
-      </div>
-    </section>
+    <main class="container">
+        <!-- First Carousel: Breaking News from MediaStack -->
+        <section class="carousel-section">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <span>🔴</span>
+                    Breaking News
+                    <span class="category-badge">Live</span>
+                </h2>
+            </div>
+            <div class="carousel-wrapper">
+                <div class="carousel-container" id="breaking-carousel">
+                    <div class="carousel-loading">
+                        <div class="loading-spinner"></div>
+                        Loading breaking news...
+                    </div>
+                </div>
+                <button class="carousel-nav prev" data-carousel="breaking" aria-label="Previous slide">
+                    <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+                </button>
+                <button class="carousel-nav next" data-carousel="breaking" aria-label="Next slide">
+                    <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+                </button>
+                <div class="carousel-indicators" id="breaking-indicators"></div>
+            </div>
+        </section>
 
-    <!-- REX DOUBLE SLIDER -->
-    <section class="rex" aria-label="Rex Double Slider">
-      <div class="pill"><strong>Rex</strong> carousel</div>
-      <div class="lane" id="rex-lane-a"></div>
-      <div class="lane" id="rex-lane-b"></div>
-    </section>
-  </main>
+        <!-- Second Carousel: ABC News (Rex Carousel with adjusted height/padding) -->
+        <section class="carousel-section rex-carousel">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <span>📰</span>
+                    ABC News Top Stories
+                    <span class="category-badge">Latest</span>
+                </h2>
+            </div>
+            <div class="carousel-wrapper">
+                <div class="carousel-container" id="abc-carousel">
+                    <div class="carousel-loading">
+                        <div class="loading-spinner"></div>
+                        Loading ABC News...
+                    </div>
+                </div>
+                <button class="carousel-nav prev" data-carousel="abc" aria-label="Previous slide">
+                    <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+                </button>
+                <button class="carousel-nav next" data-carousel="abc" aria-label="Next slide">
+                    <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+                </button>
+                <div class="carousel-indicators" id="abc-indicators"></div>
+            </div>
+        </section>
 
-  <footer>
-    <div>© <span id="yy"></span> Everybody’s News • <span class="muted">Auto-refresh every ~3 minutes</span></div>
-  </footer>
+        <!-- Third Carousel: Sports News -->
+        <section class="carousel-section">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <span>⚽</span>
+                    Sports News
+                    <span class="category-badge">ESPN</span>
+                </h2>
+            </div>
+            <div class="carousel-wrapper">
+                <div class="carousel-container" id="sports-carousel">
+                    <div class="carousel-loading">
+                        <div class="loading-spinner"></div>
+                        Loading sports news...
+                    </div>
+                </div>
+                <button class="carousel-nav prev" data-carousel="sports" aria-label="Previous slide">
+                    <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+                </button>
+                <button class="carousel-nav next" data-carousel="sports" aria-label="Next slide">
+                    <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+                </button>
+                <div class="carousel-indicators" id="sports-indicators"></div>
+            </div>
+        </section>
 
-  <script src="/app.js" type="module"></script>
-  <script>document.getElementById('yy').textContent = new Date().getFullYear();</script>
+        <!-- Fourth Carousel: World News -->
+        <section class="carousel-section">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <span>🌍</span>
+                    World News
+                    <span class="category-badge">Global</span>
+                </h2>
+            </div>
+            <div class="carousel-wrapper">
+                <div class="carousel-container" id="world-carousel">
+                    <div class="carousel-loading">
+                        <div class="loading-spinner"></div>
+                        Loading world news...
+                    </div>
+                </div>
+                <button class="carousel-nav prev" data-carousel="world" aria-label="Previous slide">
+                    <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+                </button>
+                <button class="carousel-nav next" data-carousel="world" aria-label="Next slide">
+                    <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+                </button>
+                <div class="carousel-indicators" id="world-indicators"></div>
+            </div>
+        </section>
+
+        <!-- Fifth Carousel: Technology News -->
+        <section class="carousel-section">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <span>💻</span>
+                    Technology News
+                    <span class="category-badge">Tech</span>
+                </h2>
+            </div>
+            <div class="carousel-wrapper">
+                <div class="carousel-container" id="tech-carousel">
+                    <div class="carousel-loading">
+                        <div class="loading-spinner"></div>
+                        Loading technology news...
+                    </div>
+                </div>
+                <button class="carousel-nav prev" data-carousel="tech" aria-label="Previous slide">
+                    <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+                </button>
+                <button class="carousel-nav next" data-carousel="tech" aria-label="Next slide">
+                    <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+                </button>
+                <div class="carousel-indicators" id="tech-indicators"></div>
+            </div>
+        </section>
+    </main>
+
+    <script src="carousel.js"></script>
 </body>
 </html>
