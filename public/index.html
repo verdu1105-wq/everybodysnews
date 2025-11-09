@@ -4,7 +4,9 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Everybody's News — Breaking Stories</title>
-  <link rel="stylesheet" href="rex-carousel-adjustments.css">
+  <link rel="stylesheet" href="bkstyle.css">
+  <link rel="stylesheet" href="rex-modules.css">
+  <link rel="stylesheet" href="rex-frontend.css">
   <style id="fallback-css">
     /* TEMP fallback so the page renders even if external CSS isn't picked up */
     :root{--keyline:rgba(0,0,0,.08)}
@@ -434,6 +436,18 @@
   <style id="fallback-post-carousel-fixes">
     /* --- Ensure consistent spacing for sections AFTER the New Carousel --- */
     #rex-home-carousel{margin:36px auto}
+    
+    /* *** CHANGE 3: Rex Carousel Height and Padding Adjustments *** */
+    /* Adjusted height and padding for tighter layout */
+    #rex-home-carousel{min-height:420px;padding:1.5rem 0}
+    #rex-home-carousel .bk-carousel-wrap{padding:1rem}
+    #rex-home-carousel .bk-carousel{gap:12px}
+    #rex-home-carousel .bk-carousel > li{padding:0.75rem}
+    #rex-home-carousel .thumb{min-height:180px}
+    @media(max-width:1024px){#rex-home-carousel{min-height:380px;padding:1.25rem 0}#rex-home-carousel .thumb{min-height:160px}}
+    @media(max-width:768px){#rex-home-carousel{min-height:350px;padding:1rem 0}#rex-home-carousel .bk-carousel-wrap{padding:0.75rem}#rex-home-carousel .thumb{min-height:140px}}
+    @media(max-width:480px){#rex-home-carousel{min-height:320px;padding:0.75rem 0}#rex-home-carousel .bk-carousel-wrap{padding:0.5rem}#rex-home-carousel .thumb{min-height:120px}}
+    /* *** END CHANGE 3 *** */
     #rex-music-news{margin:36px auto}
     #rex-music-news .module-title{margin-bottom:16px}
 
@@ -939,7 +953,7 @@
 </head>
 <body>
  
-    
+   
 <!-- ===== FULL-COVER DOUBLE SLIDER (with bottom next preview) ===== -->
 <section id="double-cover" aria-label="Featured carousel">
   <div class="cover-wrap">
