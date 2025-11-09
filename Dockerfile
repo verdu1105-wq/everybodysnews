@@ -11,8 +11,8 @@ COPY package*.json ./
 RUN npm ci --only=production
 
 # Copy application files
-COPY server.js ./
-COPY public ./public
+# Copy application files
+COPY . .
 
 # Expose port (Cloud Run will inject PORT env var)
 EXPOSE 8080
