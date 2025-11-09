@@ -216,10 +216,10 @@ async function fetchLiveNews(params = {}) {
   }
 }
 
-// Fetch breaking news
+// Fetch breaking news (HERO carousel with ABC News + MediaStack)
 async function fetchBreakingNews() {
   try {
-    const response = await fetch(`${API_BASE_URL}/api/mediastack/breaking-news`);
+    const response = await fetch(`${API_BASE_URL}/api/news`);
     if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
     const data = await response.json();
     return data.articles || [];
@@ -229,7 +229,7 @@ async function fetchBreakingNews() {
   }
 }
 
-// Fetch Rex carousel news (ABC News + MediaStack combined)
+// Fetch Rex carousel news (ESPN, Tech, CNN + MediaStack combined)
 async function fetchRexCarousel() {
   try {
     const response = await fetch(`${API_BASE_URL}/api/rex-carousel`);
@@ -245,34 +245,22 @@ async function fetchRexCarousel() {
 // Initialize all carousels
 async function initAllCarousels() {
   try {
-    // Fetch Breaking News from MediaStack
+    // Fetch HERO Carousel (ABC News, Reuters, BBC, AP + MediaStack API)
     const breakingNews = await fetchBreakingNews();
+    console.log('Hero carousel articles:', breakingNews.length);
     if (breakingNews.length > 0) {
       initCarousel('breaking', breakingNews, 'BREAKING');
+    } else {
+      console.error('No articles returned from /api/news');
     }
 
-    // Fetch Rex Carousel (ABC News + MediaStack + diverse sources)
+    // Fetch REX Carousel (ESPN, Tech, CNN + MediaStack)
     const rexNews = await fetchRexCarousel();
+    console.log('Rex carousel articles:', rexNews.length);
     if (rexNews.length > 0) {
       initCarousel('abc', rexNews, 'LATEST NEWS');
-    }
-
-    // Fetch Sports News
-    const sportsNews = await fetchFeed('sports');
-    if (sportsNews.length > 0) {
-      initCarousel('sports', sportsNews, 'SPORTS');
-    }
-
-    // Fetch World News
-    const worldNews = await fetchFeed('world');
-    if (worldNews.length > 0) {
-      initCarousel('world', worldNews, 'WORLD');
-    }
-
-    // Fetch Technology News
-    const techNews = await fetchFeed('technology');
-    if (techNews.length > 0) {
-      initCarousel('tech', techNews, 'TECHNOLOGY');
+    } else {
+      console.error('No articles returned from /api/rex-carousel');
     }
   } catch (error) {
     console.error('Error initializing carousels:', error);
