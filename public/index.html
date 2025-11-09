@@ -1,1 +1,2629 @@
-// placeholder   (only if you don't already have one)
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Everybody's News — Breaking Stories</title>
+  <link rel="stylesheet" href="bkstyle.css">
+  <link rel="stylesheet" href="rex-modules.css">
+  <link rel="stylesheet" href="rex-frontend.css">
+  <style id="fallback-css">
+    /* TEMP fallback so the page renders even if external CSS isn't picked up */
+    :root{--keyline:rgba(0,0,0,.08)}
+   
+    html,body{margin:0;padding:0;background:#fff;color:#111;font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+    body{display:block !important;visibility:visible !important;opacity:1 !important}
+    .container,.bkwrapper{max-width:1200px;margin:0 auto;padding:0 16px}
+    header.rex-header{position:sticky;top:0;background:#fff;border-bottom:1px solid var(--keyline);z-index:10}
+    .rex-nav{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 0}
+    .rex-menu{display:flex;gap:20px;list-style:none;margin:0;padding:0}
+    .rex-menu a{text-decoration:none;color:#111;font-size:14px}
+
+    /* Rex Hero */
+    #rex-hero .rex-hero-block{min-height:280px;background:#0f172a;color:#fff;display:flex;align-items:flex-end;padding:32px;border-bottom:1px solid var(--keyline)}
+    .rex-hero-headline{margin:0;font-weight:800;font-size:36px}
+
+
+    /* Under-hero feature */
+    #rex-underhero{margin:28px auto}
+    .rex-feature-grid{display:grid;grid-template-columns:2fr 1.1fr;gap:24px}
+    .rex-media-aspect{position:relative;border:1px solid var(--keyline);border-radius:12px;overflow:hidden;background:#000}
+    .rex-media-aspect:before{content:"";display:block;aspect-ratio:16/9}
+    .rex-caption{position:absolute;left:16px;right:16px;bottom:16px;color:#fff}
+    .rex-side-list{display:flex;flex-direction:column;gap:12px}
+    .rex-side-item{border:1px solid var(--keyline);border-radius:8px;padding:12px}
+
+    /* Sport module */
+    #rex-sport{margin:36px auto}
+    #rex-sport .row{display:grid;grid-template-columns:1.35fr 1fr;gap:24px}
+    #rex-sport .thumb{height:280px;background:#e5e7eb;border:1px solid var(--keyline);border-radius:12px}
+    #rex-sport .bk-calendar-meta{margin-top:-260px;margin-left:12px;background:#000a;color:#fff;padding:8px 10px;border-radius:6px;width:56px;text-align:center}
+    #rex-sport .list-small-post{list-style:none;margin:0;padding:0;border-top:1px solid var(--keyline)}
+    #rex-sport .list-small-post li{display:grid;grid-template-columns:1fr 120px;gap:12px;align-items:center;padding:14px 0;border-bottom:1px solid var(--keyline)}
+    #rex-sport .list-small-post .thumb{height:72px;grid-column:2;background:#e5e7eb;border:1px solid var(--keyline);border-radius:6px}#rex-sport .list-small-post .title{grid-column:1} @media(max-width:680px){#rex-sport .list-small-post li{grid-template-columns:1fr 96px}#rex-sport .list-small-post .thumb{width:96px;height:64px}}
+
+    /* Fashion grid */
+    #rex-fashion-grid{margin:36px auto}
+    .bk-square-grid-wrap{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .bk-square-grid-wrap .thumb{aspect-ratio:1/1;background:#e5e7eb;border:1px solid var(--keyline);border-radius:8px}
+    .bk-square-grid-wrap li{border:1px solid var(--keyline);border-radius:8px;padding:10px}
+
+    /* Tech section + promo */
+    #rex-tech{margin:36px auto}
+    #rex-tech .row{display:grid;grid-template-columns:1.6fr 1fr .8fr;gap:24px}
+    #rex-tech .large-post{border:1px solid var(--keyline);border-radius:12px;min-height:260px;display:flex;align-items:flex-end;padding:16px;background:linear-gradient(180deg,#dfe7f1 0,#ccd6e3 100%)}
+    #rex-tech .col-list .list-small-post{list-style:none;margin:0;padding:0;border-top:1px solid var(--keyline); /* enforce subcat list structure */ }
+    #rex-tech .col-list .list-small-post li{display:grid;grid-template-columns:1fr 120px;gap:16px;align-items:center;padding:12px 0;border-bottom:1px solid var(--keyline)} #rex-tech .col-list .list-small-post .post-c-wrap{grid-column:1} #rex-tech .col-list .list-small-post .thumb{grid-column:2;width:120px;height:80px;background:#e5e7eb;border:1px solid var(--keyline);border-radius:6px} @media(max-width:680px){#rex-tech .col-list .list-small-post li{grid-template-columns:1fr 96px}#rex-tech .col-list .list-small-post .thumb{width:96px;height:64px}}
+    .tech-sidebar .promo-card{position:sticky;top:88px;border:1px solid var(--keyline);border-radius:12px;padding:16px;background:#fff}
+
+    /* Utilities */
+    .module-title h2{margin:0 0 16px;font-size:26px;font-weight:900;letter-spacing:.01em}
+    .module-title .main-title h2 span{color:#111;text-transform:uppercase;font-size:.9em;letter-spacing:.08em}
+    .module-title{display:flex;align-items:baseline;gap:12px;margin-bottom:12px}
+    .module-title .sub-title{color:#666;font-size:14px}
+    .title{margin:6px 0 0;font-size:16px}
+    @media(max-width:1024px){
+      .rex-feature-grid{grid-template-columns:1fr}
+      #rex-sport .row{grid-template-columns:1fr}
+      #rex-tech .row{grid-template-columns:1fr}
+      .bk-square-grid-wrap{grid-template-columns:1fr 1fr}
+    }
+    @media(max-width:560px){.bk-square-grid-wrap{grid-template-columns:1fr}}
+  </style>
+  <style id="fallback-additions">
+    /* Layout helper for new sections */
+    #rex-fashion-travel .two-col{display:grid;grid-template-columns:2fr 1fr;gap:32px;align-items:start}
+    @media(max-width:1024px){#rex-fashion-travel .two-col{grid-template-columns:1fr}}
+    #rex-fashion-travel .bk-square-grid-content{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    #rex-fashion-travel .bk-square-grid-content .thumb{aspect-ratio:1/1;background:#e5e7eb;border:1px solid var(--keyline);border-radius:8px}
+    #rex-fashion-travel .bk-list-post{list-style:none;margin:0;padding:0;border-top:1px solid var(--keyline);counter-reset:subcat} 
+    #rex-fashion-travel .bk-list-post li{display:grid;grid-template-columns:1fr 120px;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--keyline)}
+    /* text left, image right */
+    #rex-fashion-travel .bk-list-post li .post-c-wrap{grid-column:1}
+    #rex-fashion-travel .bk-list-post li .thumb{grid-column:2}
+    #rex-fashion-travel .bk-list-post .thumb{height:72px;background:#e5e7eb;border:1px solid var(--keyline);border-radius:6px;justify-self:end;width:120px} 
+    @media(max-width:1024px){#rex-fashion-travel .two-col{grid-template-columns:1fr}}
+    @media(max-width:680px){
+      /* keep two columns on mobile but shrink thumbnail; text stays left, image right */
+      #rex-fashion-travel .bk-list-post li{grid-template-columns:1fr 96px}
+      #rex-fashion-travel .bk-list-post .thumb{width:96px;height:64px}
+    }
+
+    #rex-loadmore .bk-loadmore{display:flex;justify-content:center;margin:32px 0}
+    #rex-loadmore .bk-btn-loadmore{display:inline-block;border:2px solid #d32f2f;background:#fff;padding:12px 32px;border-radius:999px;text-decoration:none;color:#d32f2f;font-weight:700;font-size:14px;text-transform:uppercase;letter-spacing:0.05em;transition:all 0.3s ease}
+    #rex-loadmore .bk-btn-loadmore:hover{background:#d32f2f;color:#fff;transform:translateY(-2px);box-shadow:0 4px 12px rgba(211,47,47,0.3)}
+
+    #rex-home-carousel .bk-carousel{list-style:none;margin:0;padding:0;display:flex;gap:16px;overflow:hidden;scroll-behavior:smooth}
+    #rex-home-carousel .bk-carousel > li{min-width:33.333%;flex:0 0 33.333%;box-sizing:border-box}
+    @media(max-width:1024px){#rex-home-carousel .bk-carousel > li{min-width:50%;flex-basis:50%}}
+    @media(max-width:680px){#rex-home-carousel .bk-carousel > li{min-width:100%;flex-basis:100%}}
+    #rex-home-carousel .thumb{background:#e5e7eb;border:1px solid var(--keyline);border-radius:8px;aspect-ratio:16/9}
+    #rex-home-carousel .flex-prev,#rex-home-carousel .flex-next{display:inline-block;width:36px;height:36px;border:1px solid var(--keyline);border-radius:50%;text-indent:-9999px;margin-top:12px;background:#fff}
+    #rex-home-carousel .bk-carousel-wrap{position:relative}
+    #rex-home-carousel .flex-prev{position:absolute;left:-8px;top:calc(50% - 18px)}
+    #rex-home-carousel .flex-next{position:absolute;right:-8px;top:calc(50% - 18px)}
+    
+    /* Brooklyn Styles */
+    .brooklyn-section{margin:60px auto;padding:0 16px}
+    .brooklyn-section .container{max-width:1200px;margin:0 auto}
+    
+    /* Brooklyn Editor's Pick Hero - 2x3 Grid (3 top, 3 bottom) */
+    #brooklyn-hero{background:#fff;padding:0;margin:60px auto}
+    #brooklyn-hero .container{max-width:100%;padding:0}
+    #brooklyn-hero .hero-title{color:#fe6c61;font-size:12px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;margin:0 0 30px;text-align:center;padding:0 16px}
+    
+    /* 2x3 Grid: 3 columns, 2 rows */
+    #brooklyn-hero .hero-grid{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,320px);gap:4px}
+    
+    /* Each hero item */
+    #brooklyn-hero .hero-item{position:relative;overflow:hidden;background:#000}
+    
+    /* Video/Image container */
+    #brooklyn-hero .hero-media{width:100%;height:100%;object-fit:cover;display:block}
+    #brooklyn-hero .hero-video{width:100%;height:100%;object-fit:cover}
+    #brooklyn-hero .hero-image{width:100%;height:100%;object-fit:cover;opacity:0.9}
+    
+    /* Overlay with content */
+    #brooklyn-hero .hero-overlay{position:absolute;bottom:0;left:0;right:0;padding:30px;background:linear-gradient(to top,rgba(0,0,0,0.85) 0%,rgba(0,0,0,0.3) 60%,transparent 100%)}
+    
+    /* Category badge */
+    #brooklyn-hero .hero-category{display:inline-block;padding:8px 16px;font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:12px;color:#fff}
+    
+    /* Title */
+    #brooklyn-hero .hero-title-text{color:#fff;font-size:22px;font-weight:700;line-height:1.3;margin:0 0 8px}
+    #brooklyn-hero .hero-title-text a{color:#fff;text-decoration:none;transition:color 0.2s}
+    #brooklyn-hero .hero-title-text a:hover{color:#fe6c61}
+    
+    /* Date */
+    #brooklyn-hero .hero-date{color:#bbb;font-size:11px;text-transform:uppercase;letter-spacing:0.05em}
+    
+    /* Navigation arrows */
+    #brooklyn-hero .hero-nav{position:absolute;bottom:20px;right:20px;display:flex;gap:4px;z-index:10}
+    #brooklyn-hero .hero-nav button{width:32px;height:32px;background:rgba(0,0,0,0.7);border:none;color:#fff;cursor:pointer;font-size:16px;transition:background 0.3s;line-height:1}
+    #brooklyn-hero .hero-nav button:hover{background:rgba(254,108,97,0.95)}
+    
+    /* Category colors */
+    .cat-fashion{background:#8b5cf6}
+    .cat-nutrition{background:#10b981}
+    .cat-family{background:#a855f7}
+    .cat-design{background:#f87171}
+    .cat-lifestyle{background:#06b6d4}
+    .cat-photography{background:#3b82f6}
+    
+    /* Responsive */
+    @media(max-width:1024px){
+      #brooklyn-hero .hero-grid{grid-template-columns:repeat(2,1fr);grid-template-rows:repeat(3,280px)}
+    }
+    @media(max-width:680px){
+      #brooklyn-hero .hero-grid{grid-template-columns:1fr;grid-template-rows:repeat(6,300px)}
+      #brooklyn-hero .hero-overlay{padding:20px}
+      #brooklyn-hero .hero-title-text{font-size:18px}
+    }
+    
+    /* Brooklyn Editor's Pick Post (Singular) - Vertical List */
+    /* LAYOUT: Text LEFT, Image RIGHT */
+    .brooklyn-editors-pick-post{margin:60px auto;padding:0 16px}
+    .brooklyn-editors-pick-post .container{max-width:1200px;margin:0 auto}
+    .brooklyn-editors-pick-post .section-title{font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;margin:0 0 40px;color:#121212;border-bottom:3px solid #fe6c61;display:inline-block;padding-bottom:10px}
+    
+    /* Vertical list */
+    .brooklyn-vertical-list{list-style:none;margin:0;padding:0}
+    
+    /* Each item: TEXT LEFT, IMAGE RIGHT */
+    .brooklyn-vertical-item{display:grid;grid-template-columns:1fr 280px;gap:30px;align-items:center;padding:30px 0;border-bottom:1px solid #e5e5e5}
+    .brooklyn-vertical-item:first-child{padding-top:0}
+    .brooklyn-vertical-item:last-child{border-bottom:none}
+    
+    /* Content on LEFT */
+    .brooklyn-vertical-item .vertical-content{grid-column:1}
+    
+    /* Category badge */
+    .brooklyn-vertical-item .vertical-category{display:inline-block;padding:6px 14px;font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:12px;color:#fff}
+    
+    /* Title */
+    .brooklyn-vertical-item .vertical-title{margin:0 0 12px;font-size:24px;font-weight:700;line-height:1.3}
+    .brooklyn-vertical-item .vertical-title a{color:#121212;text-decoration:none;transition:color 0.2s}
+    .brooklyn-vertical-item .vertical-title a:hover{color:#fe6c61}
+    
+    /* Excerpt */
+    .brooklyn-vertical-item .vertical-excerpt{color:#959595;font-size:15px;line-height:1.7;margin:0 0 10px}
+    
+    /* Date */
+    .brooklyn-vertical-item .vertical-date{color:#999;font-size:12px;text-transform:uppercase;letter-spacing:0.05em;margin:0}
+    
+    /* Image on RIGHT */
+    .brooklyn-vertical-item .vertical-image{grid-column:2;aspect-ratio:3/2;overflow:hidden;background:#f5f5f5}
+    .brooklyn-vertical-item .vertical-image img{width:100%;height:100%;object-fit:cover}
+    
+    @media(max-width:1024px){
+      .brooklyn-vertical-item{grid-template-columns:1fr 220px;gap:24px}
+      .brooklyn-vertical-item .vertical-title{font-size:20px}
+    }
+    @media(max-width:680px){
+      .brooklyn-vertical-item{grid-template-columns:1fr;gap:16px}
+      .brooklyn-vertical-item .vertical-image{aspect-ratio:16/9;grid-column:1;order:-1}
+      .brooklyn-vertical-item .vertical-title{font-size:18px}
+      .brooklyn-vertical-item .vertical-excerpt{font-size:14px}
+    }
+    
+    /* Brooklyn Four Expandable Placeholders */
+    .brooklyn-placeholders{margin:60px auto;padding:0 16px}
+    .brooklyn-placeholders .container{max-width:1200px;margin:0 auto}
+    
+    /* Grid: 4 equal columns */
+    .placeholder-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+    
+    /* Each placeholder item */
+    .placeholder-item{display:flex;flex-direction:column}
+    
+    /* Placeholder box - clickable area */
+    .placeholder-link{text-decoration:none;display:block}
+    .placeholder-box{background:#f5f5f5;border:2px solid #e5e5e5;padding:60px 30px;text-align:center;transition:all 0.3s;cursor:pointer;position:relative;min-height:300px;display:flex;flex-direction:column;align-items:center;justify-content:center}
+    .placeholder-box:hover{background:#fef3f2;border-color:#fe6c61;transform:translateY(-2px)}
+    
+    /* Plus icon */
+    .placeholder-icon{font-size:72px;color:#fe6c61;font-weight:300;line-height:1;margin-bottom:20px;transition:transform 0.3s}
+    .placeholder-box:hover .placeholder-icon{transform:rotate(90deg)}
+    
+    /* Title */
+    .placeholder-title{margin:0;font-size:18px;font-weight:700;color:#121212;text-transform:uppercase;letter-spacing:0.05em}
+    
+    /* Expandable content (hidden by default) */
+    .placeholder-content{display:none;background:#fff;border:1px solid #e5e5e5;border-top:none;padding:20px;margin-top:-2px}
+    .placeholder-content.active{display:block;animation:slideDown 0.3s ease}
+    .placeholder-content p{margin:0;color:#666;font-size:14px;line-height:1.6}
+    
+    @keyframes slideDown{
+      from{opacity:0;transform:translateY(-10px)}
+      to{opacity:1;transform:translateY(0)}
+    }
+    
+    /* Responsive */
+    @media(max-width:1024px){
+      .placeholder-grid{grid-template-columns:repeat(2,1fr)}
+      .placeholder-box{min-height:280px;padding:50px 25px}
+    }
+    @media(max-width:680px){
+      .placeholder-grid{grid-template-columns:1fr}
+      .placeholder-box{min-height:250px;padding:50px 20px}
+      .placeholder-icon{font-size:60px}
+    }
+    
+    /* Brooklyn Six Image Placeholders Grid (3 columns x 2 rows) */
+    .brooklyn-image-grid{margin:60px auto;padding:0 16px}
+    .brooklyn-image-grid .container{max-width:1200px;margin:0 auto}
+    
+    /* Grid: 3 columns x 2 rows */
+    .image-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:30px}
+    
+    /* Each grid item */
+    .grid-item{display:flex;flex-direction:column}
+    
+    /* Grid link - clickable area */
+    .grid-link{text-decoration:none;display:block;position:relative}
+    
+    /* Image placeholder */
+    .grid-image-placeholder{aspect-ratio:4/3;background:#e5e7eb;border:1px solid #d1d5db;display:flex;align-items:center;justify-content:center;margin-bottom:15px;transition:all 0.3s;overflow:hidden;position:relative}
+    .grid-link:hover .grid-image-placeholder{background:#dbeafe;border-color:#93c5fd}
+    .grid-placeholder-text{color:#9ca3af;font-size:14px;font-weight:500;text-transform:uppercase;letter-spacing:0.05em}
+    
+    /* Title below image */
+    .grid-title{margin:0 0 10px;font-size:16px;font-weight:700;line-height:1.4;color:#121212;transition:color 0.2s}
+    .grid-link:hover .grid-title{color:#fe6c61}
+    
+    /* Expand icon */
+    .grid-expand-icon{position:absolute;bottom:10px;right:10px;width:28px;height:28px;background:rgba(254,108,97,0.9);color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:300;border-radius:50%;transition:all 0.3s}
+    .grid-link:hover .grid-expand-icon{transform:scale(1.1);background:#fe6c61}
+    
+    /* Expandable content (hidden by default) */
+    .grid-content{display:none;background:#f9fafb;border:1px solid #e5e7eb;padding:15px;margin-top:10px;border-radius:4px}
+    .grid-content.active{display:block;animation:slideDown 0.3s ease}
+    .grid-content p{margin:0;color:#6b7280;font-size:14px;line-height:1.6}
+    
+    /* Responsive */
+    @media(max-width:1024px){
+      .image-grid{grid-template-columns:repeat(2,1fr);gap:24px}
+    }
+    @media(max-width:680px){
+      .image-grid{grid-template-columns:1fr;gap:20px}
+    }
+    
+    /* Brooklyn Parallax Video Section */
+    .brooklyn-parallax-video{position:relative;min-height:510px;height:510px;background-color:#303030;background-image:url('https://ebullient.qodeinteractive.com/wp-content/uploads/2018/02/home-3-video-background.jpg');background-size:cover;background-position:center;background-attachment:fixed;display:flex;align-items:center;justify-content:center;overflow:hidden;margin:60px 0}
+    
+    /* Dark overlay */
+    .parallax-overlay{position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.4);z-index:1}
+    
+    /* Content container */
+    .parallax-content{position:relative;z-index:2;text-align:center;padding:0 10%;max-width:1400px;margin:0 auto}
+    
+    /* Title */
+    .parallax-title{font-family:'Playfair Display',Georgia,serif;font-size:60px;line-height:1.085em;font-weight:900;color:#fff;margin:0 0 33px;text-shadow:0 2px 10px rgba(0,0,0,0.3)}
+    
+    /* Video play button */
+    .video-play-button{display:inline-block;text-decoration:none;transition:transform 0.3s}
+    .video-play-button:hover{transform:scale(1.1)}
+    
+    /* Play icon circle */
+    .video-play-icon{width:80px;height:80px;border-radius:50%;background:rgba(254,108,97,0.95);display:flex;align-items:center;justify-content:center;transition:all 0.3s;box-shadow:0 4px 20px rgba(254,108,97,0.4)}
+    .video-play-button:hover .video-play-icon{background:#fe6c61;box-shadow:0 6px 30px rgba(254,108,97,0.6)}
+    
+    /* Play arrow */
+    .play-arrow{color:#fff;font-size:24px;margin-left:4px;display:block}
+    
+    /* Responsive */
+    @media(max-width:1024px){
+      .brooklyn-parallax-video{min-height:450px;height:450px;background-attachment:scroll}
+      .parallax-title{font-size:50px}
+      .parallax-content{padding:0 5%}
+    }
+    @media(max-width:680px){
+      .brooklyn-parallax-video{min-height:400px;height:400px}
+      .parallax-title{font-size:40px;line-height:1.2em}
+      .video-play-icon{width:70px;height:70px}
+      .play-arrow{font-size:20px}
+    }
+    
+    /* Brooklyn Two Column Section - Large Left + 3 Items Right */
+    .brooklyn-two-column{margin:60px auto;padding:0 16px}
+    .brooklyn-two-column .container{max-width:1200px;margin:0 auto}
+    
+    /* Two column layout */
+    .two-column-layout{display:grid;grid-template-columns:1.5fr 1fr;gap:40px}
+    
+    /* Large left column */
+    .large-column{}
+    .large-placeholder-link{text-decoration:none;display:block}
+    .large-placeholder{aspect-ratio:16/10;background:#e5e7eb;border:1px solid #d1d5db;display:flex;align-items:center;justify-content:center;margin-bottom:20px;transition:all 0.3s}
+    .large-placeholder-link:hover .large-placeholder{background:#dbeafe;border-color:#93c5fd}
+    .large-placeholder-text{color:#9ca3af;font-size:18px;font-weight:500;text-transform:uppercase;letter-spacing:0.05em}
+    
+    .large-placeholder-content{text-align:left}
+    .large-title{font-size:32px;font-weight:700;line-height:1.2;margin:0 0 15px;color:#121212;transition:color 0.2s}
+    .large-placeholder-link:hover .large-title{color:#fe6c61}
+    .large-excerpt{font-size:16px;line-height:1.6;color:#666;margin:0}
+    
+    /* Small right column - 3 vertical items */
+    .small-column{display:flex;flex-direction:column;gap:30px}
+    
+    /* Each small item */
+    .small-item{display:flex;flex-direction:column}
+    .small-image{aspect-ratio:16/9;background:#f5f5f5;border:1px solid #e5e7eb;display:flex;align-items:center;justify-content:center;margin-bottom:12px}
+    .small-placeholder-text{color:#cbd5e1;font-size:14px;font-weight:500;text-transform:uppercase}
+    
+    .small-content{text-align:left}
+    .small-title{font-size:18px;font-weight:700;line-height:1.3;margin:0 0 8px}
+    .small-title a{color:#121212;text-decoration:none;transition:color 0.2s}
+    .small-title a:hover{color:#fe6c61}
+    .small-excerpt{font-size:14px;line-height:1.5;color:#666;margin:0}
+    
+    /* Responsive */
+    @media(max-width:1024px){
+      .two-column-layout{grid-template-columns:1fr;gap:50px}
+      .small-column{gap:35px}
+    }
+    @media(max-width:680px){
+      .large-title{font-size:26px}
+      .small-title{font-size:16px}
+    }
+    
+    /* Brooklyn Grid Layout */
+    .brooklyn-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:30px;margin:40px 0}
+    .brooklyn-grid-post{background:#fff;border-radius:0;overflow:hidden;transition:transform 0.3s}
+    .brooklyn-grid-post:hover{transform:translateY(-4px)}
+    .brooklyn-grid-post-image{aspect-ratio:1/1;background:#f5f5f5;position:relative;overflow:hidden}
+    .brooklyn-grid-post-image img{width:100%;height:100%;object-fit:cover}
+    .brooklyn-grid-post-content{padding:20px 0}
+    .brooklyn-grid-post-title{margin:0;font-size:16px;font-weight:700;line-height:1.4}
+    .brooklyn-grid-post-title a{color:#121212;text-decoration:none;transition:color 0.2s}
+    .brooklyn-grid-post-title a:hover{color:#fe6c61}
+    .brooklyn-grid-post-excerpt{color:#959595;font-size:13px;line-height:1.5;margin:8px 0 0}
+    
+    /* Brooklyn List Layout - TEXT LEFT, IMAGE RIGHT */
+    .brooklyn-list-section{margin:60px auto}
+    .brooklyn-list-section .section-title{font-size:28px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;margin:0 0 30px;padding-bottom:15px;border-bottom:3px solid #fe6c61;display:inline-block}
+    .brooklyn-list{list-style:none;margin:0;padding:0}
+    .brooklyn-list-item{display:grid;grid-template-columns:1fr 180px;gap:24px;align-items:center;padding:24px 0;border-bottom:1px solid #e5e5e5}
+    .brooklyn-list-item:first-child{padding-top:0}
+    /* Content on LEFT */
+    .brooklyn-list-content{grid-column:1}
+    .brooklyn-list-title{margin:0 0 10px;font-size:18px;font-weight:700;line-height:1.3}
+    .brooklyn-list-title a{color:#121212;text-decoration:none;transition:color 0.2s}
+    .brooklyn-list-title a:hover{color:#fe6c61}
+    .brooklyn-list-excerpt{color:#959595;font-size:14px;line-height:1.6;margin:0}
+    /* Image on RIGHT */
+    .brooklyn-list-image{grid-column:2;aspect-ratio:16/10;background:#f5f5f5;border-radius:2px;overflow:hidden}
+    .brooklyn-list-image img{width:100%;height:100%;object-fit:cover}
+    
+    /* Brooklyn Feature Section */
+    .brooklyn-feature-section{margin:60px auto}
+    .brooklyn-feature-layout{display:grid;grid-template-columns:1.5fr 1fr;gap:40px}
+    .brooklyn-feature-main{background:#fff}
+    .brooklyn-feature-main-image{aspect-ratio:16/10;background:#f5f5f5;margin-bottom:20px;overflow:hidden}
+    .brooklyn-feature-main-image img{width:100%;height:100%;object-fit:cover}
+    .brooklyn-feature-main-title{font-size:32px;font-weight:700;line-height:1.2;margin:0 0 15px}
+    .brooklyn-feature-main-title a{color:#121212;text-decoration:none}
+    .brooklyn-feature-main-title a:hover{color:#fe6c61}
+    .brooklyn-feature-main-excerpt{color:#959595;font-size:15px;line-height:1.7;margin:0}
+    
+    /* Responsive */
+    @media(max-width:1024px){
+      #brooklyn-hero .hero-grid{grid-template-columns:repeat(2,1fr);grid-template-rows:repeat(3,280px)}
+      .brooklyn-grid{grid-template-columns:repeat(2,1fr)}
+      .brooklyn-feature-layout{grid-template-columns:1fr}
+      .brooklyn-list-item{grid-template-columns:1fr 140px;gap:20px}
+      .brooklyn-list-image{aspect-ratio:1/1}
+    }
+    @media(max-width:680px){
+      #brooklyn-hero .hero-grid{grid-template-columns:1fr;grid-template-rows:repeat(6,300px)}
+      #brooklyn-hero .hero-overlay{padding:20px}
+      #brooklyn-hero .hero-title-text{font-size:18px}
+      .brooklyn-grid{grid-template-columns:1fr}
+      .brooklyn-list-item{grid-template-columns:1fr 120px;gap:16px;padding:16px 0}
+      .brooklyn-list-title{font-size:16px}
+      .brooklyn-list-excerpt{font-size:13px}
+    }
+  </style>
+  <style id="fallback-music-news">
+    #rex-music-news .two-col{display:grid;grid-template-columns:1.6fr 1fr;gap:24px;align-items:start}
+    @media(max-width:1024px){#rex-music-news .two-col{grid-template-columns:1fr}}
+    #rex-music-news .large-post .thumb{height:260px;background:#e5e7eb;border:1px solid var(--keyline);border-radius:12px;margin-bottom:10px}
+    #rex-music-news .bk-list-post{list-style:none;margin:0;padding:0;border-top:1px solid var(--keyline)}
+    #rex-music-news .bk-list-post li{display:grid;grid-template-columns:1fr 120px;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--keyline)}
+    #rex-music-news .bk-list-post .thumb{width:120px;height:80px;background:#e5e7eb;border:1px solid var(--keyline);border-radius:6px;grid-column:2}
+    #rex-music-news .bk-list-post .post-c-wrap{grid-column:1}
+  </style>
+  <style id="fallback-post-carousel-fixes">
+    /* --- Ensure consistent spacing for sections AFTER the New Carousel --- */
+    #rex-home-carousel{margin:36px auto}
+    
+    /* *** CHANGE 3: Rex Carousel Height and Padding Adjustments *** */
+    /* Adjusted height and padding for tighter layout */
+    #rex-home-carousel{min-height:420px;padding:1.5rem 0}
+    #rex-home-carousel .bk-carousel-wrap{padding:1rem}
+    #rex-home-carousel .bk-carousel{gap:12px}
+    #rex-home-carousel .bk-carousel > li{padding:0.75rem}
+    #rex-home-carousel .thumb{min-height:180px}
+    @media(max-width:1024px){#rex-home-carousel{min-height:380px;padding:1.25rem 0}#rex-home-carousel .thumb{min-height:160px}}
+    @media(max-width:768px){#rex-home-carousel{min-height:350px;padding:1rem 0}#rex-home-carousel .bk-carousel-wrap{padding:0.75rem}#rex-home-carousel .thumb{min-height:140px}}
+    @media(max-width:480px){#rex-home-carousel{min-height:320px;padding:0.75rem 0}#rex-home-carousel .bk-carousel-wrap{padding:0.5rem}#rex-home-carousel .thumb{min-height:120px}}
+    /* *** END CHANGE 3 *** */
+    #rex-music-news{margin:36px auto}
+    #rex-music-news .module-title{margin-bottom:16px}
+
+    /* Two-column layout for Music & News */
+    #rex-music-news .two-col{display:grid;grid-template-columns:1.6fr 1fr;gap:28px;align-items:start}
+    @media(max-width:1024px){#rex-music-news .two-col{grid-template-columns:1fr}}
+
+    /* Feature card on the left */
+    #rex-music-news .large-post{border:1px solid var(--keyline);border-radius:12px;overflow:hidden;background:#fff}
+    #rex-music-news .large-post .thumb{height:280px;background:#e5e7eb}
+    #rex-music-news .large-post .post-c-wrap{padding:14px 16px}
+
+    /* Right list: text left, image right */
+    #rex-music-news .bk-list-post{list-style:none;margin:0;padding:0;border-top:1px solid var(--keyline)}
+    #rex-music-news .bk-list-post li{display:grid;grid-template-columns:1fr 120px;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--keyline)}
+    #rex-music-news .bk-list-post .post-c-wrap{grid-column:1}
+    #rex-music-news .bk-list-post .thumb{grid-column:2;width:120px;height:80px;background:#e5e7eb;border:1px solid var(--keyline);border-radius:6px}
+    @media(max-width:680px){#rex-music-news .bk-list-post li{grid-template-columns:1fr 96px}#rex-music-news .bk-list-post .thumb{width:96px;height:64px}}
+
+    /* General list fallbacks (so all subcategory lists match Rex look) */
+    .bk-list-post .meta{font-size:12px;color:#666;margin-bottom:2px}
+    .bk-list-post .title{font-size:16px;line-height:1.3}
+
+    /* Visual guard rails so you can see what’s happening even without theme CSS */
+    #rex-music-news .module-title .main-title h2{font-weight:900}
+  </style>
+  <style id="rex-grid-sidebar-styles">
+    /* ===== MAIN CONTENT + SIDEBAR LAYOUT ===== */
+    .rex-content-sidebar {
+      display: grid;
+      grid-template-columns: 1fr 360px;
+      gap: 32px;
+      margin-top: 40px;
+    }
+
+    /* ===== 3-COLUMN GRID LAYOUT ===== */
+    .bkmodule {
+      margin-bottom: 48px;
+    }
+
+    .module-title {
+      text-align: center;
+      margin-bottom: 32px;
+      padding-bottom: 16px;
+      border-bottom: 3px solid #f1f1f1;
+      position: relative;
+    }
+
+    .module-title .main-title h2 {
+      margin: 0;
+      font-size: 28px;
+      font-weight: 900;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+    }
+
+    .module-title .main-title h2 span {
+      color: #d32f2f;
+    }
+
+    .module-title .sub-title {
+      color: #999;
+      font-size: 14px;
+      margin-top: 8px;
+      font-style: italic;
+    }
+
+    .bk-grid-3col {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    /* Grid Item Styling */
+    .grid-item {
+      background: #fff;
+      border: 1px solid var(--keyline);
+      border-radius: 8px;
+      overflow: hidden;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .grid-item:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+
+    .post-thumb-wrap {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .thumb-link {
+      display: block;
+      position: relative;
+    }
+
+    .grid-item .thumb {
+      width: 100%;
+      height: 180px;
+      background: #e5e7eb;
+      border: none;
+      border-radius: 0;
+    }
+
+    .post-category-badge {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background: #d32f2f;
+      color: #fff;
+      padding: 4px 12px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      border-radius: 3px;
+      text-transform: uppercase;
+      z-index: 2;
+    }
+
+    .post-content {
+      padding: 16px;
+    }
+
+    .post-title {
+      margin: 0 0 10px;
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 1.4;
+    }
+
+    .post-title a {
+      color: #111;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .post-title a:hover {
+      color: #d32f2f;
+    }
+
+    .post-date {
+      color: #999;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .date-icon {
+      font-size: 14px;
+    }
+
+    /* Video Specific Styles */
+    .video-thumb {
+      background: #1a1a1a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .video-play-icon {
+      color: #fff;
+      font-size: 48px;
+      opacity: 0.9;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
+
+    /* Ad Placement */
+    .bk-ad-placement {
+      background: #f3f4f6;
+      border: 1px solid var(--keyline);
+      border-radius: 8px;
+      padding: 48px 24px;
+      text-align: center;
+    }
+
+    .ad-label {
+      color: #6b7280;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      margin-bottom: 8px;
+    }
+
+    .ad-size {
+      color: #9ca3af;
+      font-size: 12px;
+    }
+
+    /* ===== SIDEBAR STYLES ===== */
+    .sidebar {
+      position: relative;
+    }
+
+    .sidebar-wrap {
+      position: sticky;
+      top: 88px;
+    }
+
+    .widget {
+      background: #fff;
+      border: 1px solid var(--keyline);
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 24px;
+    }
+
+    .widget-title {
+      margin: 0 0 20px;
+      font-size: 16px;
+      font-weight: 900;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      border-bottom: 2px solid #f1f1f1;
+      padding-bottom: 12px;
+    }
+
+    /* Connect Us Widget */
+    .social-stats {
+      display: grid;
+      gap: 12px;
+    }
+
+    .social-item {
+      display: grid;
+      grid-template-columns: 60px 1fr;
+      gap: 12px;
+      align-items: center;
+      padding: 12px;
+      background: #f9fafb;
+      border-radius: 6px;
+      transition: background 0.2s;
+    }
+
+    .social-item:hover {
+      background: #f3f4f6;
+    }
+
+    .social-icon {
+      width: 60px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 6px;
+      font-size: 24px;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .twitter-icon {
+      background: #1da1f2;
+    }
+
+    .facebook-icon {
+      background: #1877f2;
+    }
+
+    .dribbble-icon {
+      background: #ea4c89;
+    }
+
+    .rss-icon {
+      background: #f26522;
+      font-size: 14px;
+    }
+
+    .social-info {
+      text-align: left;
+    }
+
+    .social-name {
+      font-weight: 700;
+      font-size: 16px;
+      margin-bottom: 2px;
+    }
+
+    .social-count {
+      font-weight: 700;
+      font-size: 18px;
+      color: #111;
+      margin-bottom: 2px;
+    }
+
+    .social-label {
+      font-size: 11px;
+      color: #999;
+      letter-spacing: 0.05em;
+    }
+
+    /* Latest Reviews Widget */
+    .review-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .review-item {
+      display: grid;
+      grid-template-columns: 1fr 100px;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--keyline);
+    }
+
+    .review-item:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .review-item:first-child {
+      padding-top: 0;
+    }
+
+    .review-thumb-wrap {
+      position: relative;
+      display: block;
+      grid-column: 2;
+    }
+
+    .review-thumb {
+      width: 100px;
+      height: 70px;
+      background: #e5e7eb;
+      border: 1px solid var(--keyline);
+      border-radius: 6px;
+    }
+
+    .review-score {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      background: #d32f2f;
+      color: #fff;
+      padding: 4px 8px;
+      font-size: 13px;
+      font-weight: 700;
+      border-radius: 4px;
+    }
+
+    .review-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      grid-column: 1;
+    }
+
+    .review-title {
+      margin: 0 0 6px;
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+
+    .review-title a {
+      color: #111;
+      text-decoration: none;
+    }
+
+    .review-title a:hover {
+      color: #d32f2f;
+    }
+
+    .review-date {
+      color: #999;
+      font-size: 11px;
+    }
+
+    /* Sidebar Ad */
+    .sidebar-ad-placement {
+      background: #f9fafb;
+      border: 1px dashed var(--keyline);
+      border-radius: 6px;
+      padding: 60px 20px;
+      text-align: center;
+    }
+
+    .widget-ad .ad-label {
+      color: #9ca3af;
+      font-size: 11px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .widget-ad .ad-size {
+      color: #d1d5db;
+      font-size: 12px;
+    }
+
+    /* ===== RESPONSIVE DESIGN ===== */
+    @media (max-width: 1024px) {
+      .rex-content-sidebar {
+        grid-template-columns: 1fr;
+      }
+
+      .bk-grid-3col {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .sidebar-wrap {
+        position: static;
+      }
+    }
+
+    @media (max-width: 680px) {
+      .bk-grid-3col {
+        grid-template-columns: 1fr;
+      }
+
+      .module-title .main-title h2 {
+        font-size: 24px;
+      }
+
+      .social-item {
+        grid-template-columns: 50px 1fr;
+      }
+
+      .social-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 20px;
+      }
+    }
+  </style>
+
+<style>
+/* ====== DOUBLE COVER SLIDER (full-bleed, with next-slide preview bar at bottom) ====== */
+:root{
+  --vh: 100vh;
+  --radius: 24px;
+  --capPad: clamp(18px, 3vw, 28px);
+  --capGrad: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,.65) 70%);
+  --thumbH: 140px;           /* height of the bottom "next" bar */
+  --gap: 14px;
+  --stroke: rgba(255,255,255,.18);
+}
+#double-cover{position:relative;min-height:var(--vh);background:#000;color:#fff;isolation:isolate}
+#double-cover .cover-wrap{position:relative;min-height:var(--vh);overflow:hidden}
+/* Slides fill the viewport */
+#double-cover .slide{
+  position:absolute;inset:0;opacity:0;transform:scale(1.02);
+  transition:opacity .7s ease, transform 1.2s ease;
+  background:#000 center/cover no-repeat;
+}
+#double-cover .slide.active{opacity:1;transform:scale(1)}
+#double-cover .slide-link{position:absolute;inset:0;display:block;color:inherit;text-decoration:none;cursor:pointer}
+#double-cover .slide-link:hover .title{text-decoration:underline}
+#double-cover .scrim{position:absolute;inset:0;background:var(--capGrad)}
+#double-cover .caption{
+  position:absolute;left:0;right:0;bottom:calc(var(--thumbH) + 18px);
+  padding:0 var(--capPad);
+}
+#double-cover .kicker{font-size:12px;letter-spacing:.16em;text-transform:uppercase;opacity:.95}
+#double-cover .title{font-size:clamp(28px, 5vw, 62px);line-height:1.04;font-weight:800;margin-top:6px}
+#double-cover .meta{margin-top:10px;opacity:.9;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+#double-cover .meta .source-icon{width:20px;height:20px;border-radius:4px;vertical-align:middle;background:#fff;padding:2px}
+#double-cover .meta .source-name{font-weight:600}
+#double-cover .meta .meta-separator{margin:0 4px}
+/* Arrows centered vertically */
+#double-cover .ctrl{position:absolute;inset:0;display:flex;align-items:center;justify-content:space-between;pointer-events:none}
+#double-cover .ctrl button{
+  pointer-events:auto;width:46px;height:46px;border-radius:50%;
+  border:1px solid var(--stroke);background:rgba(0,0,0,.45);
+  color:#fff;display:grid;place-items:center;font-size:22px;cursor:pointer
+}
+#double-cover .ctrl button:hover{background:rgba(255,255,255,.22)}
+/* Bottom rail shows NEXT + queue */
+#double-cover .rail{
+  position:absolute;left:0;right:0;bottom:0;height:var(--thumbH);
+  display:grid;grid-template-columns:1fr auto;gap:var(--gap);align-items:center;
+  padding:10px var(--capPad);backdrop-filter:blur(6px);
+  background:linear-gradient(180deg, rgba(0,0,0,.0) 0%, rgba(0,0,0,.65) 65%);
+  border-top:1px solid var(--stroke);
+}
+#double-cover .rail .next{
+  display:grid;grid-template-columns:160px 1fr;gap:12px;align-items:center;cursor:pointer
+}
+#double-cover .rail .next .thumb{
+  width:160px;height:100%;max-height:calc(var(--thumbH) - 20px);
+  overflow:hidden;border-radius:14px;background:#000
+}
+#double-cover .rail .next .thumb img{width:100%;height:100%;object-fit:cover;display:block}
+#double-cover .rail .next .text .label{font-size:12px;letter-spacing:.12em;text-transform:uppercase;opacity:.85}
+#double-cover .rail .next .text .name{font-weight:800;line-height:1.15}
+/* Queue (small thumbs) */
+#double-cover .queue{display:flex;gap:10px;align-items:center}
+#double-cover .queue .qthumb{
+  width:90px;height:60px;overflow:hidden;border-radius:10px;border:1px solid var(--stroke);
+  opacity:.6;cursor:pointer;transition:opacity .2s ease, transform .2s ease
+}
+#double-cover .queue .qthumb:hover{opacity:.9;transform:translateY(-2px)}
+#double-cover .queue .qthumb.active{opacity:1;border-color:#fff}
+#double-cover .qthumb img{width:100%;height:100%;object-fit:cover;display:block}
+@media (max-width: 768px){
+  :root{ --thumbH: 120px }
+  #double-cover .rail{grid-template-columns:1fr}
+  #double-cover .rail .next{grid-template-columns:120px 1fr}
+  #double-cover .title{font-size:clamp(24px, 6.5vw, 42px)}
+}
+</style>
+
+</head>
+<body>
+ 
+   
+<!-- ===== FULL-COVER DOUBLE SLIDER (with bottom next preview) ===== -->
+<section id="double-cover" aria-label="Featured carousel">
+  <div class="cover-wrap">
+    <!-- Slides (BG images via inline style) -->
+    <div class="slide active" data-i="0" style="background-image:url('https://images.unsplash.com/photo-1516387938699-a93567ec168e?q=80&w=2000&auto=format&fit=crop');">
+      <div class="scrim"></div>
+      <div class="caption">
+        <div class="kicker">Top Story</div>
+        <div class="title">Japan — Neon nights and crosswalk symphonies</div>
+        <div class="meta">Thinkers · 6 min read</div>
+      </div>
+    </div>
+    <div class="slide" data-i="1" style="background-image:url('https://images.unsplash.com/photo-1502784444185-1a17bca6cf1a?q=80&w=2000&auto=format&fit=crop');">
+      <div class="scrim"></div>
+      <div class="caption">
+        <div class="kicker">Business</div>
+        <div class="title">New Zealand — A macro rebound surrounded by peaks</div>
+        <div class="meta">Wire · 4 min read</div>
+      </div>
+    </div>
+    <div class="slide" data-i="2" style="background-image:url('https://images.unsplash.com/photo-1512453979798-5ea266f8880c?q=80&w=2000&auto=format&fit=crop');">
+      <div class="scrim"></div>
+      <div class="caption">
+        <div class="kicker">Tech</div>
+        <div class="title">India — Networks scale as cities swell</div>
+        <div class="meta">Labs · 5 min read</div>
+      </div>
+    </div>
+    <div class="slide" data-i="3" style="background-image:url('https://images.unsplash.com/photo-1521292270410-a8c04f0f3d5b?q=80&w=2000&auto=format&fit=crop');">
+      <div class="scrim"></div>
+      <div class="caption">
+        <div class="kicker">Travel</div>
+        <div class="title">Switzerland — Alpine calm in high fidelity</div>
+        <div class="meta">Features · 7 min read</div>
+      </div>
+    </div>
+    <div class="slide" data-i="4" style="background-image:url('https://images.unsplash.com/photo-1439546743462-802cabef8e97?q=80&w=2000&auto=format&fit=crop');">
+      <div class="scrim"></div>
+      <div class="caption">
+        <div class="kicker">Culture</div>
+        <div class="title">Italy — Shores, shadows, and summer meals</div>
+        <div class="meta">Magazine · 8 min read</div>
+      </div>
+    </div>
+
+    <!-- Arrows -->
+    <div class="ctrl">
+      <button class="prev" aria-label="Previous">‹</button>
+      <button class="next" aria-label="Next">›</button>
+    </div>
+
+    <!-- Bottom NEXT rail (shows the NEXT slide, plus queue) -->
+    <div class="rail" aria-label="Next slide and queue">
+      <div class="next" data-target="1">
+        <div class="thumb">
+          <img src="https://images.unsplash.com/photo-1502784444185-1a17bca6cf1a?q=80&w=640&auto=format&fit=crop" alt="Next slide">
+        </div>
+        <div class="text">
+          <div class="label">Next</div>
+          <div class="name">New Zealand — A macro rebound surrounded by peaks</div>
+        </div>
+      </div>
+      <div class="queue">
+        <div class="qthumb active" data-i="0">
+          <img src="https://images.unsplash.com/photo-1516387938699-a93567ec168e?q=80&w=240&auto=format&fit=crop" alt="Japan">
+        </div>
+        <div class="qthumb" data-i="1">
+          <img src="https://images.unsplash.com/photo-1502784444185-1a17bca6cf1a?q=80&w=240&auto=format&fit=crop" alt="New Zealand">
+        </div>
+        <div class="qthumb" data-i="2">
+          <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?q=80&w=240&auto=format&fit=crop" alt="India">
+        </div>
+        <div class="qthumb" data-i="3">
+          <img src="https://images.unsplash.com/photo-1521292270410-a8c04f0f3d5b?q=80&w=240&auto=format&fit=crop" alt="Switzerland">
+        </div>
+        <div class="qthumb" data-i="4">
+          <img src="https://images.unsplash.com/photo-1439546743462-802cabef8e97?q=80&w=240&auto=format&fit=crop" alt="Italy">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+  <header class="rex-header">
+    <nav class="rex-nav">
+      <a href="#" class="rex-brand">EVERYBODY'S NEWS</a>
+      <ul class="rex-menu">
+        <li><a href="#">Home</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main>
+    <section id="rex-hero">
+      <div class="rex-hero-block">
+        <h1 class="rex-hero-headline">Latest Updates</h1>
+      </div>
+    </section>
+
+    <section id="rex-underhero" class="rex-feature-grid">
+      <article class="rex-feature">
+        <div class="rex-media">
+          <div class="rex-media-aspect">
+            <div class="rex-media-placeholder"></div>
+            <button class="rex-play">▶</button>
+            <div class="rex-badge-date">
+              <span class="rex-date-day">29</span>
+              <span class="rex-date-mon">SEP</span>
+            </div>
+            <div class="rex-caption">
+              <div class="rex-meta">
+                <span class="rex-chip">SPORT</span>
+                <span class="rex-dot">•</span>
+                <span class="rex-time">SEPTEMBER 29, 2015</span>
+              </div>
+              <h3 class="rex-head">Taciti magnis praesent tortor lorem leo</h3>
+            </div>
+            <video class="rex-video" muted loop playsinline>
+              <source src="Screen Recording 2025-10-21 210915.mp4" type="video/mp4" />
+            </video>
+          </div>
+        </div>
+      </article>
+      <aside class="rex-side-list">
+        <div class="rex-side-item">
+          <span class="rex-chip">SPORT</span>
+          <h4 class="rex-side-title">Taciti rhoncus accumsan viverra luctus</h4>
+          <div class="rex-side-date">September 29, 2015</div>
+        </div>
+        <div class="rex-side-item">
+          <span class="rex-chip">SPORT</span>
+          <h4 class="rex-side-title">Lacus fusce sed aliquam vitae donec aptent est</h4>
+          <div class="rex-side-date">September 29, 2015</div>
+        </div>
+        <div class="rex-side-item">
+          <span class="rex-chip">SPORT</span>
+          <h4 class="rex-side-title">Proin pulvinar accumsan inceptos rutrum</h4>
+          <div class="rex-side-date">September 29, 2015</div>
+        </div>
+      </aside>
+    </section>
+
+    <section id="rex-sport" class="rex-module">
+      <div class="module-title">
+        <h2><span>Sports</span></h2>
+      </div>
+      <div class="row">
+        <div class="large-post">
+          <div class="thumb"></div>
+          <div class="bk-calendar-meta">
+            <div class="day">29</div>
+            <div class="month">Sep</div>
+          </div>
+          <div class="post-c-wrap">
+            <div class="meta">
+              <div class="post-category"><a href="#">Sport</a></div>
+              <div class="post-date">September 29, 2015</div>
+            </div>
+            <h4 class="title"><a href="#">Taciti magnis praesent tortor lorem leo</a></h4>
+          </div>
+        </div>
+        <div class="col-list">
+          <ul class="list-small-post">
+            <li><h4 class="title">Taciti rhoncus accumsan viverra luctus</h4><div class="thumb"></div></li>
+            <li><h4 class="title">Lacus fusce sed aliquam vitae donec aptent est</h4><div class="thumb"></div></li>
+            <li><h4 class="title">Proin pulvinar accumsan inceptos rutrum</h4><div class="thumb"></div></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="rex-fashion-grid">
+      <div class="module-title">
+        <h2><span>Fashion</span></h2>
+      </div>
+      <ul class="bk-square-grid-wrap">
+        <li><div class="thumb"></div><h4 class="title">Ligula bibendum laoreet inceptos gravida</h4></li>
+        <li><div class="thumb"></div><h4 class="title">Tristique turpis nam pede nulla egestas</h4></li>
+        <li><div class="thumb"></div><h4 class="title">Velit commodo nonummy malesuada facilisi</h4></li>
+        <li><div class="thumb"></div><h4 class="title">Vel integer laoreet primis lobortis</h4></li>
+        <li><div class="thumb"></div><h4 class="title">Scelerisque curabitur class tempor ornare</h4></li>
+        <li><div class="thumb"></div><h4 class="title">Ut suscipit eros nisl senectus quisque</h4></li>
+      </ul>
+    </section>
+
+        <!-- REX: Fashion & Travel News (two-column) -->
+    <section id="rex-fashion-travel" class="container">
+      <div class="row two-col">
+        <!-- Left: Fashion grid (3x2) -->
+        <div class="col-left">
+          <div class="module-title"><div class="main-title"><h2><span>Fashion</span> News</h2></div></div>
+          <div class="module-square-grid">
+            <ul class="bk-square-grid-content clearfix">
+              <li class="content_in"><div class="content_in_wrapper"><div class="thumb" aria-hidden="true"></div><div class="post-c-wrap"><h4 class="title"><a href="#">Headline One</a></h4></div></div></li>
+              <li class="content_in"><div class="content_in_wrapper"><div class="thumb" aria-hidden="true"></div><div class="post-c-wrap"><h4 class="title"><a href="#">Headline Two</a></h4></div></div></li>
+              <li class="content_in"><div class="content_in_wrapper"><div class="thumb" aria-hidden="true"></div><div class="post-c-wrap"><h4 class="title"><a href="#">Headline Three</a></h4></div></div></li>
+              <li class="content_in"><div class="content_in_wrapper"><div class="thumb" aria-hidden="true"></div><div class="post-c-wrap"><h4 class="title"><a href="#">Headline Four</a></h4></div></div></li>
+              <li class="content_in"><div class="content_in_wrapper"><div class="thumb" aria-hidden="true"></div><div class="post-c-wrap"><h4 class="title"><a href="#">Headline Five</a></h4></div></div></li>
+              <li class="content_in"><div class="content_in_wrapper"><div class="thumb" aria-hidden="true"></div><div class="post-c-wrap"><h4 class="title"><a href="#">Headline Six</a></h4></div></div></li>
+            </ul>
+          </div>
+        </div>
+        <!-- Right: Travel list -->
+        <div class="col-right">
+          <div class="module-title"><div class="main-title"><h2><span>Travel</span> News</h2></div></div>
+          <ul class="bk-list-post">
+            <li class="content_out small-post clearfix"><div class="post-c-wrap"><div class="meta"><div class="post-category"><a href="#">Travel</a></div></div><h4 class="title"><a href="#">Travel story headline one</a></h4><div class="post-date">September 29, 2015</div></div><div class="thumb" aria-hidden="true"></div></li>
+            <li class="content_out small-post clearfix"><div class="post-c-wrap"><div class="meta"><div class="post-category"><a href="#">Travel</a></div></div><h4 class="title"><a href="#">Travel story headline two</a></h4><div class="post-date">September 29, 2015</div></div><div class="thumb" aria-hidden="true"></div></li>
+            <li class="content_out small-post clearfix"><div class="post-c-wrap"><div class="meta"><div class="post-category"><a href="#">Travel</a></div></div><h4 class="title"><a href="#">Travel story headline three</a></h4><div class="post-date">September 29, 2015</div></div><div class="thumb" aria-hidden="true"></div></li>
+            <li class="content_out small-post clearfix"><div class="post-c-wrap"><div class="meta"><div class="post-category"><a href="#">Travel</a></div></div><h4 class="title"><a href="#">Travel story headline four</a></h4><div class="post-date">September 29, 2015</div></div><div class="thumb" aria-hidden="true"></div></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- REX: Load More bar -->
+    <section id="rex-loadmore" class="container">
+      <div style="border-top: 1px solid var(--keyline); border-bottom: 1px solid var(--keyline); padding: 24px 0;">
+        <div class="bk-loadmore"><a href="#" class="bk-btn-loadmore">Load More</a></div>
+      </div>
+    </section>
+
+    <!-- REX: Homepage Carousel (placeholder) -->
+    <section id="rex-home-carousel" class="container">
+      <div class="module-title">
+        <div class="main-title"><h2><span>BREAKING NEWS</h2></div>
+      </div>
+      <div class="module-breaking-carousel">
+        <div class="bk-carousel-wrap">
+          <ul class="bk-carousel">
+            <li class="content_out small-post clearfix"><div class="thumb" aria-hidden="true"></div><div class="post-c-wrap"><h4 class="title"><a href="#">Carousel item one</a></h4></div></li>
+            <li class="content_out small-post clearfix"><div class="thumb" aria-hidden="true"></div><div class="post-c-wrap"><h4 class="title"><a href="#">Carousel item two</a></h4></div></li>
+            <li class="content_out small-post clearfix"><div class="thumb" aria-hidden="true"></div><div class="post-c-wrap"><h4 class="title"><a href="#">Carousel item three</a></h4></div></li>
+          </ul>
+          <a class="flex-prev" href="#" aria-label="Previous"></a>
+          <a class="flex-next" href="#" aria-label="Next"></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- REX: Main Content with Sidebar Layout -->
+    <div class="bkwrapper container">
+      <div class="row rex-content-sidebar">
+        <!-- Main Content Column -->
+        <div class="col-md-8 has-sb main-content">
+          
+          <!-- MUSIC NEWS Section -->
+          <section id="rex-music-news" class="bkmodule">
+            <div class="module-title">
+              <div class="main-title"><h2><span>MUSIC</span> NEWS</h2></div>
+              <div class="sub-title">Place for the subtitle</div>
+            </div>
+            <div class="bk-grid-3col">
+              <article class="grid-item content_in">
+                <div class="post-thumb-wrap">
+                  <a href="#" class="thumb-link">
+                    <div class="thumb" aria-hidden="true"></div>
+                    <span class="post-category-badge">MUSIC</span>
+                  </a>
+                </div>
+                <div class="post-content">
+                  <h3 class="post-title"><a href="#">Tortor Adipiscing Class Potenti</a></h3>
+                  <div class="post-date"><span class="date-icon">🕐</span> September 29, 2015</div>
+                </div>
+              </article>
+              
+              <article class="grid-item content_in">
+                <div class="post-thumb-wrap">
+                  <a href="#" class="thumb-link">
+                    <div class="thumb" aria-hidden="true"></div>
+                    <span class="post-category-badge">MUSIC</span>
+                  </a>
+                </div>
+                <div class="post-content">
+                  <h3 class="post-title"><a href="#">Eros Lacus Primis Magna Leo Natoque</a></h3>
+                  <div class="post-date"><span class="date-icon">🕐</span> September 29, 2015</div>
+                </div>
+              </article>
+              
+              <article class="grid-item content_in">
+                <div class="post-thumb-wrap">
+                  <a href="#" class="thumb-link">
+                    <div class="thumb" aria-hidden="true"></div>
+                    <span class="post-category-badge">MUSIC</span>
+                  </a>
+                </div>
+                <div class="post-content">
+                  <h3 class="post-title"><a href="#">Dictum Hendrerit Nonummy Nisi</a></h3>
+                  <div class="post-date"><span class="date-icon">🕐</span> September 29, 2015</div>
+                </div>
+              </article>
+              
+              <article class="grid-item content_in">
+                <div class="post-thumb-wrap">
+                  <a href="#" class="thumb-link">
+                    <div class="thumb" aria-hidden="true"></div>
+                    <span class="post-category-badge">MUSIC</span>
+                  </a>
+                </div>
+                <div class="post-content">
+                  <h3 class="post-title"><a href="#">Duis Suspendisse Scelerisque Rhoncus</a></h3>
+                  <div class="post-date"><span class="date-icon">🕐</span> September 29, 2015</div>
+                </div>
+              </article>
+              
+              <article class="grid-item content_in">
+                <div class="post-thumb-wrap">
+                  <a href="#" class="thumb-link">
+                    <div class="thumb" aria-hidden="true"></div>
+                    <span class="post-category-badge">MUSIC</span>
+                  </a>
+                </div>
+                <div class="post-content">
+                  <h3 class="post-title"><a href="#">Fringilla Etiam Proin Sollicitudin Diam</a></h3>
+                  <div class="post-date"><span class="date-icon">🕐</span> September 29, 2015</div>
+                </div>
+              </article>
+              
+              <article class="grid-item content_in">
+                <div class="post-thumb-wrap">
+                  <a href="#" class="thumb-link">
+                    <div class="thumb" aria-hidden="true"></div>
+                    <span class="post-category-badge">MUSIC</span>
+                  </a>
+                </div>
+                <div class="post-content">
+                  <h3 class="post-title"><a href="#">Ipsum Iaculis Condimentum Ac</a></h3>
+                  <div class="post-date"><span class="date-icon">🕐</span> September 29, 2015</div>
+                </div>
+              </article>
+            </div>
+          </section>
+
+          <!-- LATEST ARTICLES Section -->
+          <section id="rex-latest-articles" class="bkmodule">
+            <div class="module-title">
+              <div class="main-title"><h2><span>LATEST</span> ARTICLES</h2></div>
+              <div class="sub-title">Place for the subtitle</div>
+            </div>
+            <div class="bk-grid-3col">
+              <article class="grid-item content_in">
+                <div class="post-thumb-wrap">
+                  <a href="#" class="thumb-link">
+                    <div class="thumb" aria-hidden="true"></div>
+                    <span class="post-category-badge">NEWS</span>
+                  </a>
+                </div>
+                <div class="post-content">
+                  <h3 class="post-title"><a href="#">Latest Article Headline One</a></h3>
+                  <div class="post-date"><span class="date-icon">🕐</span> September 29, 2015</div>
+                </div>
+              </article>
+              
+              <article class="grid-item content_in">
+                <div class="post-thumb-wrap">
+                  <a href="#" class="thumb-link">
+                    <div class="thumb" aria-hidden="true"></div>
+                    <span class="post-category-badge">TECH</span>
+                  </a>
+                </div>
+                <div class="post-content">
+                  <h3 class="post-title"><a href="#">Latest Article Headline Two</a></h3>
+                  <div class="post-date"><span class="date-icon">🕐</span> September 29, 2015</div>
+                </div>
+              </article>
+              
+              <article class="grid-item content_in">
+                <div class="post-thumb-wrap">
+                  <a href="#" class="thumb-link">
+                    <div class="thumb" aria-hidden="true"></div>
+                    <span class="post-category-badge">SPORT</span>
+                  </a>
+                </div>
+                <div class="post-content">
+                  <h3 class="post-title"><a href="#">Latest Article Headline Three</a></h3>
+                  <div class="post-date"><span class="date-icon">🕐</span> September 29, 2015</div>
+                </div>
+              </article>
+              
+              <article class="grid-item content_in">
+                <div class="post-thumb-wrap">
+                  <a href="#" class="thumb-link">
+                    <div class="thumb" aria-hidden="true"></div>
+                    <span class="post-category-badge">FASHION</span>
+                  </a>
+                </div>
+                <div class="post-content">
+                  <h3 class="post-title"><a href="#">Latest Article Headline Four</a></h3>
+                  <div class="post-date"><span class="date-icon">🕐</span> September 29, 2015</div>
+                </div>
+              </article>
+              
+              <article class="grid-item content_in">
+                <div class="post-thumb-wrap">
+                  <a href="#" class="thumb-link">
+                    <div class="thumb" aria-hidden="true"></div>
+                    <span class="post-category-badge">TRAVEL</span>
+                  </a>
+                </div>
+                <div class="post-content">
+                  <h3 class="post-title"><a href="#">Latest Article Headline Five</a></h3>
+                  <div class="post-date"><span class="date-icon">🕐</span> September 29, 2015</div>
+                </div>
+              </article>
+              
+              <article class="grid-item content_in">
+                <div class="post-thumb-wrap">
+                  <a href="#" class="thumb-link">
+                    <div class="thumb" aria-hidden="true"></div>
+                    <span class="post-category-badge">LIFESTYLE</span>
+                  </a>
+                </div>
+                <div class="post-content">
+                  <h3 class="post-title"><a href="#">Latest Article Headline Six</a></h3>
+                  <div class="post-date"><span class="date-icon">🕐</span> September 29, 2015</div>
+                </div>
+              </article>
+            </div>
+          </section>
+
+          <!-- EDITOR'S PICK Section -->
+          <section id="rex-editors-pick" class="bkmodule">
+            <div class="module-title">
+              <div class="main-title"><h2><span>EDITOR'S</span> PICK</h2></div>
+            </div>
+            <div class="bk-grid-3col">
+              <article class="grid-item content_in">
+                <div class="post-thumb-wrap">
+                  <a href="#" class="thumb-link">
+                    <div class="thumb" aria-hidden="true"></div>
+                    <span class="post-category-badge">FEATURED</span>
+                  </a>
+                </div>
+                <div class="post-content">
+                  <h3 class="post-title"><a href="#">Editor's Featured Story One</a></h3>
+                  <div class="post-date"><span class="date-icon">🕐</span> September 29, 2015</div>
+                </div>
+              </article>
+              
+              <article class="grid-item content_in">
+                <div class="post-thumb-wrap">
+                  <a href="#" class="thumb-link">
+                    <div class="thumb" aria-hidden="true"></div>
+                    <span class="post-category-badge">FEATURED</span>
+                  </a>
+                </div>
+                <div class="post-content">
+                  <h3 class="post-title"><a href="#">Editor's Featured Story Two</a></h3>
+                  <div class="post-date"><span class="date-icon">🕐</span> September 29, 2015</div>
+                </div>
+              </article>
+              
+              <article class="grid-item content_in">
+                <div class="post-thumb-wrap">
+                  <a href="#" class="thumb-link">
+                    <div class="thumb" aria-hidden="true"></div>
+                    <span class="post-category-badge">FEATURED</span>
+                  </a>
+                </div>
+                <div class="post-content">
+                  <h3 class="post-title"><a href="#">Editor's Featured Story Three</a></h3>
+                  <div class="post-date"><span class="date-icon">🕐</span> September 29, 2015</div>
+                </div>
+              </article>
+            </div>
+          </section>
+
+          <!-- VIDEO PLAYLIST Section -->
+          <section id="rex-video-playlist" class="bkmodule">
+            <div class="module-title">
+              <div class="main-title"><h2><span>VIDEO</span> PLAYLIST</h2></div>
+            </div>
+            <div class="bk-grid-3col">
+              <article class="grid-item content_in">
+                <div class="post-thumb-wrap">
+                  <a href="#" class="thumb-link">
+                    <div class="thumb video-thumb" aria-hidden="true">
+                      <span class="video-play-icon">▶</span>
+                    </div>
+                    <span class="post-category-badge">VIDEO</span>
+                  </a>
+                </div>
+                <div class="post-content">
+                  <h3 class="post-title"><a href="#">Featured Video Title One</a></h3>
+                  <div class="post-date"><span class="date-icon">🕐</span> September 29, 2015</div>
+                </div>
+              </article>
+              
+              <article class="grid-item content_in">
+                <div class="post-thumb-wrap">
+                  <a href="#" class="thumb-link">
+                    <div class="thumb video-thumb" aria-hidden="true">
+                      <span class="video-play-icon">▶</span>
+                    </div>
+                    <span class="post-category-badge">VIDEO</span>
+                  </a>
+                </div>
+                <div class="post-content">
+                  <h3 class="post-title"><a href="#">Featured Video Title Two</a></h3>
+                  <div class="post-date"><span class="date-icon">🕐</span> September 29, 2015</div>
+                </div>
+              </article>
+              
+              <article class="grid-item content_in">
+                <div class="post-thumb-wrap">
+                  <a href="#" class="thumb-link">
+                    <div class="thumb video-thumb" aria-hidden="true">
+                      <span class="video-play-icon">▶</span>
+                    </div>
+                    <span class="post-category-badge">VIDEO</span>
+                  </a>
+                </div>
+                <div class="post-content">
+                  <h3 class="post-title"><a href="#">Featured Video Title Three</a></h3>
+                  <div class="post-date"><span class="date-icon">🕐</span> September 29, 2015</div>
+                </div>
+              </article>
+            </div>
+          </section>
+
+          <!-- Ad Slot -->
+          <section id="rex-ad-slot" class="bkmodule">
+            <div class="bk-ad-placement">
+              <div class="ad-label">ADVERTISEMENT</div>
+              <div class="ad-size">728 x 90 Ad Space</div>
+            </div>
+          </section>
+
+        </div>
+
+        <!-- Sidebar Column -->
+        <aside class="sidebar col-md-4">
+          <div class="sidebar-wrap" id="rex-sidebar">
+            <div class="sidebar-wrap-inner">
+              
+              <!-- Connect Us Widget -->
+              <div class="widget widget-connect">
+                <h3 class="widget-title">CONNECT US</h3>
+                <div class="social-stats">
+                  <div class="social-item">
+                    <div class="social-icon twitter-icon">
+                      <span>🐦</span>
+                    </div>
+                    <div class="social-info">
+                      <div class="social-name">Envato</div>
+                      <div class="social-count">274.5K+</div>
+                      <div class="social-label">FOLLOWERS</div>
+                    </div>
+                  </div>
+                  <div class="social-item">
+                    <div class="social-icon facebook-icon">
+                      <span>f</span>
+                    </div>
+                    <div class="social-info">
+                      <div class="social-count">274.5K+</div>
+                      <div class="social-label">LIKES</div>
+                    </div>
+                  </div>
+                  <div class="social-item">
+                    <div class="social-icon dribbble-icon">
+                      <span>●</span>
+                    </div>
+                    <div class="social-info">
+                      <div class="social-count">4.5K+</div>
+                      <div class="social-label">FOLLOWERS</div>
+                    </div>
+                  </div>
+                  <div class="social-item">
+                    <div class="social-icon rss-icon">
+                      <span>RSS</span>
+                    </div>
+                    <div class="social-info">
+                      <div class="social-count">SUBSCRIBE</div>
+                      <div class="social-label">RSS FEEDS</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Latest Reviews Widget -->
+              <div class="widget widget-reviews">
+                <h3 class="widget-title">LATEST REVIEWS</h3>
+                <ul class="review-list">
+                  <li class="review-item">
+                    <div class="review-content">
+                      <h4 class="review-title"><a href="#">Odio Consequat Libero Laoreet Sit</a></h4>
+                      <div class="review-date"><span class="date-icon">🕐</span> September 29, 2015</div>
+                    </div>
+                    <a href="#" class="review-thumb-wrap">
+                      <div class="review-thumb" aria-hidden="true"></div>
+                      <span class="review-score">9.3</span>
+                    </a>
+                  </li>
+                  <li class="review-item">
+                    <div class="review-content">
+                      <h4 class="review-title"><a href="#">Taciti Magnis Praesent Tortor</a></h4>
+                      <div class="review-date"><span class="date-icon">🕐</span> September 29, 2015</div>
+                    </div>
+                    <a href="#" class="review-thumb-wrap">
+                      <div class="review-thumb" aria-hidden="true"></div>
+                      <span class="review-score">8.1</span>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+
+              <!-- Ad Widget -->
+              <div class="widget widget-ad">
+                <div class="sidebar-ad-placement">
+                  <div class="ad-label">ADVERTISEMENT</div>
+                  <div class="ad-size">300 x 250</div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </aside>
+
+      </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- BROOKLYN CONTENT STARTS HERE -->
+    <!-- ============================================ -->
+    
+    <!-- Brooklyn: Editor's Pick Hero Section -->
+    <section id="brooklyn-hero">
+      <div class="container">
+        <h2 class="hero-title">Editor's Pick Posts</h2>
+        
+        <div class="hero-grid">
+          
+          <!-- Row 1, Item 1 - VIDEO -->
+          <article class="hero-item">
+            <video class="hero-video" muted loop playsinline>
+              <source src="https://via.placeholder.com/600x400/1e293b/64748b?text=Content" type="video/mp4">
+            </video>
+            <div class="hero-overlay">
+              <span class="hero-category cat-fashion">FASHION</span>
+              <h3 class="hero-title-text">
+                <a href="#">Luxury Brands Changing Beauty</a>
+              </h3>
+              <p class="hero-date">9 Jan, 2018</p>
+            </div>
+            <div class="hero-nav">
+              <button>‹</button>
+              <button>›</button>
+            </div>
+          </article>
+          
+          <!-- Row 1, Item 2 - VIDEO -->
+          <article class="hero-item">
+            <video class="hero-video" muted loop playsinline>
+              <source src="https://via.placeholder.com/600x400/0f766e/14b8a6?text=Content" type="video/mp4">
+            </video>
+            <div class="hero-overlay">
+              <span class="hero-category cat-nutrition">NUTRITION</span>
+              <h3 class="hero-title-text">
+                <a href="#">Food You Should Eat Very Rarely</a>
+              </h3>
+              <p class="hero-date">12 Jan, 2018</p>
+            </div>
+            <div class="hero-nav">
+              <button>‹</button>
+              <button>›</button>
+            </div>
+          </article>
+          
+          <!-- Row 1, Item 3 - VIDEO -->
+          <article class="hero-item">
+            <video class="hero-video" muted loop playsinline>
+              <source src="https://via.placeholder.com/600x400/7e22ce/a855f7?text=Content" type="video/mp4">
+            </video>
+            <div class="hero-overlay">
+              <span class="hero-category cat-family">FAMILY</span>
+              <h3 class="hero-title-text">
+                <a href="#">Influence of Age-Gap in Modern Families</a>
+              </h3>
+              <p class="hero-date">29 Jan, 2018</p>
+            </div>
+            <div class="hero-nav">
+              <button>‹</button>
+              <button>›</button>
+            </div>
+          </article>
+          
+          <!-- Row 2, Item 4 - VIDEO -->
+          <article class="hero-item">
+            <video class="hero-video" muted loop playsinline>
+              <source src="https://via.placeholder.com/600x400/be123c/f43f5e?text=Content" type="video/mp4">
+            </video>
+            <div class="hero-overlay">
+              <span class="hero-category cat-design">DESIGN</span>
+              <h3 class="hero-title-text">
+                <a href="#">Modern Interior Design Trends</a>
+              </h3>
+              <p class="hero-date">15 Feb, 2018</p>
+            </div>
+            <div class="hero-nav">
+              <button>‹</button>
+              <button>›</button>
+            </div>
+          </article>
+          
+          <!-- Row 2, Item 5 - IMAGE -->
+          <article class="hero-item">
+            <img class="hero-image" src="data:image/svg+xml,%3Csvg width='600' height='400' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='600' height='400' fill='%23eab308'/%3E%3Ctext x='50%25' y='50%25' font-size='64' fill='white' text-anchor='middle' dy='.3em'%3E📷%3C/text%3E%3C/svg%3E" alt="Photography">
+            <div class="hero-overlay">
+              <span class="hero-category cat-photography">PHOTOGRAPHY</span>
+              <h3 class="hero-title-text">
+                <a href="#">7 Simple Processing Tips to Improve Your Photographs</a>
+              </h3>
+              <p class="hero-date">20 Feb, 2018</p>
+            </div>
+            <div class="hero-nav">
+              <button>‹</button>
+              <button>›</button>
+            </div>
+          </article>
+          
+          <!-- Row 2, Item 6 - VIDEO -->
+          <article class="hero-item">
+            <video class="hero-video" muted loop playsinline>
+              <source src="https://via.placeholder.com/600x400/0891b2/06b6d4?text=Content" type="video/mp4">
+            </video>
+            <div class="hero-overlay">
+              <span class="hero-category cat-lifestyle">LIFESTYLE</span>
+              <h3 class="hero-title-text">
+                <a href="#">Minimalist Home Design Trends</a>
+              </h3>
+              <p class="hero-date">5 Mar, 2018</p>
+            </div>
+            <div class="hero-nav">
+              <button>‹</button>
+              <button>›</button>
+            </div>
+          </article>
+          
+        </div>
+      </div>
+    </section>
+
+    <!-- Brooklyn: Editor's Pick Post (Singular) - Vertical List -->
+    <!-- LAYOUT: Text LEFT, Image RIGHT -->
+    <section class="brooklyn-editors-pick-post">
+      <div class="container">
+        <h2 class="section-title">Editor's Pick Post</h2>
+        
+        <ul class="brooklyn-vertical-list">
+          
+          <!-- Item 1: TEXT LEFT, IMAGE RIGHT -->
+          <li class="brooklyn-vertical-item">
+            <div class="vertical-content">
+              <span class="vertical-category cat-fashion">FASHION</span>
+              <h3 class="vertical-title">
+                <a href="#">7 Simple Processing Tips to Improve Your Photographs</a>
+              </h3>
+              <p class="vertical-excerpt">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris molestie leo ipsum, at suscipit nisi gravida sit amet. Suspendisse potenti.</p>
+              <p class="vertical-date">September 29, 2015</p>
+            </div>
+            <div class="vertical-image">
+              <img src="data:image/svg+xml,%3Csvg width='300' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='300' height='200' fill='%23e2e8f0'/%3E%3Ctext x='50%25' y='50%25' font-size='48' fill='%2394a3b8' text-anchor='middle' dy='.3em'%3E📸%3C/text%3E%3C/svg%3E" alt="Post thumbnail">
+            </div>
+          </li>
+          
+          <!-- Item 2: TEXT LEFT, IMAGE RIGHT -->
+          <li class="brooklyn-vertical-item">
+            <div class="vertical-content">
+              <span class="vertical-category cat-photography">PHOTOGRAPHY</span>
+              <h3 class="vertical-title">
+                <a href="#">Storytelling with Moving Still Images: The Art of Photography</a>
+              </h3>
+              <p class="vertical-excerpt">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris molestie leo ipsum, at suscipit nisi gravida sit amet. Suspendisse potenti.</p>
+              <p class="vertical-date">September 28, 2015</p>
+            </div>
+            <div class="vertical-image">
+              <img src="data:image/svg+xml,%3Csvg width='300' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='300' height='200' fill='%23dbeafe'/%3E%3Ctext x='50%25' y='50%25' font-size='48' fill='%2393c5fd' text-anchor='middle' dy='.3em'%3E📷%3C/text%3E%3C/svg%3E" alt="Post thumbnail">
+            </div>
+          </li>
+          
+          <!-- Item 3: TEXT LEFT, IMAGE RIGHT -->
+          <li class="brooklyn-vertical-item">
+            <div class="vertical-content">
+              <span class="vertical-category cat-lifestyle">LIFESTYLE</span>
+              <h3 class="vertical-title">
+                <a href="#">Fresh Art Events You Don't Want to Miss This Week</a>
+              </h3>
+              <p class="vertical-excerpt">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris molestie leo ipsum, at suscipit nisi gravida sit amet. Suspendisse potenti.</p>
+              <p class="vertical-date">September 27, 2015</p>
+            </div>
+            <div class="vertical-image">
+              <img src="data:image/svg+xml,%3Csvg width='300' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='300' height='200' fill='%23cffafe'/%3E%3Ctext x='50%25' y='50%25' font-size='48' fill='%2367e8f9' text-anchor='middle' dy='.3em'%3E🎨%3C/text%3E%3C/svg%3E" alt="Post thumbnail">
+            </div>
+          </li>
+          
+          <!-- Item 4: TEXT LEFT, IMAGE RIGHT -->
+          <li class="brooklyn-vertical-item">
+            <div class="vertical-content">
+              <span class="vertical-category cat-design">DESIGN</span>
+              <h3 class="vertical-title">
+                <a href="#">Vacation Locations of the Year 2018 Not to Be Missed</a>
+              </h3>
+              <p class="vertical-excerpt">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris molestie leo ipsum, at suscipit nisi gravida sit amet. Suspendisse potenti.</p>
+              <p class="vertical-date">September 26, 2015</p>
+            </div>
+            <div class="vertical-image">
+              <img src="data:image/svg+xml,%3Csvg width='300' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='300' height='200' fill='%23fecaca'/%3E%3Ctext x='50%25' y='50%25' font-size='48' fill='%23f87171' text-anchor='middle' dy='.3em'%3E✈️%3C/text%3E%3C/svg%3E" alt="Post thumbnail">
+            </div>
+          </li>
+          
+          <!-- Item 5: TEXT LEFT, IMAGE RIGHT -->
+          <li class="brooklyn-vertical-item">
+            <div class="vertical-content">
+              <span class="vertical-category cat-nutrition">NUTRITION</span>
+              <h3 class="vertical-title">
+                <a href="#">Reaching the Clouds with a Backpack</a>
+              </h3>
+              <p class="vertical-excerpt">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris molestie leo ipsum, at suscipit nisi gravida sit amet. Suspendisse potenti.</p>
+              <p class="vertical-date">September 25, 2015</p>
+            </div>
+            <div class="vertical-image">
+              <img src="data:image/svg+xml,%3Csvg width='300' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='300' height='200' fill='%23d1fae5'/%3E%3Ctext x='50%25' y='50%25' font-size='48' fill='%2334d399' text-anchor='middle' dy='.3em'%3E🏔️%3C/text%3E%3C/svg%3E" alt="Post thumbnail">
+            </div>
+          </li>
+          
+        </ul>
+      </div>
+    </section>
+
+    <!-- Brooklyn: Four Expandable Placeholders -->
+
+    <!-- Brooklyn: Six Image Placeholders Grid (3x2) -->
+    <section class="brooklyn-image-grid">
+      <div class="container">
+        <div class="image-grid">
+          
+          <!-- Grid Item 1 -->
+          <div class="grid-item">
+            <a href="#grid1" class="grid-link" onclick="toggleGridItem(event, 'grid1')">
+              <div class="grid-image-placeholder">
+                <span class="grid-placeholder-text">Image 1</span>
+              </div>
+              <h3 class="grid-title">Article Title 1</h3>
+              <span class="grid-expand-icon">+</span>
+            </a>
+            <div id="grid1" class="grid-content">
+              <p>Expanded content for article 1. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            </div>
+          </div>
+          
+          <!-- Grid Item 2 -->
+          <div class="grid-item">
+            <a href="#grid2" class="grid-link" onclick="toggleGridItem(event, 'grid2')">
+              <div class="grid-image-placeholder">
+                <span class="grid-placeholder-text">Image 2</span>
+              </div>
+              <h3 class="grid-title">Article Title 2</h3>
+              <span class="grid-expand-icon">+</span>
+            </a>
+            <div id="grid2" class="grid-content">
+              <p>Expanded content for article 2. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            </div>
+          </div>
+          
+          <!-- Grid Item 3 -->
+          <div class="grid-item">
+            <a href="#grid3" class="grid-link" onclick="toggleGridItem(event, 'grid3')">
+              <div class="grid-image-placeholder">
+                <span class="grid-placeholder-text">Image 3</span>
+              </div>
+              <h3 class="grid-title">Article Title 3</h3>
+              <span class="grid-expand-icon">+</span>
+            </a>
+            <div id="grid3" class="grid-content">
+              <p>Expanded content for article 3. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            </div>
+          </div>
+          
+          <!-- Grid Item 4 -->
+          <div class="grid-item">
+            <a href="#grid4" class="grid-link" onclick="toggleGridItem(event, 'grid4')">
+              <div class="grid-image-placeholder">
+                <span class="grid-placeholder-text">Image 4</span>
+              </div>
+              <h3 class="grid-title">Article Title 4</h3>
+              <span class="grid-expand-icon">+</span>
+            </a>
+            <div id="grid4" class="grid-content">
+              <p>Expanded content for article 4. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            </div>
+          </div>
+          
+          <!-- Grid Item 5 -->
+          <div class="grid-item">
+            <a href="#grid5" class="grid-link" onclick="toggleGridItem(event, 'grid5')">
+              <div class="grid-image-placeholder">
+                <span class="grid-placeholder-text">Image 5</span>
+              </div>
+              <h3 class="grid-title">Article Title 5</h3>
+              <span class="grid-expand-icon">+</span>
+            </a>
+            <div id="grid5" class="grid-content">
+              <p>Expanded content for article 5. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            </div>
+          </div>
+          
+          <!-- Grid Item 6 -->
+          <div class="grid-item">
+            <a href="#grid6" class="grid-link" onclick="toggleGridItem(event, 'grid6')">
+              <div class="grid-image-placeholder">
+                <span class="grid-placeholder-text">Image 6</span>
+              </div>
+              <h3 class="grid-title">Article Title 6</h3>
+              <span class="grid-expand-icon">+</span>
+            </a>
+            <div id="grid6" class="grid-content">
+              <p>Expanded content for article 6. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </section>
+
+    <!-- Brooklyn: Parallax Video Section -->
+    <section class="brooklyn-parallax-video" id="brooklyn-parallax">
+      <div class="parallax-overlay"></div>
+      <div class="parallax-content">
+        <h1 class="parallax-title">The artist who has never existed:<br>modern myths</h1>
+        <a href="https://vimeo.com/140798682" class="video-play-button" target="_blank" rel="noopener">
+          <div class="video-play-icon">
+            <span class="play-arrow">▶</span>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <!-- Brooklyn: Two Column Section - Large Left + 3 Items Right -->
+    <section class="brooklyn-two-column">
+      <div class="container">
+        
+      </div>
+    </section>
+
+    <!-- Brooklyn: Grid Section -->
+    <section class="brooklyn-section">
+      <div class="container">
+        
+      </div>
+    </section>
+
+    <!-- Brooklyn: Feature Section with List (Text Left, Image Right) -->
+    <section class="brooklyn-feature-section">
+      <div class="container">
+        <div class="brooklyn-feature-layout">
+          
+          <!-- Main Feature Post -->
+          <article class="brooklyn-feature-main">
+            <div class="brooklyn-feature-main-image">
+              <div style="background:#f0e68c;width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#999;font-size:64px;">🎭</div>
+            </div>
+            <h2 class="brooklyn-feature-main-title">
+              <a href="#">The Artist Who Has Never Existed: Modern Myths</a>
+            </h2>
+            <p class="brooklyn-feature-main-excerpt">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris molestie leo ipsum, at suscipit nisi gravida sit amet. Suspendisse potenti. Sed ac mauris quis nisi consequat tincidunt vel in eros.</p>
+          </article>
+          
+          <!-- Side List (Text Left, Image Right) -->
+          <aside>
+            <ul class="brooklyn-list">
+              <li class="brooklyn-list-item">
+                <div class="brooklyn-list-content">
+                  <h3 class="brooklyn-list-title">
+                    <a href="#">A Yellow Dreamscape Totally Hidden from Reality</a>
+                  </h3>
+                  <p class="brooklyn-list-excerpt">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris molestie leo.</p>
+                </div>
+                <div class="brooklyn-list-image">
+                  <div style="background:#ffe4b5;width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#999;">🌟</div>
+                </div>
+              </li>
+              
+              <li class="brooklyn-list-item">
+                <div class="brooklyn-list-content">
+                  <h3 class="brooklyn-list-title">
+                    <a href="#">Violence in the Media: What Effects on Behavior</a>
+                  </h3>
+                  <p class="brooklyn-list-excerpt">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris molestie leo.</p>
+                </div>
+                <div class="brooklyn-list-image">
+                  <div style="background:#f0e68c;width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#999;">📺</div>
+                </div>
+              </li>
+              
+              <li class="brooklyn-list-item">
+                <div class="brooklyn-list-content">
+                  <h3 class="brooklyn-list-title">
+                    <a href="#">Spectacular Vegetables to Enjoy in the Winter Time</a>
+                  </h3>
+                  <p class="brooklyn-list-excerpt">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris molestie leo.</p>
+                </div>
+                <div class="brooklyn-list-image">
+                  <div style="background:#98fb98;width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#999;">🥬</div>
+                </div>
+              </li>
+            </ul>
+          </aside>
+          
+        </div>
+      </div>
+    </section>
+
+    <!-- Brooklyn: Additional List Section (Text Left, Image Right) -->
+    <section class="brooklyn-list-section">
+      <div class="container">
+        <h2 class="section-title">Latest Stories</h2>
+        
+        <ul class="brooklyn-list">
+          <li class="brooklyn-list-item">
+            <div class="brooklyn-list-content">
+              <h3 class="brooklyn-list-title">
+                <a href="#">A Comprehensive List of the 50 Best Museums in the World</a>
+              </h3>
+              <p class="brooklyn-list-excerpt">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris molestie leo ipsum, at suscipit nisi gravida sit amet. Suspendisse potenti.</p>
+            </div>
+            <div class="brooklyn-list-image">
+              <div style="background:#e8e8e8;width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#999;font-size:32px;">🏛️</div>
+            </div>
+          </li>
+          
+          <li class="brooklyn-list-item">
+            <div class="brooklyn-list-content">
+              <h3 class="brooklyn-list-title">
+                <a href="#">Newcomers to Watch Out for on the NY Triathlon</a>
+              </h3>
+              <p class="brooklyn-list-excerpt">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris molestie leo ipsum, at suscipit nisi gravida sit amet. Suspendisse potenti.</p>
+            </div>
+            <div class="brooklyn-list-image">
+              <div style="background:#e8e8e8;width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#999;font-size:32px;">🏊</div>
+            </div>
+          </li>
+          
+          <li class="brooklyn-list-item">
+            <div class="brooklyn-list-content">
+              <h3 class="brooklyn-list-title">
+                <a href="#">Cloning Factories Could Save Species in the Future, But Is It Ethical</a>
+              </h3>
+              <p class="brooklyn-list-excerpt">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris molestie leo ipsum, at suscipit nisi gravida sit amet. Suspendisse potenti.</p>
+            </div>
+            <div class="brooklyn-list-image">
+              <div style="background:#e8e8e8;width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#999;font-size:32px;">🧬</div>
+            </div>
+          </li>
+          
+          <li class="brooklyn-list-item">
+            <div class="brooklyn-list-content">
+              <h3 class="brooklyn-list-title">
+                <a href="#">What Are the Best Plants to Have in Your Bedroom and Why</a>
+              </h3>
+              <p class="brooklyn-list-excerpt">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris molestie leo ipsum, at suscipit nisi gravida sit amet. Suspendisse potenti.</p>
+            </div>
+            <div class="brooklyn-list-image">
+              <div style="background:#e8e8e8;width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#999;font-size:32px;">🌿</div>
+            </div>
+          </li>
+        </ul>
+        
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    // Populate Rex Carousel from API
+    async function loadRexCarousel() {
+      try {
+        const response = await fetch('/api/rex-carousel');
+        const data = await response.json();
+        
+        if (data.status === 'success' && data.articles && data.articles.length > 0) {
+          const wrap = document.querySelector('#rex-home-carousel .bk-carousel');
+          if (!wrap) return;
+          
+          // Clear placeholder content
+          wrap.innerHTML = '';
+          
+          // Create carousel items
+          data.articles.forEach(article => {
+            const li = document.createElement('li');
+            li.className = 'content_out small-post clearfix';
+            
+            const imageUrl = article.imageUrl || 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=800&q=80';
+            
+            li.innerHTML = `
+              <div class="thumb" style="background-image: url('${imageUrl}'); background-size: cover; background-position: center;"></div>
+              <div class="post-c-wrap">
+                <h4 class="title">
+                  <a href="${article.link || '#'}" target="_blank" rel="noopener noreferrer">${article.title}</a>
+                </h4>
+                <div class="post-meta" style="margin-top: 6px; font-size: 12px; color: #999;">
+                  ${article.source || 'News'}
+                </div>
+              </div>
+            `;
+            
+            wrap.appendChild(li);
+          });
+          
+          console.log(`✓ Rex Carousel populated with ${data.articles.length} items`);
+          initRexCarouselNav();
+        }
+      } catch (err) {
+        console.error('Failed to load Rex carousel:', err);
+      }
+    }
+    
+    // Initialize Rex Carousel navigation after content is loaded
+    function initRexCarouselNav() {
+      var wrap = document.querySelector('#rex-home-carousel .bk-carousel');
+      if(!wrap) return;
+      var prev = document.querySelector('#rex-home-carousel .flex-prev');
+      var next = document.querySelector('#rex-home-carousel .flex-next');
+      function advance(dir){
+        var items = wrap.querySelectorAll('li');
+        if(items.length < 2) return;
+        if(dir>0){ wrap.appendChild(items[0]); }
+        else { wrap.insertBefore(items[items.length-1], items[0]); }
+      }
+      prev && prev.addEventListener('click', function(e){e.preventDefault(); advance(-1)});
+      next && next.addEventListener('click', function(e){e.preventDefault(); advance(1)});
+    }
+
+
+    // Brooklyn Hero - Video playback on hover
+    (function(){
+      var heroItems = document.querySelectorAll('#brooklyn-hero .hero-item');
+      heroItems.forEach(function(item){
+        var video = item.querySelector('.hero-video');
+        if(video){
+          item.addEventListener('mouseenter', function(){
+            video.play();
+          });
+          item.addEventListener('mouseleave', function(){
+            video.pause();
+          });
+        }
+      });
+    })();
+
+    // Brooklyn Placeholder Toggle
+    function togglePlaceholder(event, id) {
+      event.preventDefault();
+      var content = document.getElementById(id);
+      var icon = event.currentTarget.querySelector('.placeholder-icon');
+      
+      // Toggle active class
+      if(content.classList.contains('active')) {
+        content.classList.remove('active');
+        icon.textContent = '+';
+      } else {
+        // Close all other placeholders
+        document.querySelectorAll('.placeholder-content').forEach(function(item){
+          item.classList.remove('active');
+        });
+        document.querySelectorAll('.placeholder-icon').forEach(function(item){
+          item.textContent = '+';
+        });
+        
+        // Open this placeholder
+        content.classList.add('active');
+        icon.textContent = '−';
+      }
+    }
+
+    // Brooklyn Grid Item Toggle
+    function toggleGridItem(event, id) {
+      event.preventDefault();
+      var content = document.getElementById(id);
+      var icon = event.currentTarget.querySelector('.grid-expand-icon');
+      
+      // Toggle active class
+      if(content.classList.contains('active')) {
+        content.classList.remove('active');
+        icon.textContent = '+';
+      } else {
+        // Close all other grid items
+        document.querySelectorAll('.grid-content').forEach(function(item){
+          item.classList.remove('active');
+        });
+        document.querySelectorAll('.grid-expand-icon').forEach(function(item){
+          item.textContent = '+';
+        });
+        
+        // Open this grid item
+        content.classList.add('active');
+        icon.textContent = '−';
+      }
+    }
+
+    // Brooklyn Parallax Effect
+    (function(){
+      var parallaxSection = document.getElementById('brooklyn-parallax');
+      if(!parallaxSection) return;
+      
+      window.addEventListener('scroll', function(){
+        var scrolled = window.pageYOffset;
+        var sectionTop = parallaxSection.offsetTop;
+        var sectionHeight = parallaxSection.offsetHeight;
+        
+        // Only apply parallax when section is in view
+        if(scrolled + window.innerHeight > sectionTop && scrolled < sectionTop + sectionHeight) {
+          var offset = (scrolled - sectionTop) * 0.5;
+          parallaxSection.style.backgroundPosition = 'center ' + (-offset) + 'px';
+        }
+      });
+    })();
+  </script>
+
+  <!-- REX: Footer widgets + footer -->
+  <footer class="bk-footer">
+    <div class="container bk-footer-widgets">
+      <div class="bk-footer-col">
+        <h4 class="title">About Rex</h4>
+        <p>Placeholder copy for the Rex footer about section.</p>
+      </div>
+      <div class="bk-footer-col">
+        <h4 class="title">Categories</h4>
+        <ul class="bk-footer-list"><li>Updates</li><li>Sports</li><li>Technology</li><li>Lifestyle</li></ul>
+      </div>
+      <div class="bk-footer-col">
+        <h4 class="title">Follow</h4>
+        <ul class="bk-footer-social"><li>FB</li><li>TW</li><li>IG</li></ul>
+      </div>
+    </div>
+    <div class="container bk-copyright">
+      <p>© Rex Theme — placeholders only</p>
+    </div>
+  </footer>
+
+<script>
+(function(){
+  const root = document.getElementById('double-cover');
+  if(!root) return;
+  const slides = Array.from(root.querySelectorAll('.slide'));
+  const prev = root.querySelector('.prev');
+  const next = root.querySelector('.next');
+  const railNext = root.querySelector('.rail .next');
+  const qthumbs = Array.from(root.querySelectorAll('.qthumb'));
+  let i = 0;
+  const dur = 6500;
+  let timer;
+
+  const titles = slides.map(s => s.querySelector('.title').textContent.trim());
+  const thumbs = [
+    'https://images.unsplash.com/photo-1516387938699-a93567ec168e?q=80&w=640&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1502784444185-1a17bca6cf1a?q=80&w=640&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?q=80&w=640&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1521292270410-a8c04f0f3d5b?q=80&w=640&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1439546743462-802cabef8e97?q=80&w=640&auto=format&fit=crop'
+  ];
+
+  function setActive(idx){
+    i = (idx + slides.length) % slides.length;
+    slides.forEach(s => s.classList.remove('active'));
+    qthumbs.forEach(t => t.classList.remove('active'));
+    slides[i].classList.add('active');
+    const qi = qthumbs.find(t => +t.dataset.i === i);
+    if(qi) qi.classList.add('active');
+
+    // Update NEXT card at the bottom
+    const nextI = (i + 1) % slides.length;
+    railNext.dataset.target = nextI;
+    const img = railNext.querySelector('.thumb img');
+    const name = railNext.querySelector('.name');
+    img.src = thumbs[nextI];
+    name.textContent = titles[nextI];
+  }
+
+  function play(){
+    clearInterval(timer);
+    timer = setInterval(()=>setActive(i+1), dur);
+  }
+
+  prev.addEventListener('click', ()=>{ setActive(i-1); play(); });
+  next.addEventListener('click', ()=>{ setActive(i+1); play(); });
+  railNext.addEventListener('click', ()=>{ setActive((i+1)%slides.length); play(); });
+  qthumbs.forEach(t => t.addEventListener('click', ()=>{ setActive(+t.dataset.i); play(); }));
+
+  // Init
+  setActive(0);
+  play();
+})();
+</script>
+
+
+  <script>
+    // YOUR 3 RSS FEEDS + 1 General News Feed for specific topics
+    const RSS_FEEDS = [
+      {
+        url: 'https://www.espn.com/espn/rss/news',
+        category: 'SPORTS',
+        color: '#d32f2f',
+        topics: ['World Series', '2025 World Series', 'MLB'],
+        source: 'ESPN',
+        sourceIcon: 'https://www.google.com/s2/favicons?domain=espn.com&sz=32'
+      },
+      {
+        url: 'https://rss.app/feeds/tN6TfKaJzhcPYYkB.xml',
+        category: 'WORLD NEWS',
+        color: '#1976d2',
+        topics: ['Hurricane', 'Immigration', 'Deportation'],
+        source: 'World News Network',
+        sourceIcon: 'https://www.google.com/s2/favicons?domain=rss.app&sz=32'
+      },
+      {
+        url: 'https://rss.app/feeds/tUo3SJ8AHWweCZGH.xml',
+        category: 'TECHNOLOGY',
+        color: '#7b1fa2',
+        topics: ['Tech', 'Innovation'],
+        source: 'Tech News Network',
+        sourceIcon: 'https://www.google.com/s2/favicons?domain=rss.app&sz=32'
+      },
+      {
+        url: 'https://rss.nytimes.com/services/xml/rss/nyt/US.xml',
+        category: 'US NEWS',
+        color: '#d32f2f',
+        topics: ['SNAP', 'Benefits', 'Government', 'Hurricane Melissa'],
+        source: 'New York Times',
+        sourceIcon: 'https://www.google.com/s2/favicons?domain=nytimes.com&sz=32'
+      }
+    ];
+    
+    // Try multiple CORS proxies
+    const CORS_PROXIES = [
+      'https://api.rss2json.com/v1/api.json?rss_url=',
+      'https://api.allorigins.win/raw?url='
+    ];
+    
+    let currentProxyIndex = 0;
+    
+    // Fetch with fallback proxies
+    async function fetchRSSFeed(feed, retries = 2) {
+      for (let attempt = 0; attempt < retries; attempt++) {
+        try {
+          const proxy = CORS_PROXIES[currentProxyIndex];
+          const url = proxy + encodeURIComponent(feed.url);
+          
+          console.log(`Fetching ${feed.category} from ${feed.url}`);
+          
+          const response = await fetch(url, {
+            method: 'GET',
+            headers: { 'Accept': 'application/json' }
+          });
+          
+          if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+          }
+          
+          const data = await response.json();
+          const items = data.items || [];
+          
+          console.log(`Got ${items.length} items from ${feed.category}`);
+          
+          return items.slice(0, 3).map(item => ({
+            ...item,
+            category: feed.category,
+            categoryColor: feed.color,
+            feedTopics: feed.topics,
+            source: feed.source,
+            sourceIcon: feed.sourceIcon
+          }));
+        } catch (error) {
+          console.error(`Attempt ${attempt + 1} failed for ${feed.category}:`, error);
+          
+          // Try next proxy
+          if (attempt < retries - 1) {
+            currentProxyIndex = (currentProxyIndex + 1) % CORS_PROXIES.length;
+            await new Promise(resolve => setTimeout(resolve, 1000)); // Wait 1s before retry
+          }
+        }
+      }
+      
+      console.error(`All attempts failed for ${feed.category}`);
+      return [];
+    }
+    
+    // Fetch all feeds from our Node.js API
+    async function loadAllFeeds() {
+      console.log('Loading news from API...');
+      
+      try {
+        const response = await fetch('/api/news');
+        const data = await response.json();
+        
+        if (data.status === 'success' && data.articles) {
+          console.log(`Fetched ${data.articles.length} articles from API`);
+          return data.articles.map(article => ({
+            title: article.title,
+            description: article.description || '',
+            link: article.link || '#',
+            category: article.category || 'US NEWS',
+            categoryColor: getCategoryColor(article.category),
+            pubDate: article.pubDate || new Date().toISOString(),
+            author: article.author || 'News Wire',
+            thumbnail: article.imageUrl,
+            source: article.source || 'News Wire',
+            sourceIcon: article.sourceIcon || 'https://www.google.com/s2/favicons?domain=example.com&sz=32'
+          }));
+        }
+      } catch (err) {
+        console.error('API fetch failed:', err);
+      }
+      
+      console.log('Using fallback items');
+      return createFallbackItems();
+    }
+    
+    // Get category color
+    function getCategoryColor(category) {
+      const colors = {
+        'SPORTS': '#d32f2f',
+        'WORLD NEWS': '#1976d2',
+        'US NEWS': '#d32f2f',
+        'TECHNOLOGY': '#388e3c'
+      };
+      return colors[category] || '#d32f2f';
+    }
+    
+    // Fallback demo items if feeds fail
+    function createFallbackItems() {
+      return [
+        {
+          title: 'World Series Game 7 Tonight: Dodgers vs Blue Jays at Rogers Centre',
+          description: 'Historic Game 7 showdown as defending champion Dodgers face Blue Jays seeking first title in 32 years. Game starts at 8 PM ET on FOX.',
+          link: '#',
+          category: 'SPORTS',
+          categoryColor: '#d32f2f',
+          pubDate: new Date().toISOString(),
+          author: 'MLB News Wire',
+          thumbnail: 'https://images.unsplash.com/photo-1566577739112-5180d4bf9390?w=1920&q=80',
+          source: 'ESPN',
+          sourceIcon: 'https://www.google.com/s2/favicons?domain=espn.com&sz=32'
+        },
+        {
+          title: 'Hurricane Melissa Devastates Jamaica as One of Strongest Atlantic Hurricanes',
+          description: 'Category 5 Hurricane Melissa made landfall in Jamaica with 185 mph winds, tied for strongest Atlantic landfall on record. Death toll rises across Caribbean.',
+          link: '#',
+          category: 'WORLD NEWS',
+          categoryColor: '#1976d2',
+          pubDate: new Date(Date.now() - 3600000).toISOString(),
+          author: 'Weather Center',
+          thumbnail: 'https://images.unsplash.com/photo-1527482797697-8795b05a13fe?w=1920&q=80',
+          source: 'World News Network',
+          sourceIcon: 'https://www.google.com/s2/favicons?domain=rss.app&sz=32'
+        },
+        {
+          title: 'SNAP Benefits Suspended: 42 Million Americans Face Food Assistance Delay',
+          description: 'Government shutdown causes November SNAP payments to be suspended. Federal judges order emergency funding as food banks brace for crisis.',
+          link: '#',
+          category: 'US NEWS',
+          categoryColor: '#d32f2f',
+          pubDate: new Date(Date.now() - 7200000).toISOString(),
+          author: 'Policy Reporter',
+          thumbnail: 'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=1920&q=80',
+          source: 'New York Times',
+          sourceIcon: 'https://www.google.com/s2/favicons?domain=nytimes.com&sz=32'
+        },
+        {
+          title: 'DHS Announces Record Deportations: Over 500,000 Removed Since January',
+          description: 'Trump administration reports historic deportation figures with 1.6 million self-deportations. Supreme Court allows third-country removals to continue.',
+          link: '#',
+          category: 'US NEWS',
+          categoryColor: '#d32f2f',
+          pubDate: new Date(Date.now() - 10800000).toISOString(),
+          author: 'Immigration Correspondent',
+          thumbnail: 'https://images.unsplash.com/photo-1585829365295-ab7cd400c167?w=1920&q=80',
+          source: 'World News Network',
+          sourceIcon: 'https://www.google.com/s2/favicons?domain=rss.app&sz=32'
+        },
+        {
+          title: 'Dodgers Force Game 7 with Dramatic 3-1 Victory Over Blue Jays',
+          description: 'Los Angeles defeats Toronto in Game 6. Kiké Hernández makes crucial double play in 9th inning. Winner-take-all game tonight.',
+          link: '#',
+          category: 'SPORTS',
+          categoryColor: '#d32f2f',
+          pubDate: new Date(Date.now() - 14400000).toISOString(),
+          author: 'Sports Desk',
+          thumbnail: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=1920&q=80',
+          source: 'ESPN',
+          sourceIcon: 'https://www.google.com/s2/favicons?domain=espn.com&sz=32'
+        },
+        {
+          title: 'Food Banks Prepare for Surge as SNAP Cliff Takes Effect',
+          description: 'Emergency food assistance networks brace for historic demand as government shutdown disrupts benefit payments for millions of families.',
+          link: '#',
+          category: 'US NEWS',
+          categoryColor: '#d32f2f',
+          pubDate: new Date(Date.now() - 18000000).toISOString(),
+          author: 'Social Services Beat',
+          thumbnail: 'https://images.unsplash.com/photo-1593113598332-cd288d649433?w=1920&q=80',
+          source: 'New York Times',
+          sourceIcon: 'https://www.google.com/s2/favicons?domain=nytimes.com&sz=32'
+        }
+      ];
+    }
+    
+    // Get image
+    function getImageUrl(item) {
+      if (item.thumbnail) return item.thumbnail;
+      if (item.enclosure?.link) return item.enclosure.link;
+      const imgMatch = (item.description || '').match(/<img[^>]+src="([^">]+)"/);
+      if (imgMatch) return imgMatch[1];
+      
+      const fallbacks = {
+        'SPORTS': 'https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=1920&q=80',
+        'WORLD NEWS': 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=1920&q=80',
+        'TECHNOLOGY': 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=1920&q=80',
+        'US NEWS': 'https://images.unsplash.com/photo-1585829365295-ab7cd400c167?w=1920&q=80'
+      };
+      return fallbacks[item.category] || fallbacks['US NEWS'];
+    }
+    
+    function stripHTML(html) {
+      const tmp = document.createElement('div');
+      tmp.innerHTML = html || '';
+      return tmp.textContent || tmp.innerText || '';
+    }
+    
+    function formatDate(dateString) {
+      const date = new Date(dateString);
+      const now = new Date();
+      const diffMs = now - date;
+      const diffMins = Math.floor(diffMs / 60000);
+      if (diffMins < 60) return diffMins + 'm ago';
+      if (diffMins < 1440) return Math.floor(diffMins / 60) + 'h ago';
+      return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    }
+    
+    // Create slides
+    function createHeroSlides(items) {
+      const container = document.querySelector('#double-cover .cover-wrap');
+      if (!container) {
+        console.error('Double cover container not found');
+        return;
+      }
+      
+      // Clear loading state
+      container.innerHTML = '';
+      
+      items.forEach((item, index) => {
+        const slide = document.createElement('div');
+        slide.className = 'slide' + (index === 0 ? ' active' : '');
+        slide.dataset.i = index;
+        slide.style.backgroundImage = `url('${getImageUrl(item)}')`;
+        
+        slide.innerHTML = `
+          <a href="${item.link || '#'}" target="_blank" rel="noopener noreferrer" class="slide-link">
+            <div class="scrim"></div>
+            <div class="caption">
+            <div class="kicker">${item.category}</div>
+            <div class="title">${item.title}</div>
+            <div class="meta">
+              ${item.sourceIcon ? `<img src="${item.sourceIcon}" alt="${item.source || 'Source'}" class="source-icon">` : ''}
+              <span class="source-name">${item.source || item.author || 'News Wire'}</span>
+              <span class="meta-separator">·</span>
+            </div>
+          </div>
+          </a>
+        `;
+        container.appendChild(slide);
+      });
+      
+      // Add controls
+      const ctrl = document.createElement('div');
+      ctrl.className = 'ctrl';
+      ctrl.innerHTML = `
+        <button class="prev" aria-label="Previous">‹</button>
+        <button class="next" aria-label="Next">›</button>
+      `;
+      container.appendChild(ctrl);
+      
+      // Add rail
+      const rail = document.createElement('div');
+      rail.className = 'rail';
+      rail.innerHTML = `
+        <div class="next" data-target="1">
+          <div class="thumb"><img src="${getImageUrl(items[1] || items[0])}" alt="Next"></div>
+          <div class="text">
+            <div class="label">Next</div>
+            <div class="name">${(items[1] || items[0]).title}</div>
+          </div>
+        </div>
+        <div class="queue">
+          ${items.slice(0, 5).map((item, i) => `
+            <div class="qthumb${i === 0 ? ' active' : ''}" data-i="${i}">
+              <img src="${getImageUrl(item)}" alt="${item.category}">
+            </div>
+          `).join('')}
+        </div>
+      `;
+      container.appendChild(rail);
+      
+      initCarousel(items);
+    }
+    
+    // Carousel
+    function initCarousel(items) {
+      const root = document.getElementById('double-cover');
+      if (!root) return;
+      
+      const slides = Array.from(root.querySelectorAll('.slide'));
+      const prev = root.querySelector('.prev');
+      const next = root.querySelector('.next');
+      const nextCard = root.querySelector('.rail .next');
+      const qthumbs = Array.from(root.querySelectorAll('.qthumb'));
+      let i = 0;
+      const dur = 8000;
+      let timer;
+      
+      function setActive(idx) {
+        i = (idx + slides.length) % slides.length;
+        slides.forEach(s => s.classList.remove('active'));
+        qthumbs.forEach(t => t.classList.remove('active'));
+        if (slides[i]) slides[i].classList.add('active');
+        if (qthumbs[i]) qthumbs[i].classList.add('active');
+        
+        const nextI = (i + 1) % slides.length;
+        if (nextCard && items[nextI]) {
+          nextCard.dataset.target = nextI;
+          const img = nextCard.querySelector('.thumb img');
+          const name = nextCard.querySelector('.name');
+          if (img) img.src = getImageUrl(items[nextI]);
+          if (name) name.textContent = items[nextI].title;
+        }
+      }
+      
+      function play() {
+        clearInterval(timer);
+        timer = setInterval(() => setActive(i + 1), dur);
+      }
+      
+      if (prev) prev.addEventListener('click', () => { setActive(i - 1); play(); });
+      if (next) next.addEventListener('click', () => { setActive(i + 1); play(); });
+      if (nextCard) nextCard.addEventListener('click', () => { setActive((i + 1) % slides.length); play(); });
+      qthumbs.forEach(t => t.addEventListener('click', () => { setActive(+t.dataset.i); play(); }));
+      
+      setActive(0);
+      play();
+    }
+    
+    // Initialize
+    document.addEventListener('DOMContentLoaded', async () => {
+      console.log('Initializing Everybody\'s News...');
+      const items = await loadAllFeeds();
+      createHeroSlides(items);
+      
+      // Load Rex Carousel
+      await loadRexCarousel();
+      
+      // Refresh every 5 minutes
+      setInterval(async () => {
+        const refreshed = await loadAllFeeds();
+        await loadRexCarousel();
+        createHeroSlides(refreshed);
+      }, 300000);
+    });
+  </script>
+
+</body>
+</html>
