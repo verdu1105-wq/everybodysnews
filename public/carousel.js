@@ -245,44 +245,51 @@ async function fetchRexCarousel() {
 // Initialize all carousels
 async function initAllCarousels() {
   try {
-    // Fetch HERO Carousel (First carousel - uses /api/news)
-    const breakingNews = await fetchBreakingNews();
+    // Fetch data from both endpoints
+    const breakingNews = await fetchBreakingNews();  // /api/news - ABC News, Reuters, BBC, AP + MediaStack
+    const rexNews = await fetchRexCarousel();         // /api/rex-carousel - ESPN, TechCrunch, The Verge, CNN + MediaStack
+
     console.log('Hero carousel articles:', breakingNews.length);
+    console.log('Rex carousel articles:', rexNews.length);
+
+    // Carousel 1: Hero/Breaking News - Top Stories
     if (breakingNews.length > 0) {
       initCarousel('breaking', breakingNews, 'BREAKING');
+    } else {
+      console.error('No articles for hero carousel');
     }
 
-    // Fetch REX Carousel (Second carousel - ABC News + MediaStack + ESPN + Tech + CNN)
-    const rexNews = await fetchRexCarousel();
-    console.log('Rex carousel articles:', rexNews.length);
+    // Carousel 2: Rex Carousel - ESPN, Tech, CNN (THE ONE YOU MODIFIED)
     if (rexNews.length > 0) {
       initCarousel('abc', rexNews, 'LATEST NEWS');
+    } else {
+      console.error('No articles for Rex carousel');
     }
 
-    // Fetch Sports News (Third carousel - same as Rex for now)
+    // Carousel 3: Sports News - Filter sports from Rex or show all Rex
     if (rexNews.length > 0) {
-      const sportsArticles = rexNews.filter(a => a.category && a.category.toLowerCase().includes('sport'));
-      if (sportsArticles.length > 0) {
-        initCarousel('sports', sportsArticles, 'SPORTS');
-      } else {
-        initCarousel('sports', rexNews.slice(0, 10), 'SPORTS');
-      }
+      const sports = rexNews.filter(a =>
+        (a.source && a.source.toLowerCase().includes('espn')) ||
+        (a.category && a.category.toLowerCase().includes('sport'))
+      );
+      initCarousel('sports', sports.length > 0 ? sports : rexNews, 'SPORTS');
     }
 
-    // Fetch World News (Fourth carousel - same as Hero for now)
+    // Carousel 4: World News - Use Hero carousel data
     if (breakingNews.length > 0) {
-      initCarousel('world', breakingNews.slice(0, 15), 'WORLD');
+      initCarousel('world', breakingNews, 'WORLD');
     }
 
-    // Fetch Technology News (Fifth carousel - tech articles from Rex)
+    // Carousel 5: Technology News - Filter tech from Rex
     if (rexNews.length > 0) {
-      const techArticles = rexNews.filter(a => a.category && a.category.toLowerCase().includes('tech'));
-      if (techArticles.length > 0) {
-        initCarousel('tech', techArticles, 'TECHNOLOGY');
-      } else {
-        initCarousel('tech', rexNews.slice(0, 10), 'TECHNOLOGY');
-      }
+      const tech = rexNews.filter(a =>
+        (a.source && (a.source.toLowerCase().includes('tech') || a.source.toLowerCase().includes('verge'))) ||
+        (a.category && a.category.toLowerCase().includes('tech'))
+      );
+      initCarousel('tech', tech.length > 0 ? tech : rexNews, 'TECHNOLOGY');
     }
+
+    console.log('All carousels initialized');
   } catch (error) {
     console.error('Error initializing carousels:', error);
   }
