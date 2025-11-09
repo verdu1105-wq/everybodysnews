@@ -1,0 +1,85 @@
+/**
+ * REX CAROUSEL HEIGHT AND PADDING ADJUSTMENTS
+ * Add this to your existing CSS or create a new rex-custom.css file
+ * and link it in your HTML after your other CSS files
+ */
+
+/* Rex Carousel Container Adjustments */
+#rex-home-carousel {
+  /* Reduced height from default */
+  min-height: 420px; /* Adjusted from ~500px */
+  padding: 1.5rem 0; /* Adjusted padding */
+}
+
+#rex-home-carousel .bk-carousel-wrap {
+  /* Container adjustments */
+  padding: 1rem; /* Reduced from 1.5rem */
+}
+
+#rex-home-carousel .bk-carousel {
+  /* List container adjustments */
+  gap: 12px; /* Slightly reduced gap */
+}
+
+#rex-home-carousel .bk-carousel > li {
+  /* Individual carousel item adjustments */
+  padding: 0.75rem; /* Reduced internal padding */
+}
+
+#rex-home-carousel .thumb {
+  /* Thumbnail aspect ratio adjustment for tighter layout */
+  aspect-ratio: 16/9;
+  min-height: 180px; /* Reduced from ~220px */
+}
+
+#rex-home-carousel .title {
+  /* Title spacing adjustment */
+  margin: 0.5rem 0 0; /* Reduced top margin */
+  font-size: 15px; /* Slightly reduced */
+  line-height: 1.3;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  #rex-home-carousel {
+    min-height: 380px;
+    padding: 1.25rem 0;
+  }
+  
+  #rex-home-carousel .thumb {
+    min-height: 160px;
+  }
+}
+
+@media (max-width: 768px) {
+  #rex-home-carousel {
+    min-height: 350px;
+    padding: 1rem 0;
+  }
+  
+  #rex-home-carousel .bk-carousel-wrap {
+    padding: 0.75rem;
+  }
+  
+  #rex-home-carousel .thumb {
+    min-height: 140px;
+  }
+}
+
+@media (max-width: 480px) {
+  #rex-home-carousel {
+    min-height: 320px;
+    padding: 0.75rem 0;
+  }
+  
+  #rex-home-carousel .bk-carousel-wrap {
+    padding: 0.5rem;
+  }
+  
+  #rex-home-carousel .thumb {
+    min-height: 120px;
+  }
+}
+
+/* Alternative: If your Rex carousel uses different class names, adjust these */
+/* Replace #rex-home-carousel with your actual Rex carousel ID */
