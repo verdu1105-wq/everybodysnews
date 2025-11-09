@@ -249,26 +249,48 @@ async function getCachedRexArticles() {
   return [];
 }
 
-// Hero carousel endpoint - uses heroFeeds
+// Hero carousel endpoint - combines heroFeeds with MediaStack API
 app.get('/api/news', async (req, res) => {
   try {
-    const articles = await getCachedHeroArticles();
-    
-    if (articles.length > 0) {
-      const shuffled = [...articles].sort(() => 0.5 - Math.random());
-      const topStories = shuffled.slice(0, 8);
-      
+    // Fetch RSS feed articles
+    const rssArticles = await getCachedHeroArticles();
+
+    // Fetch MediaStack articles if enabled
+    let mediastackArticles = [];
+    if (MEDIASTACK_ENABLED) {
+      mediastackArticles = await fetchMediaStackNews({
+        sources: 'cnn,bbc,abc-news',
+        categories: 'general,business,sports',
+        languages: 'en',
+        sort: 'published_desc',
+        limit: 25
+      });
+    }
+
+    // Combine both sources
+    const allArticles = [...rssArticles, ...mediastackArticles];
+
+    if (allArticles.length > 0) {
+      // Sort by date and take top items
+      const sorted = [...allArticles].sort((a, b) =>
+        new Date(b.pubDate) - new Date(a.pubDate)
+      );
+      const topStories = sorted.slice(0, 40);
+
       res.json({
         status: 'success',
         articles: topStories,
         totalResults: topStories.length,
-        source: 'hero-feeds',
+        sources: {
+          rss: rssArticles.length,
+          mediastack: mediastackArticles.length
+        },
         cached: (Date.now() - heroLastFetch) < CACHE_DURATION,
         cacheAge: Math.floor((Date.now() - heroLastFetch) / 1000)
       });
       return;
     }
-    
+
     res.json({
       status: 'error',
       message: 'No articles available',

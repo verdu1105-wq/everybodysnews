@@ -1,13 +1,15 @@
 // feeds-config-custom.js
 module.exports = {
   refreshInterval: 180000, // 3 minutes
-  articlesPerFeed: 12,
+  articlesPerFeed: 20, // Increased to show more news
 
   // MediaStack API Configuration
   mediastackApiKey: '96759e8f7a664ec0ee650f1fa7043992',
   mediastackEnabled: true,
 
+  // Hero Carousel Feeds - Top carousel with ABC News and diverse sources
   heroFeeds: [
+    { source: 'ABC News', category: 'Breaking News', enabled: true, url: 'http://feeds.abcnews.com/abcnews/topstories' },
     { source: 'Reuters', category: 'Top', enabled: true, url: 'https://www.reuters.com/rssFeed/topNews' },
     { source: 'BBC',     category: 'Top', enabled: true, url: 'http://feeds.bbci.co.uk/news/rss.xml' },
     { source: 'AP',      category: 'Top', enabled: true, url: 'https://apnews.com/hub/apf-topnews?utm_source=apnews.com&utm_medium=referral&utm_campaign=rss' }
