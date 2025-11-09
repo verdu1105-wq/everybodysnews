@@ -3,8 +3,7 @@ const cors = require('cors');
 const path = require('path');
 const fs = require('fs');
 const Parser = require('rss-parser');
-const feedsConfig = require('./feeds-config-custom');
-// *** CHANGE 2: Added axios for MediaStack API integration ***
+const feedsConfig = require('./feeds-config-custom');// *** CHANGE 2: Added axios for MediaStack API integration ***
 const axios = require('axios');
 // *** END CHANGE 2a ***
 
