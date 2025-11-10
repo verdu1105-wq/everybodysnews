@@ -23,8 +23,10 @@ const feedsConfig = {
   // Increased to 20 for better article diversity
   articlesPerFeed: 20, 
   
-  // Auto-refresh interval on frontend (milliseconds)
-  refreshInterval: 180000, // 3 minutes
+  // Auto-refresh interval (milliseconds) - SET TO 6 HOURS (21,600,000 ms)
+  refreshInterval: 21600000, 
+  
+// ... (rest of feedsConfig)
   
   // HERO CAROUSEL FEEDS (Top full-screen carousel)
   heroFeeds: [
@@ -242,8 +244,7 @@ let heroArticlesCache = [];
 let heroLastFetch = 0;
 let rexArticlesCache = [];
 let rexLastFetch = 0;
-const CACHE_DURATION = 180000; // 3 minutes
-
+const CACHE_DURATION = 21600000; // 6 hours (must match refreshInterval)
 // Get cached hero articles
 async function getCachedHeroArticles() {
   const now = Date.now();
