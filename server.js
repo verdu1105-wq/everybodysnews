@@ -1,4 +1,4 @@
-const express = require('express');
+onst express = require('express');
 const Parser = require('rss-parser');
 const cors = require('cors');
 const path = require('path');
@@ -10,7 +10,7 @@ const app = express();
 const parser = new Parser({
   timeout: 10000,
   headers: {
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit=537.36'
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
   }
 });
 
@@ -25,7 +25,8 @@ const feedsConfig = {
     { url: 'https://rss.app/feeds/tUqVtqZPdYfXDvOb.xml', category: 'BREAKING NEWS', source: 'Hero Feed 1', sourceIcon: 'https://www.google.com/s2/favicons?domain=rss.app&sz=32', enabled: true },
     { url: 'https://rss.app/feeds/tUo3SJ8AHWweCZGH.xml', category: 'BREAKING NEWS', source: 'Hero Feed 2', sourceIcon: 'https://www.google.com/s2/favicons?domain=rss.app&sz=32', enabled: true },
     { url: 'https://rss.app/feeds/tzd0p7jgUZ0rydym.xml', category: 'TRENDING NEWS', source: 'Trending News Wire', sourceIcon: 'https://www.google.com/s2/favicons?domain=rss.app&sz=32', enabled: true },
-    { url: 'https://rss.app/feeds/tN6TfKaJzhcPYYkB.xml', category: 'BREAKING NEWS', source: 'Hero Feed 4', sourceIcon: 'https://www.google.com/s2/favicons?domain=rss.app&sz=32', enabled: true }
+    { url: 'https://rss.app/feeds/tN6TfKaJzhcPYYkB.xml', category: 'BREAKING NEWS', source: 'Hero Feed 4', sourceIcon: 'https://www.google.com/s2/favicons?domain=rss.app&sz=32', enabled: true },
+    { url: 'https://www.msnbc.com/feeds/latest', category: 'MSNBC NEWS', source: 'MSNBC', sourceIcon: 'https://www.google.com/s2/favicons?domain=msnbc.com&sz=32', enabled: true }
   ],
   
   rexFeeds: [
@@ -97,7 +98,8 @@ function extractSourceFromLink(link) {
       'cnn.com': 'CNN',
       'bbc.com': 'BBC News',
       'foxsports.com': 'Fox Sports',
-      'espn.com': 'ESPN'
+      'espn.com': 'ESPN',
+      'msnbc.com': 'MSNBC'
     };
     
     for (const [key, value] of Object.entries(sourceMap)) {
@@ -133,7 +135,7 @@ function getFaviconForLink(link) {
 
 // Fetch RSS feeds from a specific list
 async function fetchRSSFeeds(feedsList, feedType = 'feeds') {
-  console.log(`🔄 Fetching ${feedType}...`);
+  console.log(`📄 Fetching ${feedType}...`);
   const allArticles = [];
   
   for (const feed of feedsList) {
@@ -160,6 +162,7 @@ async function fetchRSSFeeds(feedsList, feedType = 'feeds') {
         });
       
       allArticles.push(...articles);
+      console.log(`  ✓ ${feed.source}: ${articles.length} articles`);
     } catch (error) {
       console.error(`  ✗ ${feedType} - ${feed.source}: ${error.message}`);
     }
@@ -173,8 +176,6 @@ let heroArticlesCache = [];
 let heroLastFetch = 0;
 let rexArticlesCache = [];
 let rexLastFetch = 0;
-// CACHE_DURATION is defined at the top
-// const CACHE_DURATION = 21600000; // 6 hours (Removed to prevent redeclaration crash)
 
 // Get cached hero articles
 async function getCachedHeroArticles() {
