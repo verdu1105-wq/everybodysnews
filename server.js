@@ -3,7 +3,6 @@ const Parser = require('rss-parser');
 const cors = require('cors');
 const path = require('path');
 const axios = require('axios');
-// CRITICAL MISSING IMPORTS ADDED
 const fs = require('fs');
 const { URL } = require('url'); 
 
@@ -11,14 +10,13 @@ const app = express();
 const parser = new Parser({
   timeout: 10000,
   headers: {
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit=537.36'
   }
 });
 
 // =================================================================
-// FEEDS CONFIGURATION & DEFINITIONS
+// FEEDS CONFIGURATION & DEFINITIONS (CRASH FIX: Defined in file)
 // =================================================================
-
 const feedsConfig = {
   // Increased to 20 for better article diversity
   articlesPerFeed: 20, 
@@ -26,83 +24,25 @@ const feedsConfig = {
   // Auto-refresh interval (milliseconds) - SET TO 6 HOURS (21,600,000 ms)
   refreshInterval: 21600000, 
   
-// ... (rest of feedsConfig)
-  
-  // HERO CAROUSEL FEEDS (Top full-screen carousel)
+  // HERO CAROUSEL FEEDS
   heroFeeds: [
-    {
-      url: 'https://rss.app/feeds/tUqVtqZPdYfXDvOb.xml',
-      category: 'BREAKING NEWS',
-      source: 'Hero Feed 1',
-      sourceIcon: 'https://www.google.com/s2/favicons?domain=rss.app&sz=32',
-      enabled: true
-    },
-    {
-      url: 'https://rss.app/feeds/tUo3SJ8AHWweCZGH.xml',
-      category: 'BREAKING NEWS',
-      source: 'Hero Feed 2',
-      sourceIcon: 'https://www.google.com/s2/favicons?domain=rss.app&sz=32',
-      enabled: true
-    },
-    {
-      url: 'https://rss.app/feeds/tBLoUxhBvRIBKfsK.xml',
-      category: 'BREAKING NEWS',
-      source: 'Hero Feed 3',
-      sourceIcon: 'https://www.google.com/s2/favicons?domain=rss.app&sz=32',
-      enabled: true
-    },
-    {
-      url: 'https://rss.app/feeds/tN6TfKaJzhcPYYkB.xml',
-      category: 'BREAKING NEWS',
-      source: 'Hero Feed 4',
-      sourceIcon: 'https://www.google.com/s2/favicons?domain=rss.app&sz=32',
-      enabled: true
-    }
+    { url: 'https://rss.app/feeds/tUqVtqZPdYfXDvOb.xml', category: 'BREAKING NEWS', source: 'Hero Feed 1', sourceIcon: 'https://www.google.com/s2/favicons?domain=rss.app&sz=32', enabled: true },
+    { url: 'https://rss.app/feeds/tUo3SJ8AHWweCZGH.xml', category: 'BREAKING NEWS', source: 'Hero Feed 2', sourceIcon: 'https://www.google.com/s2/favicons?domain=rss.app&sz=32', enabled: true },
+    { url: 'https://rss.app/feeds/tzd0p7jgUZ0rydym.xml', category: 'TRENDING NEWS', source: 'Trending News Wire', sourceIcon: 'https://www.google.com/s2/favicons?domain=rss.app&sz=32', enabled: true },
+    { url: 'https://rss.app/feeds/tN6TfKaJzhcPYYkB.xml', category: 'BREAKING NEWS', source: 'Hero Feed 4', sourceIcon: 'https://www.google.com/s2/favicons?domain=rss.app&sz=32', enabled: true }
   ],
   
-  // REX CAROUSEL FEEDS (Used for Rex Carousel AND Sports Section)
+  // REX CAROUSEL FEEDS (FOX SPORTS IS REMOVED HERE)
   rexFeeds: [
-    {
-      url: 'https://rss.app/feeds/t9YE5uF7k6PbmNn7.xml',
-      category: 'SPORTS NEWS', 
-      source: 'Rex Feed 1',
-      sourceIcon: 'https://www.google.com/s2/favicons?domain=rss.app&sz=32',
-      enabled: true
-    },
-    // REQUESTED FEED: College Sports
-    {
-      url: 'https://rss.app/feeds/tOMVwoo9puEGj8Fe.xml',
-      category: 'COLLEGE SPORTS', 
-      source: 'College Sports',
-      sourceIcon: 'https://www.google.com/s2/favicons?domain=rss.app&sz=32',
-      enabled: true
-    },
-    // REQUESTED FEED: Fox Sports
-    {
-      url: 'https://rss.app/feeds/tEE4mnpApP7xjfy6.xml',
-      category: 'FOX SPORTS', 
-      source: 'Fox Sports',
-      sourceIcon: 'https://www.google.com/s2/favicons?domain=foxsports.com&sz=32',
-      enabled: true
-    },
-    // REQUESTED FEED: General ESPN
-    {
-      url: 'https://www.espn.com/espn/rss/news',
-      category: 'GENERAL SPORTS',
-      source: 'ESPN Sports',
-      sourceIcon: 'https://www.google.com/s2/favicons?domain=espn.com&sz=32',
-      enabled: true
-    },
-    // REQUESTED FEED: ABC News
-    {
-      url: 'http://feeds.abcnews.com/abcnews/topstories',
-      category: 'ABC NEWS',
-      source: 'ABC News',
-      sourceIcon: 'https://www.google.com/s2/favicons?domain=abcnews.go.com&sz=32',
-      enabled: true
-    }
+    { url: 'https://rss.app/feeds/t9YE5uF7k6PbmNn7.xml', category: 'SPORTS NEWS', source: 'Rex Feed 1', sourceIcon: 'https://www.google.com/s2/favicons?domain=rss.app&sz=32', enabled: true },
+    { url: 'https://rss.app/feeds/tOMVwoo9puEGj8Fe.xml', category: 'COLLEGE SPORTS', source: 'College Sports', sourceIcon: 'https://www.google.com/s2/favicons?domain=rss.app&sz=32', enabled: true },
+    { url: 'https://www.espn.com/espn/rss/news', category: 'GENERAL SPORTS', source: 'ESPN Sports', sourceIcon: 'https://www.google.com/s2/favicons?domain=espn.com&sz=32', enabled: true },
+    { url: 'http://feeds.abcnews.com/abcnews/topstories', category: 'ABC NEWS', source: 'ABC News', sourceIcon: 'https://www.google.com/s2/favicons?domain=abcnews.go.com&sz=32', enabled: true }
   ]
 };
+const CACHE_DURATION = feedsConfig.refreshInterval;
+// =================================================================
+
 
 // =================================================================
 // MediaStack API Configuration
@@ -131,7 +71,6 @@ const rexFeeds = feedsConfig.rexFeeds ? feedsConfig.rexFeeds.filter(f => f.enabl
 
 // Helper to extract image from RSS item
 function extractImage(item) {
-  // Checks multiple known RSS image fields
   if (item.media && item.media.$ && item.media.$.url) {
     return item.media.$.url;
   }
@@ -157,7 +96,6 @@ function extractSourceFromLink(link) {
     const url = new URL(link);
     const domain = url.hostname.replace('www.', '');
     
-    // Map common domains to readable names
     const sourceMap = {
       'nytimes.com': 'New York Times',
       'abcnews.go.com': 'ABC News',
@@ -202,7 +140,6 @@ function getFaviconForLink(link) {
 async function fetchRSSFeeds(feedsList, feedType = 'feeds') {
   console.log(`🔄 Fetching ${feedType}...`);
   const allArticles = [];
-  const startTime = Date.now();
   
   for (const feed of feedsList) {
     try {
@@ -233,9 +170,6 @@ async function fetchRSSFeeds(feedsList, feedType = 'feeds') {
     }
   }
   
-  const duration = ((Date.now() - startTime) / 1000).toFixed(2);
-  console.log(`✨ ${feedType}: Fetched ${allArticles.length} articles in ${duration}s`);
-  
   return allArticles;
 }
 
@@ -244,7 +178,8 @@ let heroArticlesCache = [];
 let heroLastFetch = 0;
 let rexArticlesCache = [];
 let rexLastFetch = 0;
-const CACHE_DURATION = 21600000; // 6 hours (must match refreshInterval)
+const CACHE_DURATION = 21600000; // 6 hours
+
 // Get cached hero articles
 async function getCachedHeroArticles() {
   const now = Date.now();
@@ -387,7 +322,7 @@ app.get('/health', async (req, res) => {
 
 const PORT = process.env.PORT || 8080;
 
-// Start server
+// Start server (Final working setup)
 app.listen(PORT, '0.0.0.0', async () => {
   console.log(`\n🚀 Everybody's News Server running on port: ${PORT}\n`);
   
