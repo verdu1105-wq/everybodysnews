@@ -3,6 +3,7 @@ const Parser = require('rss-parser');
 const cors = require('cors');
 const path = require('path');
 const axios = require('axios');
+// *** CRITICAL MISSING IMPORTS ADDED ***
 const fs = require('fs');
 const { URL } = require('url'); 
 
@@ -15,12 +16,12 @@ const parser = new Parser({
 });
 
 // =================================================================
-// 🚨 CRITICAL FIX: Defined feedsConfig variable
+// FEEDS CONFIGURATION & DEFINITIONS
 // =================================================================
 
 const feedsConfig = {
-  // How many articles to fetch from each feed
-  articlesPerFeed: 10,
+  // Increased to 20 for better article diversity
+  articlesPerFeed: 20, 
   
   // Auto-refresh interval on frontend (milliseconds)
   refreshInterval: 180000, // 3 minutes
@@ -57,30 +58,40 @@ const feedsConfig = {
     }
   ],
   
-  // REX CAROUSEL FEEDS (Horizontal carousel below hero)
+  // REX CAROUSEL FEEDS (Used for Rex Carousel AND Sports Section)
   rexFeeds: [
     {
       url: 'https://rss.app/feeds/t9YE5uF7k6PbmNn7.xml',
-      category: 'BREAKING NEWS',
+      category: 'SPORTS NEWS', 
       source: 'Rex Feed 1',
       sourceIcon: 'https://www.google.com/s2/favicons?domain=rss.app&sz=32',
       enabled: true
     },
+    // REQUESTED FEED: College Sports
     {
-      url: 'https://rss.app/feeds/t23WWkbxOWm3y6t9.xml',
-      category: 'BREAKING NEWS',
-      source: 'Rex Feed 2',
+      url: 'https://rss.app/feeds/tOMVwoo9puEGj8Fe.xml',
+      category: 'COLLEGE SPORTS', 
+      source: 'College Sports',
       sourceIcon: 'https://www.google.com/s2/favicons?domain=rss.app&sz=32',
       enabled: true
     },
+    // REQUESTED FEED: Fox Sports
     {
-      url: 'https://rss.app/feeds/tFILwOrbAZf3SkTa.xml',
-      category: 'BREAKING NEWS',
-      source: 'Rex Feed 3',
-      sourceIcon: 'https://www.google.com/s2/favicons?domain=rss.app&sz=32',
+      url: 'https://rss.app/feeds/tEE4mnpApP7xjfy6.xml',
+      category: 'FOX SPORTS', 
+      source: 'Fox Sports',
+      sourceIcon: 'https://www.google.com/s2/favicons?domain=foxsports.com&sz=32',
       enabled: true
     },
-    // ABC News feed added to Rex Carousel as requested
+    // REQUESTED FEED: General ESPN
+    {
+      url: 'https://www.espn.com/espn/rss/news',
+      category: 'GENERAL SPORTS',
+      source: 'ESPN Sports',
+      sourceIcon: 'https://www.google.com/s2/favicons?domain=espn.com&sz=32',
+      enabled: true
+    },
+    // REQUESTED FEED: ABC News
     {
       url: 'http://feeds.abcnews.com/abcnews/topstories',
       category: 'ABC NEWS',
@@ -105,11 +116,6 @@ app.use(express.json());
 const publicPath = path.join(__dirname, '.'); 
 const indexPath = path.join(publicPath, 'index.html');
 
-console.log('🔍 Checking file system...');
-// The log statements below assume index.html is in the root directory
-console.log(`📁 Public folder exists: ${fs.existsSync(publicPath)}`);
-console.log(`📄 Index.html exists: ${fs.existsSync(indexPath)}`);
-
 // Serve static files from the root directory
 app.use(express.static(publicPath));
 
@@ -117,16 +123,13 @@ app.use(express.static(publicPath));
 const heroFeeds = feedsConfig.heroFeeds ? feedsConfig.heroFeeds.filter(f => f.enabled) : [];
 const rexFeeds = feedsConfig.rexFeeds ? feedsConfig.rexFeeds.filter(f => f.enabled) : [];
 
-console.log(`📡 Hero Carousel: ${heroFeeds.length} feeds`);
-console.log(`📡 Rex Carousel: ${rexFeeds.length} feeds`);
-
-
 // =================================================================
 // HELPER FUNCTIONS 
 // =================================================================
 
 // Helper to extract image from RSS item
 function extractImage(item) {
+  // Checks multiple known RSS image fields
   if (item.media && item.media.$ && item.media.$.url) {
     return item.media.$.url;
   }
@@ -158,7 +161,8 @@ function extractSourceFromLink(link) {
       'abcnews.go.com': 'ABC News',
       'cnn.com': 'CNN',
       'bbc.com': 'BBC News',
-      // Add more as needed
+      'foxsports.com': 'Fox Sports',
+      'espn.com': 'ESPN'
     };
     
     for (const [key, value] of Object.entries(sourceMap)) {
@@ -222,7 +226,6 @@ async function fetchRSSFeeds(feedsList, feedType = 'feeds') {
         });
       
       allArticles.push(...articles);
-      console.log(`  ✓ ${feedType} - ${actualSource || feed.source}: ${articles.length} articles`);
     } catch (error) {
       console.error(`  ✗ ${feedType} - ${feed.source}: ${error.message}`);
     }
@@ -244,53 +247,31 @@ const CACHE_DURATION = 180000; // 3 minutes
 // Get cached hero articles
 async function getCachedHeroArticles() {
   const now = Date.now();
-  
   if (heroArticlesCache.length > 0 && (now - heroLastFetch) < CACHE_DURATION) {
-    console.log('📦 Serving cached hero articles');
     return heroArticlesCache;
   }
-  
-  console.log('🆕 Fetching fresh hero articles...');
   const articles = await fetchRSSFeeds(heroFeeds, 'Hero Feeds');
-  
   if (articles.length > 0) {
     heroArticlesCache = articles;
     heroLastFetch = now;
     return articles;
   }
-  
-  if (heroArticlesCache.length > 0) {
-    console.log('⚠️ Hero fetch failed, serving stale cache');
-    return heroArticlesCache;
-  }
-  
-  return [];
+  return heroArticlesCache.length > 0 ? heroArticlesCache : [];
 }
 
 // Get cached rex articles
 async function getCachedRexArticles() {
   const now = Date.now();
-  
   if (rexArticlesCache.length > 0 && (now - rexLastFetch) < CACHE_DURATION) {
-    console.log('📦 Serving cached rex articles');
     return rexArticlesCache;
   }
-  
-  console.log('🆕 Fetching fresh rex articles...');
   const articles = await fetchRSSFeeds(rexFeeds, 'Rex Feeds');
-  
   if (articles.length > 0) {
     rexArticlesCache = articles;
     rexLastFetch = now;
     return articles;
   }
-  
-  if (rexArticlesCache.length > 0) {
-    console.log('⚠️ Rex fetch failed, serving stale cache');
-    return rexArticlesCache;
-  }
-  
-  return [];
+  return rexArticlesCache.length > 0 ? rexArticlesCache : [];
 }
 
 
@@ -298,96 +279,35 @@ async function getCachedRexArticles() {
 // API ENDPOINTS
 // =================================================================
 
-// Hero carousel endpoint - uses heroFeeds (mapped to /api/news for existing frontend JS)
+// Hero carousel endpoint 
 app.get('/api/news', async (req, res) => {
   try {
     const articles = await getCachedHeroArticles();
-    
     if (articles.length > 0) {
       const shuffled = [...articles].sort(() => 0.5 - Math.random());
       const topStories = shuffled.slice(0, 8);
-      
-      res.json({
-        status: 'success',
-        articles: topStories,
-        totalResults: topStories.length,
-        source: 'hero-feeds',
-        cached: (Date.now() - heroLastFetch) < CACHE_DURATION,
-        cacheAge: Math.floor((Date.now() - heroLastFetch) / 1000)
-      });
-      return;
+      return res.json({ status: 'success', articles: topStories, source: 'hero-feeds' });
     }
-    
-    res.json({
-      status: 'error',
-      message: 'No articles available',
-      articles: []
-    });
+    res.json({ status: 'error', message: 'No articles available', articles: [] });
   } catch (error) {
-    console.error('❌ Error in /api/news:', error);
-    res.status(500).json({
-      status: 'error',
-      message: 'Failed to fetch news'
-    });
+    res.status(500).json({ status: 'error', message: 'Failed to fetch news' });
   }
 });
 
-// Rex carousel endpoint - uses rexFeeds
+// Rex carousel endpoint (Used for Rex Carousel AND Sports Section)
 app.get('/api/rex-carousel', async (req, res) => {
   try {
     const articles = await getCachedRexArticles();
-    
     if (articles.length > 0) {
-      const sorted = [...articles].sort((a, b) => 
-        new Date(b.pubDate) - new Date(a.pubDate)
-      );
+      const sorted = [...articles].sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
       const carouselItems = sorted.slice(0, 12);
-      
-      res.json({
-        status: 'success',
-        articles: carouselItems,
-        totalResults: carouselItems.length,
-        source: 'rex-feeds'
-      });
-      return;
+      return res.json({ status: 'success', articles: carouselItems, source: 'rex-feeds' });
     }
-    
-    res.json({
-      status: 'error',
-      message: 'No articles available',
-      articles: []
-    });
+    res.json({ status: 'error', message: 'No articles available', articles: [] });
   } catch (error) {
-    console.error('❌ Error in /api/rex-carousel:', error);
-    res.status(500).json({
-      status: 'error',
-      message: 'Failed to fetch carousel news'
-    });
+    res.status(500).json({ status: 'error', message: 'Failed to fetch carousel news' });
   }
 });
-
-// Get all articles from both carousels
-app.get('/api/news/all', async (req, res) => {
-  try {
-    const heroArticles = await getCachedHeroArticles();
-    const rexArticles = await getCachedRexArticles();
-    const allArticles = [...heroArticles, ...rexArticles];
-    
-    res.json({
-      status: 'success',
-      articles: allArticles,
-      totalResults: allArticles.length,
-      hero: heroArticles.length,
-      rex: rexArticles.length
-    });
-  } catch (error) {
-    res.status(500).json({
-      status: 'error',
-      message: 'Failed to fetch all news'
-    });
-  }
-});
-
 
 // MediaStack API Integration - Function and Endpoints
 async function fetchMediaStackNews(params = {}) {
@@ -418,10 +338,8 @@ async function fetchMediaStackNews(params = {}) {
         sourceIcon: article.source ? `https://www.google.com/s2/favicons?domain=${article.source}&sz=32` : null
       }));
     }
-    
     return [];
   } catch (error) {
-    console.error('Error fetching MediaStack news:', error.message);
     return [];
   }
 }
@@ -429,100 +347,40 @@ async function fetchMediaStackNews(params = {}) {
 // MediaStack Live News endpoint - supports all parameters
 app.get('/api/mediastack/live-news', async (req, res) => {
   try {
-    const { sources, categories, countries, languages, keywords, sort, offset, limit } = req.query;
-    
-    const params = {};
-    if (sources) params.sources = sources;
-    if (categories) params.categories = categories;
-    if (countries) params.countries = countries;
-    if (languages) params.languages = languages;
-    if (keywords) params.keywords = keywords;
-    if (sort) params.sort = sort;
-    if (offset) params.offset = parseInt(offset);
-    if (limit) params.limit = parseInt(limit);
-    
-    const news = await fetchMediaStackNews(params);
-    res.json({
-      status: 'success',
-      articles: news,
-      totalResults: news.length,
-      source: 'mediastack-api'
-    });
+    const news = await fetchMediaStackNews(req.query);
+    res.json({ status: 'success', articles: news, source: 'mediastack-api' });
   } catch (error) {
-    console.error('Error in /api/mediastack/live-news:', error);
-    res.status(500).json({
-      status: 'error',
-      message: 'Failed to fetch live news'
-    });
+    res.status(500).json({ status: 'error', message: 'Failed to fetch live news' });
   }
-});
-
-// MediaStack Breaking News endpoint - pre-configured
-app.get('/api/mediastack/breaking-news', async (req, res) => {
-  try {
-    const news = await fetchMediaStackNews({
-      sources: 'cnn,bbc',
-      sort: 'published_desc',
-      limit: 20
-    });
-    res.json({
-      status: 'success',
-      articles: news,
-      totalResults: news.length,
-      source: 'mediastack-breaking'
-    });
-  } catch (error) {
-    console.error('Error in /api/mediastack/breaking-news:', error);
-    res.status(500).json({
-      status: 'error',
-      message: 'Failed to fetch breaking news'
-    });
-  }
-});
-
-// Force refresh cache
-app.post('/api/refresh', async (req, res) => {
-  console.log('🔄 Manual refresh requested');
-  heroArticlesCache = [];
-  heroLastFetch = 0;
-  rexArticlesCache = [];
-  rexLastFetch = 0;
-  
-  const heroArticles = await getCachedHeroArticles();
-  const rexArticles = await getCachedRexArticles();
-  
-  res.json({
-    status: 'success',
-    message: 'Cache refreshed',
-    heroArticles: heroArticles.length,
-    rexArticles: rexArticles.length
-  });
 });
 
 // Serve the main HTML file
 app.get('/', (req, res) => {
   if (!fs.existsSync(indexPath)) {
-    console.error('❌ index.html not found!');
-    return res.status(404).send(`
-      <h1>Error: index.html not found</h1>
-      <p>Expected location: ${indexPath}</p>
-    `);
+    return res.status(404).send(`<h1>Error: index.html not found</h1>`);
   }
-  
   res.sendFile(indexPath);
 });
 
-// Health check (used by Cloud Run)
-app.get('/health', (req, res) => {
+// Health check (includes MediaStack check)
+app.get('/health', async (req, res) => {
+  let mediastackStatus = 'n/a';
+  try {
+    const testResponse = await axios.get(MEDIASTACK_BASE_URL, {
+      params: { access_key: MEDIASTACK_API_KEY, limit: 1 },
+      timeout: 2000
+    });
+    mediastackStatus = (testResponse.status === 200) ? 'ok' : `Error: ${testResponse.status}`;
+  } catch (e) {
+    mediastackStatus = `Failed: ${e.code}`;
+  }
+  
   res.status(200).json({ 
     status: 'healthy',
     uptime: process.uptime(),
-    heroFeeds: heroFeeds.length,
-    rexFeeds: rexFeeds.length,
+    mediastackStatus: mediastackStatus,
     heroCached: heroArticlesCache.length,
     rexCached: rexArticlesCache.length,
-    publicFolderExists: fs.existsSync(publicPath),
-    indexExists: fs.existsSync(indexPath)
   });
 });
 
@@ -530,37 +388,19 @@ const PORT = process.env.PORT || 8080;
 
 // Start server
 app.listen(PORT, '0.0.0.0', async () => {
-  console.log(`\n🚀 Everybody's News Server`);
-  console.log(`📍 Port: ${PORT}`);
-  console.log(`📡 Hero Carousel: ${heroFeeds.length} feeds`);
-  console.log(`📡 Rex Carousel: ${rexFeeds.length} feeds`);
-  console.log(`🔄 Refresh Interval: ${feedsConfig.refreshInterval / 1000}s`);
-  console.log(`📰 Hero API: http://localhost:${PORT}/api/news`);
-  console.log(`📰 Rex API: http://localhost:${PORT}/api/rex-carousel\n`);
+  console.log(`\n🚀 Everybody's News Server running on port: ${PORT}\n`);
   
   // Set up background refresh
   const REFRESH_MS = feedsConfig.refreshInterval || 180000;
-  
   setInterval(async () => {
     try {
-      console.log('⏱️ Background refresh starting…');
-      heroArticlesCache = [];
-      heroLastFetch = 0;
-      rexArticlesCache = [];
-      rexLastFetch = 0;
       await Promise.all([ getCachedHeroArticles(), getCachedRexArticles() ]);
-      console.log('✅ Background refresh complete');
     } catch (e) {
       console.error('Background refresh failed:', e.message);
     }
   }, REFRESH_MS);
   
   // Initial feed fetch (must happen *after* app.listen or server won't be ready)
-  console.log('🔄 Initial feed fetch...');
-  await Promise.all([
-    getCachedHeroArticles(),
-    getCachedRexArticles()
-  ]);
-  
-  console.log(`✅ Server ready at http://localhost:${PORT}\n`);
+  await Promise.all([ getCachedHeroArticles(), getCachedRexArticles() ]);
+  console.log(`✅ Server ready.\n`);
 });

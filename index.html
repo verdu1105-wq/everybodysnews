@@ -34,8 +34,24 @@
     #rex-sport .thumb{height:280px;background:#e5e7eb;border:1px solid var(--keyline);border-radius:12px}
     #rex-sport .bk-calendar-meta{margin-top:-260px;margin-left:12px;background:#000a;color:#fff;padding:8px 10px;border-radius:6px;width:56px;text-align:center}
     #rex-sport .list-small-post{list-style:none;margin:0;padding:0;border-top:1px solid var(--keyline)}
-    #rex-sport .list-small-post li{display:grid;grid-template-columns:1fr 120px;gap:12px;align-items:center;padding:14px 0;border-bottom:1px solid var(--keyline)}
-    #rex-sport .list-small-post .thumb{height:72px;grid-column:2;background:#e5e7eb;border:1px solid var(--keyline);border-radius:6px}#rex-sport .list-small-post .title{grid-column:1} @media(max-width:680px){#rex-sport .list-small-post li{grid-template-columns:1fr 96px}#rex-sport .list-small-post .thumb{width:96px;height:64px}}
+    #rex-sport .list-small-post li{
+        display:grid;
+        grid-template-columns:1fr 120px;
+        gap:12px;
+        align-items:center;
+        padding:14px 0;
+        border-bottom:1px solid var(--keyline);
+        transition: all 0.2s ease-in-out; /* ADDED: Transition for pop-out */
+    }
+    #rex-sport .list-small-post li:hover { /* ADDED: Pop-out hover effect */
+        background: #f8f8f8;
+        transform: translateX(4px);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        border-radius: 4px;
+    }
+    #rex-sport .list-small-post .thumb{height:72px;grid-column:2;background:#e5e7eb;border:1px solid var(--keyline);border-radius:6px}
+    #rex-sport .list-small-post .post-c-wrap{grid-column:1} 
+    #rex-sport .list-small-post .title{margin:0} @media(max-width:680px){#rex-sport .list-small-post li{grid-template-columns:1fr 96px}#rex-sport .list-small-post .thumb{width:96px;height:64px}}
 
     /* Fashion grid */
     #rex-fashion-grid{margin:36px auto}
@@ -159,7 +175,7 @@
     /* LAYOUT: Text LEFT, Image RIGHT */
     .brooklyn-editors-pick-post{margin:60px auto;padding:0 16px}
     .brooklyn-editors-pick-post .container{max-width:1200px;margin:0 auto}
-    .brooklyn-editors-pick-post .section-title{font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;margin:0 0 40px;color:#121212;border-bottom:3px solid #fe6c61;display:inline-block;padding-bottom:10px}
+    .brooklyn-editors-pick-post .section-title{font-size:14px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;margin:0 0 40px;color:#121212;border-bottom:3px solid #fe6c61;display:inline-block;padding-bottom:10px}
     
     /* Vertical list */
     .brooklyn-vertical-list{list-style:none;margin:0;padding:0}
@@ -1126,10 +1142,8 @@
 </head>
 <body>
 
-<!-- ===== FULL-COVER DOUBLE SLIDER (with bottom next preview) ===== -->
 <section id="double-cover" aria-label="Featured carousel">
   <div class="cover-wrap">
-    <!-- Slides (BG images via inline style) -->
     <div class="slide active" data-i="0" style="background-image:url('https://images.unsplash.com/photo-1516387938699-a93567ec168e?q=80&w=2000&auto=format&fit=crop');">
       <div class="scrim"></div>
       <div class="caption">
@@ -1171,13 +1185,11 @@
       </div>
     </div>
 
-    <!-- Arrows -->
     <div class="ctrl">
       <button class="prev" aria-label="Previous">‹</button>
       <button class="next" aria-label="Next">›</button>
     </div>
 
-    <!-- Bottom NEXT rail (shows the NEXT slide, plus queue) -->
     <div class="rail" aria-label="Next slide and queue">
       <div class="next" data-target="1">
         <div class="thumb">
@@ -1233,7 +1245,6 @@
         <div class="rex-media">
           <div class="rex-media-aspect">
             <div class="rex-media-placeholder"></div>
-            <button class="rex-play">▶</button>
             <div class="rex-badge-date">
               <span class="rex-date-day">29</span>
               <span class="rex-date-mon">SEP</span>
@@ -1246,9 +1257,6 @@
               </div>
               <h3 class="rex-head">Taciti magnis praesent tortor lorem leo</h3>
             </div>
-            <video class="rex-video" muted loop playsinline>
-              <source src="Screen Recording 2025-10-21 210915.mp4" type="video/mp4" />
-            </video>
           </div>
         </div>
       </article>
@@ -1292,12 +1300,39 @@
         </div>
         <div class="col-list">
           <ul class="list-small-post">
-            <li><h4 class="title">Taciti rhoncus accumsan viverra luctus</h4><div class="thumb"></div></li>
-            <li><h4 class="title">Lacus fusce sed aliquam vitae donec aptent est</h4><div class="thumb"></div></li>
-            <li><h4 class="title">Proin pulvinar accumsan inceptos rutrum</h4><div class="thumb"></div></li>
+            <li>
+                <div class="post-c-wrap">
+                    <h4 class="title"><a href="#">Taciti rhoncus accumsan viverra luctus</a></h4>
+                    <div class="rex-meta" style="font-size: 11px; color: #666; margin-top: 4px;">
+                        <img src="" alt="Source" class="rex-source-icon" style="width: 12px; height: 12px; vertical-align: middle; margin-right: 4px;">
+                        <span class="rex-source-name">Source Name</span>
+                    </div>
+                </div>
+                <div class="thumb"></div>
+            </li>
+            <li>
+                <div class="post-c-wrap">
+                    <h4 class="title"><a href="#">Lacus fusce sed aliquam vitae donec aptent est</a></h4>
+                    <div class="rex-meta" style="font-size: 11px; color: #666; margin-top: 4px;">
+                        <img src="" alt="Source" class="rex-source-icon" style="width: 12px; height: 12px; vertical-align: middle; margin-right: 4px;">
+                        <span class="rex-source-name">Source Name</span>
+                    </div>
+                </div>
+                <div class="thumb"></div>
+            </li>
+            <li>
+                <div class="post-c-wrap">
+                    <h4 class="title"><a href="#">Proin pulvinar accumsan inceptos rutrum</a></h4>
+                    <div class="rex-meta" style="font-size: 11px; color: #666; margin-top: 4px;">
+                        <img src="" alt="Source" class="rex-source-icon" style="width: 12px; height: 12px; vertical-align: middle; margin-right: 4px;">
+                        <span class="rex-source-name">Source Name</span>
+                    </div>
+                </div>
+                <div class="thumb"></div>
+            </li>
           </ul>
         </div>
-      </div>
+        </div>
     </section>
 
     <section id="rex-fashion-grid">
@@ -1314,10 +1349,8 @@
       </ul>
     </section>
 
-        <!-- REX: Fashion & Travel News (two-column) -->
-    <section id="rex-fashion-travel" class="container">
+        <section id="rex-fashion-travel" class="container">
       <div class="row two-col">
-        <!-- Left: Fashion grid (3x2) -->
         <div class="col-left">
           <div class="module-title"><div class="main-title"><h2><span>Fashion</span> News</h2></div></div>
           <div class="module-square-grid">
@@ -1331,7 +1364,6 @@
             </ul>
           </div>
         </div>
-        <!-- Right: Travel list -->
         <div class="col-right">
           <div class="module-title"><div class="main-title"><h2><span>Travel</span> News</h2></div></div>
           <ul class="bk-list-post">
@@ -1344,14 +1376,12 @@
       </div>
     </section>
 
-    <!-- REX: Load More bar -->
     <section id="rex-loadmore" class="container">
       <div style="border-top: 1px solid var(--keyline); border-bottom: 1px solid var(--keyline); padding: 24px 0;">
         <div class="bk-loadmore"><a href="#" class="bk-btn-loadmore">Load More</a></div>
       </div>
     </section>
 
-    <!-- REX: Homepage Carousel (placeholder) -->
     <section id="rex-home-carousel" class="container">
       <div class="module-title">
         <div class="main-title"><h2><span>New</span> Carousel</h2></div>
@@ -1369,13 +1399,10 @@
       </div>
     </section>
 
-    <!-- REX: Main Content with Sidebar Layout -->
     <div class="bkwrapper container">
       <div class="row rex-content-sidebar">
-        <!-- Main Content Column -->
         <div class="col-md-8 has-sb main-content">
           
-          <!-- MUSIC NEWS Section -->
           <section id="rex-music-news" class="bkmodule">
             <div class="module-title">
               <div class="main-title"><h2><span>MUSIC</span> NEWS</h2></div>
@@ -1462,7 +1489,6 @@
             </div>
           </section>
 
-          <!-- LATEST ARTICLES Section -->
           <section id="rex-latest-articles" class="bkmodule">
             <div class="module-title">
               <div class="main-title"><h2><span>LATEST</span> ARTICLES</h2></div>
@@ -1549,7 +1575,6 @@
             </div>
           </section>
 
-          <!-- EDITOR'S PICK Section -->
           <section id="rex-editors-pick" class="bkmodule">
             <div class="module-title">
               <div class="main-title"><h2><span>EDITOR'S</span> PICK</h2></div>
@@ -1596,7 +1621,6 @@
             </div>
           </section>
 
-          <!-- VIDEO PLAYLIST Section -->
           <section id="rex-video-playlist" class="bkmodule">
             <div class="module-title">
               <div class="main-title"><h2><span>VIDEO</span> PLAYLIST</h2></div>
@@ -1604,7 +1628,7 @@
             <div class="bk-grid-3col">
               <article class="grid-item content_in">
                 <div class="post-thumb-wrap">
-                  <a href="#" class="thumb-link">
+                  <a href="https://www.youtube.com/watch?v=_ejSiZrJGts" class="thumb-link" target="_blank">
                     <div class="thumb video-thumb" aria-hidden="true">
                       <span class="video-play-icon">▶</span>
                     </div>
@@ -1612,8 +1636,8 @@
                   </a>
                 </div>
                 <div class="post-content">
-                  <h3 class="post-title"><a href="#">Featured Video Title One</a></h3>
-                  <div class="post-date"><span class="date-icon">🕐</span> September 29, 2015</div>
+                  <h3 class="post-title"><a href="https://www.youtube.com/watch?v=_ejSiZrJGts" target="_blank">Top College Football Highlights (1 Hour)</a></h3>
+                  <div class="post-date"><span class="date-icon">🕐</span> December 1, 2025</div>
                 </div>
               </article>
               
@@ -1649,7 +1673,6 @@
             </div>
           </section>
 
-          <!-- Ad Slot -->
           <section id="rex-ad-slot" class="bkmodule">
             <div class="bk-ad-placement">
               <div class="ad-label">ADVERTISEMENT</div>
@@ -1659,12 +1682,10 @@
 
         </div>
 
-        <!-- Sidebar Column -->
         <aside class="sidebar col-md-4">
           <div class="sidebar-wrap" id="rex-sidebar">
             <div class="sidebar-wrap-inner">
               
-              <!-- Connect Us Widget -->
               <div class="widget widget-connect">
                 <h3 class="widget-title">CONNECT US</h3>
                 <div class="social-stats">
@@ -1708,7 +1729,6 @@
                 </div>
               </div>
 
-              <!-- Latest Reviews Widget -->
               <div class="widget widget-reviews">
                 <h3 class="widget-title">LATEST REVIEWS</h3>
                 <ul class="review-list">
@@ -1735,7 +1755,6 @@
                 </ul>
               </div>
 
-              <!-- Ad Widget -->
               <div class="widget widget-ad">
                 <div class="sidebar-ad-placement">
                   <div class="ad-label">ADVERTISEMENT</div>
@@ -1750,18 +1769,12 @@
       </div>
     </div>
 
-    <!-- ============================================ -->
-    <!-- BROOKLYN CONTENT STARTS HERE -->
-    <!-- ============================================ -->
-    
-    <!-- Brooklyn: Editor's Pick Hero Section -->
     <section id="brooklyn-hero">
       <div class="container">
         <h2 class="hero-title">Editor's Pick Posts</h2>
         
         <div class="hero-grid">
           
-          <!-- Row 1, Item 1 - VIDEO -->
           <article class="hero-item">
             <video class="hero-video" muted loop playsinline>
               <source src="https://via.placeholder.com/600x400/1e293b/64748b?text=Content" type="video/mp4">
@@ -1779,7 +1792,6 @@
             </div>
           </article>
           
-          <!-- Row 1, Item 2 - VIDEO -->
           <article class="hero-item">
             <video class="hero-video" muted loop playsinline>
               <source src="https://via.placeholder.com/600x400/0f766e/14b8a6?text=Content" type="video/mp4">
@@ -1797,7 +1809,6 @@
             </div>
           </article>
           
-          <!-- Row 1, Item 3 - VIDEO -->
           <article class="hero-item">
             <video class="hero-video" muted loop playsinline>
               <source src="https://via.placeholder.com/600x400/7e22ce/a855f7?text=Content" type="video/mp4">
@@ -1815,7 +1826,6 @@
             </div>
           </article>
           
-          <!-- Row 2, Item 4 - VIDEO -->
           <article class="hero-item">
             <video class="hero-video" muted loop playsinline>
               <source src="https://via.placeholder.com/600x400/be123c/f43f5e?text=Content" type="video/mp4">
@@ -1833,9 +1843,8 @@
             </div>
           </article>
           
-          <!-- Row 2, Item 5 - IMAGE -->
           <article class="hero-item">
-            <img class="hero-image" src="data:image/svg+xml,%3Csvg width='600' height='400' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='600' height='400' fill='%23eab308'/%3E%3Ctext x='50%25' y='50%25' font-size='64' fill='white' text-anchor='middle' dy='.3em'%3E📷%3C/text%3E%3C/svg%3E" alt="Photography">
+            <img class="hero-image" src="data:image/svg+xml,%3Csvg width='600' height='400' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='600' height='400' fill='%23eab308'/%3E%3Ctext x='50%25' y='50%25' font-size='64' fill='white' text-anchor='middle' dy='.3em'%3E%F0%9F%93%B7%3C/text%3E%3C/svg%3E" alt="Photography">
             <div class="hero-overlay">
               <span class="hero-category cat-photography">PHOTOGRAPHY</span>
               <h3 class="hero-title-text">
@@ -1849,7 +1858,6 @@
             </div>
           </article>
           
-          <!-- Row 2, Item 6 - VIDEO -->
           <article class="hero-item">
             <video class="hero-video" muted loop playsinline>
               <source src="https://via.placeholder.com/600x400/0891b2/06b6d4?text=Content" type="video/mp4">
@@ -1871,15 +1879,12 @@
       </div>
     </section>
 
-    <!-- Brooklyn: Editor's Pick Post (Singular) - Vertical List -->
-    <!-- LAYOUT: Text LEFT, Image RIGHT -->
     <section class="brooklyn-editors-pick-post">
       <div class="container">
         <h2 class="section-title">Editor's Pick Post</h2>
         
         <ul class="brooklyn-vertical-list">
           
-          <!-- Item 1: TEXT LEFT, IMAGE RIGHT -->
           <li class="brooklyn-vertical-item">
             <div class="vertical-content">
               <span class="vertical-category cat-fashion">FASHION</span>
@@ -1890,11 +1895,10 @@
               <p class="vertical-date">September 29, 2015</p>
             </div>
             <div class="vertical-image">
-              <img src="data:image/svg+xml,%3Csvg width='300' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='300' height='200' fill='%23e2e8f0'/%3E%3Ctext x='50%25' y='50%25' font-size='48' fill='%2394a3b8' text-anchor='middle' dy='.3em'%3E📸%3C/text%3E%3C/svg%3E" alt="Post thumbnail">
+              <img src="data:image/svg+xml,%3Csvg width='300' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='300' height='200' fill='%23e2e8f0'/%3E%3Ctext x='50%25' y='50%25' font-size='48' fill='%2394a3b8' text-anchor='middle' dy='.3em'%3E%F0%9F%93%B8%3C/text%3E%3C/svg%3E" alt="Post thumbnail">
             </div>
           </li>
           
-          <!-- Item 2: TEXT LEFT, IMAGE RIGHT -->
           <li class="brooklyn-vertical-item">
             <div class="vertical-content">
               <span class="vertical-category cat-photography">PHOTOGRAPHY</span>
@@ -1905,11 +1909,10 @@
               <p class="vertical-date">September 28, 2015</p>
             </div>
             <div class="vertical-image">
-              <img src="data:image/svg+xml,%3Csvg width='300' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='300' height='200' fill='%23dbeafe'/%3E%3Ctext x='50%25' y='50%25' font-size='48' fill='%2393c5fd' text-anchor='middle' dy='.3em'%3E📷%3C/text%3E%3C/svg%3E" alt="Post thumbnail">
+              <img src="data:image/svg+xml,%3Csvg width='300' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='300' height='200' fill='%23dbeafe'/%3E%3Ctext x='50%25' y='50%25' font-size='48' fill='%2393c5fd' text-anchor='middle' dy='.3em'%3E%F0%9F%93%B7%3C/text%3E%3C/svg%3E" alt="Post thumbnail">
             </div>
           </li>
           
-          <!-- Item 3: TEXT LEFT, IMAGE RIGHT -->
           <li class="brooklyn-vertical-item">
             <div class="vertical-content">
               <span class="vertical-category cat-lifestyle">LIFESTYLE</span>
@@ -1920,11 +1923,10 @@
               <p class="vertical-date">September 27, 2015</p>
             </div>
             <div class="vertical-image">
-              <img src="data:image/svg+xml,%3Csvg width='300' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='300' height='200' fill='%23cffafe'/%3E%3Ctext x='50%25' y='50%25' font-size='48' fill='%2367e8f9' text-anchor='middle' dy='.3em'%3E🎨%3C/text%3E%3C/svg%3E" alt="Post thumbnail">
+              <img src="data:image/svg+xml,%3Csvg width='300' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='300' height='200' fill='%23cffafe'/%3E%3Ctext x='50%25' y='50%25' font-size='48' fill='%2367e8f9' text-anchor='middle' dy='.3em'%3E%F0%9F%8E%A8%3C/text%3E%3C/svg%3E" alt="Post thumbnail">
             </div>
           </li>
           
-          <!-- Item 4: TEXT LEFT, IMAGE RIGHT -->
           <li class="brooklyn-vertical-item">
             <div class="vertical-content">
               <span class="vertical-category cat-design">DESIGN</span>
@@ -1935,11 +1937,10 @@
               <p class="vertical-date">September 26, 2015</p>
             </div>
             <div class="vertical-image">
-              <img src="data:image/svg+xml,%3Csvg width='300' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='300' height='200' fill='%23fecaca'/%3E%3Ctext x='50%25' y='50%25' font-size='48' fill='%23f87171' text-anchor='middle' dy='.3em'%3E✈️%3C/text%3E%3C/svg%3E" alt="Post thumbnail">
+              <img src="data:image/svg+xml,%3Csvg width='300' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='300' height='200' fill='%23fecaca'/%3E%3Ctext x='50%25' y='50%25' font-size='48' fill='%23f87171' text-anchor='middle' dy='.3em'%3E%E2%9C%88%EF%B8%8F%3C/text%3E%3C/svg%3E" alt="Post thumbnail">
             </div>
           </li>
           
-          <!-- Item 5: TEXT LEFT, IMAGE RIGHT -->
           <li class="brooklyn-vertical-item">
             <div class="vertical-content">
               <span class="vertical-category cat-nutrition">NUTRITION</span>
@@ -1950,7 +1951,7 @@
               <p class="vertical-date">September 25, 2015</p>
             </div>
             <div class="vertical-image">
-              <img src="data:image/svg+xml,%3Csvg width='300' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='300' height='200' fill='%23d1fae5'/%3E%3Ctext x='50%25' y='50%25' font-size='48' fill='%2334d399' text-anchor='middle' dy='.3em'%3E🏔️%3C/text%3E%3C/svg%3E" alt="Post thumbnail">
+              <img src="data:image/svg+xml,%3Csvg width='300' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='300' height='200' fill='%23d1fae5'/%3E%3Ctext x='50%25' y='50%25' font-size='48' fill='%2334d399' text-anchor='middle' dy='.3em'%3E%F0%9F%8F%94%EF%B8%8F%3C/text%3E%3C/svg%3E" alt="Post thumbnail">
             </div>
           </li>
           
@@ -1958,14 +1959,10 @@
       </div>
     </section>
 
-    <!-- Brooklyn: Four Expandable Placeholders -->
-
-    <!-- Brooklyn: Six Image Placeholders Grid (3x2) -->
     <section class="brooklyn-image-grid">
       <div class="container">
         <div class="image-grid">
           
-          <!-- Grid Item 1 -->
           <div class="grid-item">
             <a href="#grid1" class="grid-link" onclick="toggleGridItem(event, 'grid1')">
               <div class="grid-image-placeholder">
@@ -1979,7 +1976,6 @@
             </div>
           </div>
           
-          <!-- Grid Item 2 -->
           <div class="grid-item">
             <a href="#grid2" class="grid-link" onclick="toggleGridItem(event, 'grid2')">
               <div class="grid-image-placeholder">
@@ -1993,7 +1989,6 @@
             </div>
           </div>
           
-          <!-- Grid Item 3 -->
           <div class="grid-item">
             <a href="#grid3" class="grid-link" onclick="toggleGridItem(event, 'grid3')">
               <div class="grid-image-placeholder">
@@ -2007,7 +2002,6 @@
             </div>
           </div>
           
-          <!-- Grid Item 4 -->
           <div class="grid-item">
             <a href="#grid4" class="grid-link" onclick="toggleGridItem(event, 'grid4')">
               <div class="grid-image-placeholder">
@@ -2017,944 +2011,4 @@
               <span class="grid-expand-icon">+</span>
             </a>
             <div id="grid4" class="grid-content">
-              <p>Expanded content for article 4. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-            </div>
-          </div>
-          
-          <!-- Grid Item 5 -->
-          <div class="grid-item">
-            <a href="#grid5" class="grid-link" onclick="toggleGridItem(event, 'grid5')">
-              <div class="grid-image-placeholder">
-                <span class="grid-placeholder-text">Image 5</span>
-              </div>
-              <h3 class="grid-title">Article Title 5</h3>
-              <span class="grid-expand-icon">+</span>
-            </a>
-            <div id="grid5" class="grid-content">
-              <p>Expanded content for article 5. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-            </div>
-          </div>
-          
-          <!-- Grid Item 6 -->
-          <div class="grid-item">
-            <a href="#grid6" class="grid-link" onclick="toggleGridItem(event, 'grid6')">
-              <div class="grid-image-placeholder">
-                <span class="grid-placeholder-text">Image 6</span>
-              </div>
-              <h3 class="grid-title">Article Title 6</h3>
-              <span class="grid-expand-icon">+</span>
-            </a>
-            <div id="grid6" class="grid-content">
-              <p>Expanded content for article 6. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-            </div>
-          </div>
-          
-        </div>
-      </div>
-    </section>
-
-    <!-- Brooklyn: Parallax Video Section -->
-    <section class="brooklyn-parallax-video" id="brooklyn-parallax">
-      <div class="parallax-overlay"></div>
-      <div class="parallax-content">
-        <h1 class="parallax-title">The artist who has never existed:<br>modern myths</h1>
-        <a href="https://vimeo.com/140798682" class="video-play-button" target="_blank" rel="noopener">
-          <div class="video-play-icon">
-            <span class="play-arrow">▶</span>
-          </div>
-        </a>
-      </div>
-    </section>
-
-    <!-- Brooklyn: Two Column Section - Large Left + 3 Items Right -->
-    <section class="brooklyn-two-column">
-      <div class="container">
-        
-      </div>
-    </section>
-
-    <!-- Brooklyn: Grid Section -->
-    <section class="brooklyn-section">
-      <div class="container">
-        
-      </div>
-    </section>
-
-    <!-- Brooklyn: Feature Section with List (Text Left, Image Right) -->
-    <section class="brooklyn-feature-section">
-      <div class="container">
-        <div class="brooklyn-feature-layout">
-          
-          <!-- Main Feature Post -->
-          <article class="brooklyn-feature-main">
-            <div class="brooklyn-feature-main-image">
-              <div style="background:#f0e68c;width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#999;font-size:64px;">🎭</div>
-            </div>
-            <h2 class="brooklyn-feature-main-title">
-              <a href="#">The Artist Who Has Never Existed: Modern Myths</a>
-            </h2>
-            <p class="brooklyn-feature-main-excerpt">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris molestie leo ipsum, at suscipit nisi gravida sit amet. Suspendisse potenti. Sed ac mauris quis nisi consequat tincidunt vel in eros.</p>
-          </article>
-          
-          <!-- Side List (Text Left, Image Right) -->
-          <aside>
-            <ul class="brooklyn-list">
-              <li class="brooklyn-list-item">
-                <div class="brooklyn-list-content">
-                  <h3 class="brooklyn-list-title">
-                    <a href="#">A Yellow Dreamscape Totally Hidden from Reality</a>
-                  </h3>
-                  <p class="brooklyn-list-excerpt">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris molestie leo.</p>
-                </div>
-                <div class="brooklyn-list-image">
-                  <div style="background:#ffe4b5;width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#999;">🌟</div>
-                </div>
-              </li>
-              
-              <li class="brooklyn-list-item">
-                <div class="brooklyn-list-content">
-                  <h3 class="brooklyn-list-title">
-                    <a href="#">Violence in the Media: What Effects on Behavior</a>
-                  </h3>
-                  <p class="brooklyn-list-excerpt">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris molestie leo.</p>
-                </div>
-                <div class="brooklyn-list-image">
-                  <div style="background:#f0e68c;width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#999;">📺</div>
-                </div>
-              </li>
-              
-              <li class="brooklyn-list-item">
-                <div class="brooklyn-list-content">
-                  <h3 class="brooklyn-list-title">
-                    <a href="#">Spectacular Vegetables to Enjoy in the Winter Time</a>
-                  </h3>
-                  <p class="brooklyn-list-excerpt">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris molestie leo.</p>
-                </div>
-                <div class="brooklyn-list-image">
-                  <div style="background:#98fb98;width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#999;">🥬</div>
-                </div>
-              </li>
-            </ul>
-          </aside>
-          
-        </div>
-      </div>
-    </section>
-
-    <!-- Brooklyn: Additional List Section (Text Left, Image Right) -->
-    <section class="brooklyn-list-section">
-      <div class="container">
-        <h2 class="section-title">Latest Stories</h2>
-        
-        <ul class="brooklyn-list">
-          <li class="brooklyn-list-item">
-            <div class="brooklyn-list-content">
-              <h3 class="brooklyn-list-title">
-                <a href="#">A Comprehensive List of the 50 Best Museums in the World</a>
-              </h3>
-              <p class="brooklyn-list-excerpt">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris molestie leo ipsum, at suscipit nisi gravida sit amet. Suspendisse potenti.</p>
-            </div>
-            <div class="brooklyn-list-image">
-              <div style="background:#e8e8e8;width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#999;font-size:32px;">🏛️</div>
-            </div>
-          </li>
-          
-          <li class="brooklyn-list-item">
-            <div class="brooklyn-list-content">
-              <h3 class="brooklyn-list-title">
-                <a href="#">Newcomers to Watch Out for on the NY Triathlon</a>
-              </h3>
-              <p class="brooklyn-list-excerpt">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris molestie leo ipsum, at suscipit nisi gravida sit amet. Suspendisse potenti.</p>
-            </div>
-            <div class="brooklyn-list-image">
-              <div style="background:#e8e8e8;width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#999;font-size:32px;">🏊</div>
-            </div>
-          </li>
-          
-          <li class="brooklyn-list-item">
-            <div class="brooklyn-list-content">
-              <h3 class="brooklyn-list-title">
-                <a href="#">Cloning Factories Could Save Species in the Future, But Is It Ethical</a>
-              </h3>
-              <p class="brooklyn-list-excerpt">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris molestie leo ipsum, at suscipit nisi gravida sit amet. Suspendisse potenti.</p>
-            </div>
-            <div class="brooklyn-list-image">
-              <div style="background:#e8e8e8;width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#999;font-size:32px;">🧬</div>
-            </div>
-          </li>
-          
-          <li class="brooklyn-list-item">
-            <div class="brooklyn-list-content">
-              <h3 class="brooklyn-list-title">
-                <a href="#">What Are the Best Plants to Have in Your Bedroom and Why</a>
-              </h3>
-              <p class="brooklyn-list-excerpt">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris molestie leo ipsum, at suscipit nisi gravida sit amet. Suspendisse potenti.</p>
-            </div>
-            <div class="brooklyn-list-image">
-              <div style="background:#e8e8e8;width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#999;font-size:32px;">🌿</div>
-            </div>
-          </li>
-        </ul>
-        
-      </div>
-    </section>
-
-  </main>
-
-  <script>
-    // Minimal JS to make the "New Carousel" advance on prev/next without external libs
-    (function(){
-      var wrap = document.querySelector('#rex-home-carousel .bk-carousel');
-      if(!wrap) return;
-      var prev = document.querySelector('#rex-home-carousel .flex-prev');
-      var next = document.querySelector('#rex-home-carousel .flex-next');
-      function advance(dir){
-        var items = wrap.querySelectorAll('li');
-        if(items.length < 2) return;
-        if(dir>0){ wrap.appendChild(items[0]); }
-        else { wrap.insertBefore(items[items.length-1], items[0]); }
-      }
-      prev && prev.addEventListener('click', function(e){e.preventDefault(); advance(-1)});
-      next && next.addEventListener('click', function(e){e.preventDefault(); advance(1)});
-    })();
-
-    // Brooklyn Hero - Video playback on hover
-    (function(){
-      var heroItems = document.querySelectorAll('#brooklyn-hero .hero-item');
-      heroItems.forEach(function(item){
-        var video = item.querySelector('.hero-video');
-        if(video){
-          item.addEventListener('mouseenter', function(){
-            video.play();
-          });
-          item.addEventListener('mouseleave', function(){
-            video.pause();
-          });
-        }
-      });
-    })();
-
-    // Brooklyn Placeholder Toggle
-    function togglePlaceholder(event, id) {
-      event.preventDefault();
-      var content = document.getElementById(id);
-      var icon = event.currentTarget.querySelector('.placeholder-icon');
-      
-      // Toggle active class
-      if(content.classList.contains('active')) {
-        content.classList.remove('active');
-        icon.textContent = '+';
-      } else {
-        // Close all other placeholders
-        document.querySelectorAll('.placeholder-content').forEach(function(item){
-          item.classList.remove('active');
-        });
-        document.querySelectorAll('.placeholder-icon').forEach(function(item){
-          item.textContent = '+';
-        });
-        
-        // Open this placeholder
-        content.classList.add('active');
-        icon.textContent = '−';
-      }
-    }
-
-    // Brooklyn Grid Item Toggle
-    function toggleGridItem(event, id) {
-      event.preventDefault();
-      var content = document.getElementById(id);
-      var icon = event.currentTarget.querySelector('.grid-expand-icon');
-      
-      // Toggle active class
-      if(content.classList.contains('active')) {
-        content.classList.remove('active');
-        icon.textContent = '+';
-      } else {
-        // Close all other grid items
-        document.querySelectorAll('.grid-content').forEach(function(item){
-          item.classList.remove('active');
-        });
-        document.querySelectorAll('.grid-expand-icon').forEach(function(item){
-          item.textContent = '+';
-        });
-        
-        // Open this grid item
-        content.classList.add('active');
-        icon.textContent = '−';
-      }
-    }
-
-    // Brooklyn Parallax Effect
-    (function(){
-      var parallaxSection = document.getElementById('brooklyn-parallax');
-      if(!parallaxSection) return;
-      
-      window.addEventListener('scroll', function(){
-        var scrolled = window.pageYOffset;
-        var sectionTop = parallaxSection.offsetTop;
-        var sectionHeight = parallaxSection.offsetHeight;
-        
-        // Only apply parallax when section is in view
-        if(scrolled + window.innerHeight > sectionTop && scrolled < sectionTop + sectionHeight) {
-          var offset = (scrolled - sectionTop) * 0.5;
-          parallaxSection.style.backgroundPosition = 'center ' + (-offset) + 'px';
-        }
-      });
-    })();
-  </script>
-
-  <!-- REX: Footer widgets + footer -->
-  <footer class="bk-footer">
-    <div class="container bk-footer-widgets">
-      <div class="bk-footer-col">
-        <h4 class="title">About Rex</h4>
-        <p>Placeholder copy for the Rex footer about section.</p>
-      </div>
-      <div class="bk-footer-col">
-        <h4 class="title">Categories</h4>
-        <ul class="bk-footer-list"><li>Updates</li><li>Sports</li><li>Technology</li><li>Lifestyle</li></ul>
-      </div>
-      <div class="bk-footer-col">
-        <h4 class="title">Follow</h4>
-        <ul class="bk-footer-social"><li>FB</li><li>TW</li><li>IG</li></ul>
-      </div>
-    </div>
-    <div class="container bk-copyright">
-      <p>© Rex Theme — placeholders only</p>
-    </div>
-  </footer>
-
-<script>
-(function(){
-  const root = document.getElementById('double-cover');
-  if(!root) return;
-  const slides = Array.from(root.querySelectorAll('.slide'));
-  const prev = root.querySelector('.prev');
-  const next = root.querySelector('.next');
-  const railNext = root.querySelector('.rail .next');
-  const qthumbs = Array.from(root.querySelectorAll('.qthumb'));
-  let i = 0;
-  const dur = 6500;
-  let timer;
-
-  const titles = slides.map(s => s.querySelector('.title').textContent.trim());
-  const thumbs = [
-    'https://images.unsplash.com/photo-1516387938699-a93567ec168e?q=80&w=640&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1502784444185-1a17bca6cf1a?q=80&w=640&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?q=80&w=640&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1521292270410-a8c04f0f3d5b?q=80&w=640&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1439546743462-802cabef8e97?q=80&w=640&auto=format&fit=crop'
-  ];
-
-  function setActive(idx){
-    i = (idx + slides.length) % slides.length;
-    slides.forEach(s => s.classList.remove('active'));
-    qthumbs.forEach(t => t.classList.remove('active'));
-    slides[i].classList.add('active');
-    const qi = qthumbs.find(t => +t.dataset.i === i);
-    if(qi) qi.classList.add('active');
-
-    // Update NEXT card at the bottom
-    const nextI = (i + 1) % slides.length;
-    railNext.dataset.target = nextI;
-    const img = railNext.querySelector('.thumb img');
-    const name = railNext.querySelector('.name');
-    img.src = thumbs[nextI];
-    name.textContent = titles[nextI];
-  }
-
-  function play(){
-    clearInterval(timer);
-    timer = setInterval(()=>setActive(i+1), dur);
-  }
-
-  prev.addEventListener('click', ()=>{ setActive(i-1); play(); });
-  next.addEventListener('click', ()=>{ setActive(i+1); play(); });
-  railNext.addEventListener('click', ()=>{ setActive((i+1)%slides.length); play(); });
-  qthumbs.forEach(t => t.addEventListener('click', ()=>{ setActive(+t.dataset.i); play(); }));
-
-  // Init
-  setActive(0);
-  play();
-})();
-</script>
-
-
-  <script>
-    // YOUR 3 RSS FEEDS + 1 General News Feed for specific topics
-    const RSS_FEEDS = [
-      {
-        url: 'https://www.espn.com/espn/rss/news',
-        category: 'SPORTS',
-        color: '#d32f2f',
-        topics: ['World Series', '2025 World Series', 'MLB'],
-        source: 'ESPN',
-        sourceIcon: 'https://www.google.com/s2/favicons?domain=espn.com&sz=32'
-      },
-      {
-        url: 'https://rss.app/feeds/tN6TfKaJzhcPYYkB.xml',
-        category: 'WORLD NEWS',
-        color: '#1976d2',
-        topics: ['Hurricane', 'Immigration', 'Deportation'],
-        source: 'World News Network',
-        sourceIcon: 'https://www.google.com/s2/favicons?domain=rss.app&sz=32'
-      },
-      {
-        url: 'https://rss.app/feeds/tUo3SJ8AHWweCZGH.xml',
-        category: 'TECHNOLOGY',
-        color: '#7b1fa2',
-        topics: ['Tech', 'Innovation'],
-        source: 'Tech News Network',
-        sourceIcon: 'https://www.google.com/s2/favicons?domain=rss.app&sz=32'
-      },
-      {
-        url: 'https://rss.nytimes.com/services/xml/rss/nyt/US.xml',
-        category: 'US NEWS',
-        color: '#d32f2f',
-        topics: ['SNAP', 'Benefits', 'Government', 'Hurricane Melissa'],
-        source: 'New York Times',
-        sourceIcon: 'https://www.google.com/s2/favicons?domain=nytimes.com&sz=32'
-      }
-    ];
-    
-    // Try multiple CORS proxies
-    const CORS_PROXIES = [
-      'https://api.rss2json.com/v1/api.json?rss_url=',
-      'https://api.allorigins.win/raw?url='
-    ];
-    
-    let currentProxyIndex = 0;
-    
-    // Fetch with fallback proxies
-    async function fetchRSSFeed(feed, retries = 2) {
-      for (let attempt = 0; attempt < retries; attempt++) {
-        try {
-          const proxy = CORS_PROXIES[currentProxyIndex];
-          const url = proxy + encodeURIComponent(feed.url);
-          
-          console.log(`Fetching ${feed.category} from ${feed.url}`);
-          
-          const response = await fetch(url, {
-            method: 'GET',
-            headers: { 'Accept': 'application/json' }
-          });
-          
-          if (!response.ok) {
-            throw new Error(`HTTP ${response.status}`);
-          }
-          
-          const data = await response.json();
-          const items = data.items || [];
-          
-          console.log(`Got ${items.length} items from ${feed.category}`);
-          
-          return items.slice(0, 3).map(item => ({
-            ...item,
-            category: feed.category,
-            categoryColor: feed.color,
-            feedTopics: feed.topics,
-            source: feed.source,
-            sourceIcon: feed.sourceIcon
-          }));
-        } catch (error) {
-          console.error(`Attempt ${attempt + 1} failed for ${feed.category}:`, error);
-          
-          // Try next proxy
-          if (attempt < retries - 1) {
-            currentProxyIndex = (currentProxyIndex + 1) % CORS_PROXIES.length;
-            await new Promise(resolve => setTimeout(resolve, 1000)); // Wait 1s before retry
-          }
-        }
-      }
-      
-      console.error(`All attempts failed for ${feed.category}`);
-      return [];
-    }
-    
-    // Fetch all feeds from our Node.js API
-    async function loadAllFeeds() {
-      console.log('Loading news from API...');
-      
-      try {
-        const response = await fetch('/api/news');
-        const data = await response.json();
-        
-        if (data.status === 'success' && data.articles) {
-          console.log(`Fetched ${data.articles.length} articles from API`);
-          return data.articles.map(article => ({
-            title: article.title,
-            description: article.description || '',
-            link: article.link || '#',
-            category: article.category || 'US NEWS',
-            categoryColor: getCategoryColor(article.category),
-            pubDate: article.pubDate || new Date().toISOString(),
-            author: article.author || 'News Wire',
-            thumbnail: article.imageUrl,
-            source: article.source || 'News Wire',
-            sourceIcon: article.sourceIcon || 'https://www.google.com/s2/favicons?domain=example.com&sz=32'
-          }));
-        }
-      } catch (err) {
-        console.error('API fetch failed:', err);
-      }
-      
-      console.log('Using fallback items');
-      return createFallbackItems();
-    }
-    
-    // Get category color
-    function getCategoryColor(category) {
-      const colors = {
-        'SPORTS': '#d32f2f',
-        'WORLD NEWS': '#1976d2',
-        'US NEWS': '#d32f2f',
-        'TECHNOLOGY': '#388e3c'
-      };
-      return colors[category] || '#d32f2f';
-    }
-    
-    // Fallback demo items if feeds fail
-    function createFallbackItems() {
-      return [
-        {
-          title: 'World Series Game 7 Tonight: Dodgers vs Blue Jays at Rogers Centre',
-          description: 'Historic Game 7 showdown as defending champion Dodgers face Blue Jays seeking first title in 32 years. Game starts at 8 PM ET on FOX.',
-          link: '#',
-          category: 'SPORTS',
-          categoryColor: '#d32f2f',
-          pubDate: new Date().toISOString(),
-          author: 'MLB News Wire',
-          thumbnail: 'https://images.unsplash.com/photo-1566577739112-5180d4bf9390?w=1920&q=80',
-          source: 'ESPN',
-          sourceIcon: 'https://www.google.com/s2/favicons?domain=espn.com&sz=32'
-        },
-        {
-          title: 'Hurricane Melissa Devastates Jamaica as One of Strongest Atlantic Hurricanes',
-          description: 'Category 5 Hurricane Melissa made landfall in Jamaica with 185 mph winds, tied for strongest Atlantic landfall on record. Death toll rises across Caribbean.',
-          link: '#',
-          category: 'WORLD NEWS',
-          categoryColor: '#1976d2',
-          pubDate: new Date(Date.now() - 3600000).toISOString(),
-          author: 'Weather Center',
-          thumbnail: 'https://images.unsplash.com/photo-1527482797697-8795b05a13fe?w=1920&q=80',
-          source: 'World News Network',
-          sourceIcon: 'https://www.google.com/s2/favicons?domain=rss.app&sz=32'
-        },
-        {
-          title: 'SNAP Benefits Suspended: 42 Million Americans Face Food Assistance Delay',
-          description: 'Government shutdown causes November SNAP payments to be suspended. Federal judges order emergency funding as food banks brace for crisis.',
-          link: '#',
-          category: 'US NEWS',
-          categoryColor: '#d32f2f',
-          pubDate: new Date(Date.now() - 7200000).toISOString(),
-          author: 'Policy Reporter',
-          thumbnail: 'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=1920&q=80',
-          source: 'New York Times',
-          sourceIcon: 'https://www.google.com/s2/favicons?domain=nytimes.com&sz=32'
-        },
-        {
-          title: 'DHS Announces Record Deportations: Over 500,000 Removed Since January',
-          description: 'Trump administration reports historic deportation figures with 1.6 million self-deportations. Supreme Court allows third-country removals to continue.',
-          link: '#',
-          category: 'US NEWS',
-          categoryColor: '#d32f2f',
-          pubDate: new Date(Date.now() - 10800000).toISOString(),
-          author: 'Immigration Correspondent',
-          thumbnail: 'https://images.unsplash.com/photo-1585829365295-ab7cd400c167?w=1920&q=80',
-          source: 'World News Network',
-          sourceIcon: 'https://www.google.com/s2/favicons?domain=rss.app&sz=32'
-        },
-        {
-          title: 'Dodgers Force Game 7 with Dramatic 3-1 Victory Over Blue Jays',
-          description: 'Los Angeles defeats Toronto in Game 6. Kiké Hernández makes crucial double play in 9th inning. Winner-take-all game tonight.',
-          link: '#',
-          category: 'SPORTS',
-          categoryColor: '#d32f2f',
-          pubDate: new Date(Date.now() - 14400000).toISOString(),
-          author: 'Sports Desk',
-          thumbnail: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=1920&q=80',
-          source: 'ESPN',
-          sourceIcon: 'https://www.google.com/s2/favicons?domain=espn.com&sz=32'
-        },
-        {
-          title: 'Food Banks Prepare for Surge as SNAP Cliff Takes Effect',
-          description: 'Emergency food assistance networks brace for historic demand as government shutdown disrupts benefit payments for millions of families.',
-          link: '#',
-          category: 'US NEWS',
-          categoryColor: '#d32f2f',
-          pubDate: new Date(Date.now() - 18000000).toISOString(),
-          author: 'Social Services Beat',
-          thumbnail: 'https://images.unsplash.com/photo-1593113598332-cd288d649433?w=1920&q=80',
-          source: 'New York Times',
-          sourceIcon: 'https://www.google.com/s2/favicons?domain=nytimes.com&sz=32'
-        }
-      ];
-    }
-    
-    // Get image
-    function getImageUrl(item) {
-      if (item.thumbnail) return item.thumbnail;
-      if (item.enclosure?.link) return item.enclosure.link;
-      const imgMatch = (item.description || '').match(/<img[^>]+src="([^">]+)"/);
-      if (imgMatch) return imgMatch[1];
-      
-      const fallbacks = {
-        'SPORTS': 'https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=1920&q=80',
-        'WORLD NEWS': 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=1920&q=80',
-        'TECHNOLOGY': 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=1920&q=80',
-        'US NEWS': 'https://images.unsplash.com/photo-1585829365295-ab7cd400c167?w=1920&q=80'
-      };
-      return fallbacks[item.category] || fallbacks['US NEWS'];
-    }
-    
-    function stripHTML(html) {
-      const tmp = document.createElement('div');
-      tmp.innerHTML = html || '';
-      return tmp.textContent || tmp.innerText || '';
-    }
-    
-    function formatDate(dateString) {
-      const date = new Date(dateString);
-      const now = new Date();
-      const diffMs = now - date;
-      const diffMins = Math.floor(diffMs / 60000);
-      if (diffMins < 60) return diffMins + 'm ago';
-      if (diffMins < 1440) return Math.floor(diffMins / 60) + 'h ago';
-      return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-    }
-    
-    // Create slides
-    function createHeroSlides(items) {
-      const container = document.querySelector('#double-cover .cover-wrap');
-      if (!container) {
-        console.error('Double cover container not found');
-        return;
-      }
-      
-      // Clear loading state
-      container.innerHTML = '';
-      
-      items.forEach((item, index) => {
-        const slide = document.createElement('div');
-        slide.className = 'slide' + (index === 0 ? ' active' : '');
-        slide.dataset.i = index;
-        slide.style.backgroundImage = `url('${getImageUrl(item)}')`;
-        
-        slide.innerHTML = `
-          <a href="${item.link || '#'}" target="_blank" rel="noopener noreferrer" class="slide-link">
-            <div class="scrim"></div>
-            <div class="caption">
-            <div class="kicker">${item.category}</div>
-            <div class="title">${item.title}</div>
-            <div class="meta">
-              ${item.sourceIcon ? `<img src="${item.sourceIcon}" alt="${item.source || 'Source'}" class="source-icon">` : ''}
-              <span class="source-name">${item.source || item.author || 'News Wire'}</span>
-              <span class="meta-separator">·</span>
-            </div>
-          </div>
-          </a>
-        `;
-        container.appendChild(slide);
-      });
-      
-      // Add controls
-      const ctrl = document.createElement('div');
-      ctrl.className = 'ctrl';
-      ctrl.innerHTML = `
-        <button class="prev" aria-label="Previous">‹</button>
-        <button class="next" aria-label="Next">›</button>
-      `;
-      container.appendChild(ctrl);
-      
-      // Add rail
-      const rail = document.createElement('div');
-      rail.className = 'rail';
-      rail.innerHTML = `
-        <div class="next" data-target="1">
-          <div class="thumb"><img src="${getImageUrl(items[1] || items[0])}" alt="Next"></div>
-          <div class="text">
-            <div class="label">Next</div>
-            <div class="name">${(items[1] || items[0]).title}</div>
-          </div>
-        </div>
-        <div class="queue">
-          ${items.slice(0, 5).map((item, i) => `
-            <div class="qthumb${i === 0 ? ' active' : ''}" data-i="${i}">
-              <img src="${getImageUrl(item)}" alt="${item.category}">
-            </div>
-          `).join('')}
-        </div>
-      `;
-      container.appendChild(rail);
-      
-      initCarousel(items);
-    }
-    
-    // Carousel
-    function initCarousel(items) {
-      const root = document.getElementById('double-cover');
-      if (!root) return;
-      
-      const slides = Array.from(root.querySelectorAll('.slide'));
-      const prev = root.querySelector('.prev');
-      const next = root.querySelector('.next');
-      const nextCard = root.querySelector('.rail .next');
-      const qthumbs = Array.from(root.querySelectorAll('.qthumb'));
-      let i = 0;
-      const dur = 8000;
-      let timer;
-      
-      function setActive(idx) {
-        i = (idx + slides.length) % slides.length;
-        slides.forEach(s => s.classList.remove('active'));
-        qthumbs.forEach(t => t.classList.remove('active'));
-        if (slides[i]) slides[i].classList.add('active');
-        if (qthumbs[i]) qthumbs[i].classList.add('active');
-        
-        const nextI = (i + 1) % slides.length;
-        if (nextCard && items[nextI]) {
-          nextCard.dataset.target = nextI;
-          const img = nextCard.querySelector('.thumb img');
-          const name = nextCard.querySelector('.name');
-          if (img) img.src = getImageUrl(items[nextI]);
-          if (name) name.textContent = items[nextI].title;
-        }
-      }
-      
-      function play() {
-        clearInterval(timer);
-        timer = setInterval(() => setActive(i + 1), dur);
-      }
-      
-      if (prev) prev.addEventListener('click', () => { setActive(i - 1); play(); });
-      if (next) next.addEventListener('click', () => { setActive(i + 1); play(); });
-      if (nextCard) nextCard.addEventListener('click', () => { setActive((i + 1) % slides.length); play(); });
-      qthumbs.forEach(t => t.addEventListener('click', () => { setActive(+t.dataset.i); play(); }));
-      
-      setActive(0);
-      play();
-    }
-    
-  // Load Latest Updates section
-    async function loadLatestUpdates() {
-      try {
-        const response = await fetch('/api/latest-updates');
-        const data = await response.json();
-        
-        if (data.status === 'success' && data.articles && data.articles.length > 0) {
-          const articles = data.articles;
-          const mainArticle = articles[0];
-          const sideArticles = articles.slice(1, 4);
-          
-          populateMainFeature(mainArticle);
-          populateSideList(sideArticles);
-          
-          console.log(`✓ Latest Updates populated with ${articles.length} articles`);
-        }
-      } catch (err) {
-        console.error('Failed to load Latest Updates:', err);
-      }
-    }
-    
-    function populateMainFeature(article) {
-      const featureSection = document.querySelector('#rex-underhero .rex-feature');
-      if (!featureSection) return;
-      
-      const imageUrl = article.imageUrl || 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=1920&q=80';
-      const date = new Date(article.pubDate);
-      const day = date.getDate().toString().padStart(2, '0');
-      const month = date.toLocaleString('en-US', { month: 'short' }).toUpperCase();
-      
-      featureSection.innerHTML = `
-        <div class="rex-media">
-          <div class="rex-media-aspect">
-            <div class="rex-media-placeholder" style="background-image: url('${imageUrl}'); background-size: cover; background-position: center;"></div>
-            <div class="rex-badge-date">
-              <span class="rex-date-day">${day}</span>
-              <span class="rex-date-mon">${month}</span>
-            </div>
-            <div class="rex-caption">
-              <div class="rex-meta">
-                <span class="rex-chip">${article.category}</span>
-                <span class="rex-dot">•</span>
-                <span class="rex-time">${date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }).toUpperCase()}</span>
-              </div>
-              <h3 class="rex-head">
-                <a href="${article.link}" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">
-                  ${article.title}
-                </a>
-              </h3>
-              <div class="rex-source" style="margin-top: 8px; font-size: 12px; opacity: 0.9;">
-                ${article.sourceIcon ? `<img src="${article.sourceIcon}" alt="${article.source}" style="width: 16px; height: 16px; vertical-align: middle; margin-right: 4px; border-radius: 2px;">` : ''}
-                <span>${article.source}</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      `;
-    }
-    
-    function populateSideList(articles) {
-      const sideList = document.querySelector('#rex-underhero .rex-side-list');
-      if (!sideList) return;
-      
-      sideList.innerHTML = articles.map(article => {
-        const date = new Date(article.pubDate);
-        const dateStr = date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }).toUpperCase();
-        
-        return `
-          <div class="rex-side-item">
-            <span class="rex-chip">${article.category}</span>
-            <h4 class="title" style="margin: 8px 0;">
-              <a href="${article.link}" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">
-                ${article.title}
-              </a>
-            </h4>
-            <div class="rex-meta" style="font-size: 11px; color: #999; margin-top: 4px;">
-              ${article.sourceIcon ? `<img src="${article.sourceIcon}" alt="${article.source}" style="width: 14px; height: 14px; vertical-align: middle; margin-right: 4px; border-radius: 2px;">` : ''}
-              <span>${article.source}</span>
-              <span class="rex-dot" style="margin: 0 4px;">•</span>
-              <span>${dateStr}</span>
-            </div>
-          </div>
-        `;
-      }).join('');
-    }
-    
-    // Populate Rex Hero Slider
-    function createRexHeroSlider(items) {
-      const container = document.querySelector('#rex-hero .flexslider .slides');
-      if (!container) {
-        console.log('Rex hero slider container not found');
-        return;
-      }
-      
-      // Clear existing slides
-      container.innerHTML = '';
-      
-      // Create slides from RSS feed items (take first 3)
-      const heroItems = items.slice(0, 3);
-      
-      heroItems.forEach((item, index) => {
-        const li = document.createElement('li');
-        li.style.backgroundImage = `url('${getImageUrl(item)}')`;
-        if (index === 0) {
-          li.classList.add('flex-active-slide');
-        }
-        
-        // Extract first 150 characters for description
-        let description = item.description || '';
-        description = description.replace(/<[^>]*>/g, '').substring(0, 150) + '...';
-        
-        // Get category class for styling
-        const categoryClass = (item.category || 'news').toLowerCase().replace(/\s+/g, '-');
-        
-        // Format date
-        const date = item.pubDate ? new Date(item.pubDate).toLocaleDateString('en-US', { 
-          year: 'numeric', 
-          month: 'long', 
-          day: 'numeric' 
-        }).toUpperCase() : 'RECENT';
-        
-        li.innerHTML = `
-          <div class="rex-slide-content">
-            <div class="rex-slide-card">
-              <span class="rex-category-badge ${categoryClass}">${item.category || 'NEWS'}</span>
-              <div class="rex-slide-meta">
-                <span class="rex-slide-date">${date}</span>
-              </div>
-              <h2 class="rex-slide-title">${item.title}</h2>
-              <p class="rex-slide-excerpt">${description}</p>
-              <a href="${item.link || '#'}" class="rex-read-more" target="_blank" rel="noopener noreferrer">READ MORE</a>
-            </div>
-          </div>
-        `;
-        
-        container.appendChild(li);
-      });
-      
-      // Initialize navigation
-      initRexHeroNav();
-    }
-    
-    // Initialize Rex Hero Navigation
-    function initRexHeroNav() {
-      const slider = document.querySelector('#rex-hero');
-      if (!slider) return;
-      
-      const slides = slider.querySelectorAll('.flexslider .slides > li');
-      if (slides.length === 0) return;
-      
-      let currentIndex = 0;
-      
-      // Create navigation if not exists
-      let navContainer = slider.querySelector('.flex-direction-nav');
-      if (!navContainer) {
-        navContainer = document.createElement('ul');
-        navContainer.className = 'flex-direction-nav';
-        navContainer.innerHTML = `
-          <li><a class="flex-prev" href="#" aria-label="Previous">‹</a></li>
-          <li><a class="flex-next" href="#" aria-label="Next">›</a></li>
-        `;
-        slider.querySelector('.flexslider').appendChild(navContainer);
-      }
-      
-      const prevBtn = slider.querySelector('.flex-prev');
-      const nextBtn = slider.querySelector('.flex-next');
-      
-      function showSlide(index) {
-        slides.forEach(slide => slide.classList.remove('flex-active-slide'));
-        slides[index].classList.add('flex-active-slide');
-      }
-      
-      function nextSlide() {
-        currentIndex = (currentIndex + 1) % slides.length;
-        showSlide(currentIndex);
-      }
-      
-      function prevSlide() {
-        currentIndex = (currentIndex - 1 + slides.length) % slides.length;
-        showSlide(currentIndex);
-      }
-      
-      // Event listeners
-      if (nextBtn) {
-        nextBtn.addEventListener('click', (e) => {
-          e.preventDefault();
-          nextSlide();
-        });
-      }
-      
-      if (prevBtn) {
-        prevBtn.addEventListener('click', (e) => {
-          e.preventDefault();
-          prevSlide();
-        });
-      }
-      
-      // Auto-advance every 6 seconds
-      setInterval(nextSlide, 6000);
-    }
-    
-    // Initialize
-    document.addEventListener('DOMContentLoaded', async () => {
-      console.log('Initializing Everybody\'s News...');
-      const items = await loadAllFeeds();
-      createHeroSlides(items);
-      createRexHeroSlider(items); // Add Rex Hero Slider
-      
-      // Load Latest Updates
-      await loadLatestUpdates();
-      
-      // Refresh every 5 minutes
-      setInterval(async () => {
-        const refreshed = await loadAllFeeds();
-        createHeroSlides(refreshed);
-        createRexHeroSlider(refreshed); // Refresh Rex Hero Slider
-        await loadLatestUpdates();
-      }, 300000);
-    });
-  </script>
-
-</body>
-</html>
+              <p>Expanded content for article 4. Lorem ipsum dolor sit amet,
