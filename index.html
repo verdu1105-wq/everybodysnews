@@ -121,7 +121,7 @@
     /* Brooklyn Editor's Pick Hero - 2x3 Grid (3 top, 3 bottom) */
     #brooklyn-hero{background:#fff;padding:0;margin:60px auto}
     #brooklyn-hero .container{max-width:100%;padding:0}
-    #brooklyn-hero .hero-title{color:#fe6c61;font-size:12px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;margin:0 0 30px;text-align:center;padding:0 16px}
+    #brooklyn-hero .hero-title{color:#fe6c61;font-size:12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;margin:0 0 30px;text-align:center;padding:0 16px}
     
     /* 2x3 Grid: 3 columns, 2 rows */
     #brooklyn-hero .hero-grid{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,320px);gap:4px}
@@ -2469,7 +2469,8 @@
       
       heroItems.forEach((item, index) => {
         const li = document.createElement('li');
-        li.style.backgroundImage = `url('${getImageUrl(item)}')`;
+        // CRITICAL IMAGE FIX: Use the background image determined by getImageUrl
+        li.style.backgroundImage = `url('${getImageUrl(item)}')`; 
         if (index === 0) li.classList.add('flex-active-slide');
         let description = (item.description || '').replace(/<[^>]*>/g, '').substring(0, 150) + '...';
         const categoryClass = (item.category || 'news').toLowerCase().replace(/\s+/g, '-');
@@ -2531,27 +2532,93 @@
       
       setInterval(nextSlide, 6000);
     }
+
+    // Initialization for the DOUBLE-COVER (Black screen issue)
+    (function(){
+      const root = document.getElementById('double-cover');
+      if(!root) return;
+      
+      // This is the function that initializes the complex animation logic for the black carousel
+      function initializeDoubleCover() {
+          const slides = Array.from(root.querySelectorAll('.slide'));
+          const prev = root.querySelector('.prev');
+          const next = root.querySelector('.next');
+          const railNext = root.querySelector('.rail .next');
+          const qthumbs = Array.from(root.querySelectorAll('.qthumb'));
+          let i = 0;
+          const dur = 6500;
+          let timer;
+
+          // Note: The HTML is using placeholders here, which is why it's black. 
+          // We must ensure the animation runs even if the placeholder links are bad.
+          const titles = slides.map(s => s.querySelector('.title').textContent.trim());
+          const thumbs = slides.map(s => s.style.backgroundImage.replace(/url\(['"]?([^'"]+)['"]?\)/, '$1'));
+
+          function setActive(idx){
+            i = (idx + slides.length) % slides.length;
+            slides.forEach(s => s.classList.remove('active'));
+            qthumbs.forEach(t => t.classList.remove('active'));
+            slides[i].classList.add('active');
+            const qi = qthumbs.find(t => +t.dataset.i === i);
+            if(qi) qi.classList.add('active');
+
+            // Update NEXT card at the bottom
+            const nextI = (i + 1) % slides.length;
+            if (railNext) {
+                railNext.dataset.target = nextI;
+                const img = railNext.querySelector('.thumb img');
+                const name = railNext.querySelector('.name');
+                if (img && thumbs[nextI]) img.src = thumbs[nextI];
+                if (name) name.textContent = titles[nextI];
+            }
+          }
+
+          function play(){
+            clearInterval(timer);
+            timer = setInterval(()=>setActive(i+1), dur);
+          }
+
+          if (prev) prev.addEventListener('click', ()=>{ setActive(i-1); play(); });
+          if (next) next.addEventListener('click', ()=>{ setActive(i+1); play(); });
+          if (railNext) railNext.addEventListener('click', ()=>{ setActive((i+1)%slides.length); play(); });
+          qthumbs.forEach(t => t.addEventListener('click', ()=>{ setActive(+t.dataset.i); play(); }));
+          
+          setActive(0);
+          play();
+      }
+
+      // Run this initialization after content loading
+      document.addEventListener('DOMContentLoaded', () => {
+          setTimeout(initializeDoubleCover, 500);
+      });
+      
+    })();
     
-    // Main Initialization
+    // Main Initialization for Dynamic Content
     document.addEventListener('DOMContentLoaded', async () => {
       console.log('Initializing Everybody\'s News...');
       
-      // Load Hero Slider Content
+      // Add a small delay to ensure all DOM elements are fully rendered before JS manipulation
+      await new Promise(resolve => setTimeout(resolve, 500)); 
+
+      // 1. Load Hero Slider Content (Feeds the top section)
       const heroItems = await loadArticles('/api/news');
+
+      // 2. Initialize Hero/Top Carousel and ensure images are populated
       if (heroItems.length > 0) {
-        createRexHeroSlider(heroItems); 
+          createRexHeroSlider(heroItems); 
       }
 
-      // Load Rex Carousel and Sport Section Content
+      // 3. Load Rex Carousel and Sport Section Content (Feeds the working sections)
       populateRexCarousel();
       populateRexSport();
       
-    // Refresh content every 6 hours (21,600,000 ms)
+      // Refresh content every 6 hours
       setInterval(() => {
-        populateRexCarousel();
-        populateRexSport();
-        loadArticles('/api/news').then(items => { if (items.length > 0) createRexHeroSlider(items); });
-      }, 21600000); 
+          populateRexCarousel();
+          populateRexSport();
+          loadArticles('/api/news').then(items => { if (items.length > 0) createRexHeroSlider(items); });
+      }, 21600000);
     });
   </script>
 </body>
