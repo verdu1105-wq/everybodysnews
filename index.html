@@ -2011,4 +2011,260 @@
               <span class="grid-expand-icon">+</span>
             </a>
             <div id="grid4" class="grid-content">
-              <p>Expanded content for article 4. Lorem ipsum dolor sit amet,
+              <p>Expanded content for article 4. Lorem ipsum dolor sit amet,</p>
+			  </body>
+			  <script>
+    // This is the frontend logic for rendering news content
+    
+    // Fallback demo items if feeds fail (kept short for file size)
+    function createFallbackItems() {
+      return [
+        {
+          title: 'World Series Game 7 Tonight: Dodgers vs Blue Jays at Rogers Centre',
+          description: 'Historic Game 7 showdown as defending champion Dodgers face Blue Jays seeking first title in 32 years. Game starts at 8 PM ET on FOX.',
+          link: '#',
+          category: 'SPORTS',
+          categoryColor: '#d32f2f',
+          pubDate: new Date().toISOString(),
+          author: 'MLB News Wire',
+          imageUrl: 'https://images.unsplash.com/photo-1566577739112-5180d4bf9390?w=1920&q=80',
+          source: 'ESPN',
+          sourceIcon: 'https://www.google.com/s2/favicons?domain=espn.com&sz=32'
+        },
+        // ... (can add more if needed)
+      ];
+    }
+    
+    // Get image - Using robust fallbacks to solve the black screen issue
+    function getImageUrl(item) {
+      // 1. Try URL returned from server 
+      if (item.imageUrl) return item.imageUrl;
+
+      // 2. Try URL from the specific enclosure field (if present)
+      if (item.enclosure?.link) return item.enclosure.link;
+
+      // 3. Define generic color/category fallbacks with high-res URLs
+      const fallbacks = {
+        'SPORTS': 'https://images.unsplash.com/photo-1461896836934-ffe607ba8211?q=80&w=2000&auto=format&fit=crop', 
+        'COLLEGE SPORTS': 'https://images.unsplash.com/photo-1541534741688-60787a26f8d1?q=80&w=2000&auto=format&fit=crop', 
+        'FOX SPORTS': 'https://images.unsplash.com/photo-1579979704251-17f1a3b3e246?q=80&w=2000&auto=format&fit=crop', 
+        'GENERAL SPORTS': 'https://images.unsplash.com/photo-1517649721722-680c4316d3e3?q=80&w=2000&auto=format&fit=crop', 
+        'ABC NEWS': 'https://images.unsplash.com/photo-1585829365295-ab7cd400c167?q=80&w=2000&auto=format&fit=crop', 
+        'WORLD NEWS': 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?q=80&w=2000&auto=format&fit=crop', 
+        'TECHNOLOGY': 'https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=2000&auto=format&fit=crop', 
+        'DEFAULT': 'https://images.unsplash.com/photo-1503694994714-66c42b49c716?q=80&w=2000&auto=format&fit=crop' 
+      };
+      
+      // 4. Return category-specific fallback or generic fallback
+      return fallbacks[item.category] || fallbacks['DEFAULT'];
+    }
+    
+    function formatDate(dateString) {
+      const date = new Date(dateString);
+      return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }).toUpperCase();
+    }
+
+    // =====================================================================
+    // CORE FUNCTIONS TO LOAD DATA FROM API
+    // =====================================================================
+
+    // Load articles from a specific API endpoint
+    async function loadArticles(endpoint) {
+      try {
+        const response = await fetch(endpoint);
+        const data = await response.json();
+        
+        if (data.status === 'success' && data.articles) {
+          return data.articles;
+        }
+      } catch (err) {
+        console.error(`API fetch failed for ${endpoint}:`, err);
+      }
+      return []; // Return empty array on failure
+    }
+
+    // Function to populate Rex Sport section
+    async function populateRexSport() {
+      const articles = await loadArticles('/api/rex-carousel');
+      
+      const sportListElement = document.querySelector('#rex-sport .col-list .list-small-post');
+      
+      if (!sportListElement || articles.length === 0) {
+        return;
+      }
+      
+      // Filter for Sports-related categories 
+      const sportArticles = articles.filter(a => 
+        a.category.includes('SPORTS') || 
+        a.category.includes('GENERAL SPORTS') ||
+        a.category.includes('FOX SPORTS') ||
+        a.category.includes('COLLEGE SPORTS')
+      ).slice(0, 3); // Take top 3 for the list
+      
+      if (sportArticles.length === 0) {
+        return;
+      }
+
+      // Populate the large post with the first available article
+      const largePost = document.querySelector('#rex-sport .large-post');
+      if (largePost && sportArticles[0]) {
+        const item = sportArticles[0];
+        largePost.querySelector('.thumb').style.backgroundImage = `url('${getImageUrl(item)}')`;
+        
+        // Ensure this structure exists in the HTML, or the JS fails silently
+        const postCategory = largePost.querySelector('.post-category a');
+        if (postCategory) postCategory.textContent = item.category;
+        
+        const postDate = largePost.querySelector('.post-date');
+        if (postDate) postDate.innerHTML = `<span class="date-icon">🕐</span> ${formatDate(item.pubDate)}`;
+        
+        const postTitleLink = largePost.querySelector('.title a');
+        if (postTitleLink) {
+          postTitleLink.textContent = item.title;
+          postTitleLink.href = item.link;
+        }
+      }
+
+      // Populate the small list with the remaining articles
+      sportListElement.innerHTML = sportArticles.slice(0, 3).map(item => {
+        const dateStr = formatDate(item.pubDate);
+        const sourceIconHtml = item.sourceIcon ? 
+            `<img src="${item.sourceIcon}" alt="${item.source}" class="rex-source-icon" style="width: 12px; height: 12px; vertical-align: middle; margin-right: 4px;">` : 
+            '';
+
+        return `
+          <li>
+              <div class="post-c-wrap">
+                  <h4 class="title"><a href="${item.link}" target="_blank">${item.title}</a></h4>
+                  <div class="rex-meta" style="font-size: 11px; color: #666; margin-top: 4px;">
+                      ${sourceIconHtml}
+                      <span class="rex-source-name">${item.source}</span>
+                  </div>
+              </div>
+              <a href="${item.link}" target="_blank">
+                  <div class="thumb" style="background-image: url('${getImageUrl(item)}'); background-size: cover; background-position: center;"></div>
+              </a>
+          </li>
+        `;
+      }).join('');
+    }
+
+    // Function to populate the main Rex Carousel
+    async function populateRexCarousel() {
+      const articles = await loadArticles('/api/rex-carousel');
+      
+      const carouselList = document.querySelector('#rex-home-carousel .bk-carousel');
+      if (!carouselList || articles.length === 0) return;
+
+      carouselList.innerHTML = articles.slice(0, 6).map(item => { // Show 6 items
+        return `
+          <li class="content_out small-post clearfix">
+            <a href="${item.link}" target="_blank" style="text-decoration: none; color: inherit; display: block;">
+                <div class="thumb" aria-hidden="true" style="background-image: url('${getImageUrl(item)}'); background-size: cover; background-position: center;"></div>
+                <div class="post-c-wrap">
+                    <h4 class="title">${item.title}</h4>
+                    <div class="rex-meta" style="font-size: 11px; color: #666; margin-top: 4px;">
+                        <img src="${item.sourceIcon}" alt="${item.source}" style="width: 12px; height: 12px; vertical-align: middle; margin-right: 4px;">
+                        <span class="rex-source-name">${item.source}</span>
+                    </div>
+                </div>
+            </a>
+          </li>
+        `;
+      }).join('');
+    }
+
+    // Function to populate Rex Hero Slider (re-using previous code)
+    function createRexHeroSlider(items) {
+      const container = document.querySelector('#rex-hero .flexslider .slides');
+      if (!container) return;
+      container.innerHTML = '';
+      const heroItems = items.slice(0, 3);
+      
+      heroItems.forEach((item, index) => {
+        const li = document.createElement('li');
+        li.style.backgroundImage = `url('${getImageUrl(item)}')`;
+        if (index === 0) li.classList.add('flex-active-slide');
+        let description = (item.description || '').replace(/<[^>]*>/g, '').substring(0, 150) + '...';
+        const categoryClass = (item.category || 'news').toLowerCase().replace(/\s+/g, '-');
+        const date = item.pubDate ? new Date(item.pubDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }).toUpperCase() : 'RECENT';
+        
+        li.innerHTML = `
+          <div class="rex-slide-content">
+            <div class="rex-slide-card">
+              <span class="rex-category-badge ${categoryClass}">${item.category || 'NEWS'}</span>
+              <div class="rex-slide-meta">
+                <span class="rex-slide-date">${date}</span>
+              </div>
+              <h2 class="rex-slide-title">${item.title}</h2>
+              <p class="rex-slide-excerpt">${description}</p>
+              <a href="${item.link || '#'}" class="rex-read-more" target="_blank" rel="noopener noreferrer">READ MORE</a>
+            </div>
+          </div>
+        `;
+        container.appendChild(li);
+      });
+      initRexHeroNav();
+    }
+
+    // Function to initialize Rex Hero Navigation
+    function initRexHeroNav() {
+      const slider = document.querySelector('#rex-hero');
+      if (!slider) return;
+      
+      const slides = slider.querySelectorAll('.flexslider .slides > li');
+      if (slides.length === 0) return;
+      
+      let currentIndex = 0;
+      let navContainer = slider.querySelector('.flex-direction-nav');
+      if (!navContainer) {
+        navContainer = document.createElement('ul');
+        navContainer.className = 'flex-direction-nav';
+        navContainer.innerHTML = `
+          <li><a class="flex-prev" href="#" aria-label="Previous">‹</a></li>
+          <li><a class="flex-next" href="#" aria-label="Next">›</a></li>
+        `;
+        slider.querySelector('.flexslider').appendChild(navContainer);
+      }
+      
+      const prevBtn = slider.querySelector('.flex-prev');
+      const nextBtn = slider.querySelector('.flex-next');
+      
+      function showSlide(index) {
+        slides.forEach(slide => slide.classList.remove('flex-active-slide'));
+        slides[index].classList.add('flex-active-slide');
+      }
+      
+      function nextSlide() {
+        currentIndex = (currentIndex + 1) % slides.length;
+        showSlide(currentIndex);
+      }
+      
+      if (nextBtn) nextBtn.addEventListener('click', (e) => { e.preventDefault(); nextSlide(); });
+      if (prevBtn) prevBtn.addEventListener('click', (e) => { e.preventDefault(); currentIndex = (currentIndex - 1 + slides.length) % slides.length; showSlide(currentIndex); });
+      
+      setInterval(nextSlide, 6000);
+    }
+    
+    // Main Initialization
+    document.addEventListener('DOMContentLoaded', async () => {
+      console.log('Initializing Everybody\'s News...');
+      
+      const heroItems = await loadArticles('/api/news');
+      if (heroItems.length > 0) {
+        createRexHeroSlider(heroItems); 
+      }
+
+      populateRexCarousel();
+      populateRexSport();
+      
+      // Refresh content every 3 minutes
+      setInterval(() => {
+        populateRexCarousel();
+        populateRexSport();
+        loadArticles('/api/news').then(items => { if (items.length > 0) createRexHeroSlider(items); });
+      }, 180000);
+    });
+  </script>
+
+</html>
