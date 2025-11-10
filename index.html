@@ -41,9 +41,9 @@
         align-items:center;
         padding:14px 0;
         border-bottom:1px solid var(--keyline);
-        transition: all 0.2s ease-in-out; /* ADDED: Transition for pop-out */
+        transition: all 0.2s ease-in-out; 
     }
-    #rex-sport .list-small-post li:hover { /* ADDED: Pop-out hover effect */
+    #rex-sport .list-small-post li:hover { 
         background: #f8f8f8;
         transform: translateX(4px);
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
@@ -121,7 +121,7 @@
     /* Brooklyn Editor's Pick Hero - 2x3 Grid (3 top, 3 bottom) */
     #brooklyn-hero{background:#fff;padding:0;margin:60px auto}
     #brooklyn-hero .container{max-width:100%;padding:0}
-    #brooklyn-hero .hero-title{color:#fe6c61;font-size:12px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;margin:0 0 30px;text-align:center;padding:0 16px}
+    #brooklyn-hero .hero-title{color:#fe6c61;font-size:12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;margin:0 0 30px;text-align:center;padding:0 16px}
     
     /* 2x3 Grid: 3 columns, 2 rows */
     #brooklyn-hero .hero-grid{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,320px);gap:4px}
@@ -274,7 +274,7 @@
     .grid-link{text-decoration:none;display:block;position:relative}
     
     /* Image placeholder */
-    .grid-image-placeholder{aspect-ratio:4/3;background:#e5e7eb;border:1px solid #d1d5db;display:flex;align-items:center;justify-content:center;margin-bottom:15px;transition:all 0.3s;overflow:hidden;position:relative}
+    .grid-image-placeholder{aspect-ratio:4/3;background:#e5e7eb;border:1px solid #d1d5db;display:flex;align-items:center;justify-content:center;margin-bottom:15px;transition:all 0.3s}
     .grid-link:hover .grid-image-placeholder{background:#dbeafe;border-color:#93c5fd}
     .grid-placeholder-text{color:#9ca3af;font-size:14px;font-weight:500;text-transform:uppercase;letter-spacing:0.05em}
     
@@ -419,16 +419,16 @@
     
     /* Responsive */
     @media(max-width:1024px){
-      #brooklyn-hero .hero-grid{grid-template-columns:repeat(2,1fr);grid-template-rows:repeat(3,280px)}
+      .brooklyn-hero .hero-grid{grid-template-columns:repeat(2,1fr);grid-template-rows:repeat(3,280px)}
       .brooklyn-grid{grid-template-columns:repeat(2,1fr)}
       .brooklyn-feature-layout{grid-template-columns:1fr}
       .brooklyn-list-item{grid-template-columns:1fr 140px;gap:20px}
       .brooklyn-list-image{aspect-ratio:1/1}
     }
     @media(max-width:680px){
-      #brooklyn-hero .hero-grid{grid-template-columns:1fr;grid-template-rows:repeat(6,300px)}
-      #brooklyn-hero .hero-overlay{padding:20px}
-      #brooklyn-hero .hero-title-text{font-size:18px}
+      .brooklyn-hero .hero-grid{grid-template-columns:1fr;grid-template-rows:repeat(6,300px)}
+      .brooklyn-hero .hero-overlay{padding:20px}
+      .brooklyn-hero .hero-title-text{font-size:18px}
       .brooklyn-grid{grid-template-columns:1fr}
       .brooklyn-list-item{grid-template-columns:1fr 120px;gap:16px;padding:16px 0}
       .brooklyn-list-title{font-size:16px}
@@ -2011,10 +2011,306 @@
               <span class="grid-expand-icon">+</span>
             </a>
             <div id="grid4" class="grid-content">
-              <p>Expanded content for article 4. Lorem ipsum dolor sit amet,</p>
-			  </body>
-			  <script>
-    // This is the frontend logic for rendering news content
+              <p>Expanded content for article 4. Lorem ipsum dolor sit amet, consectetur adipiscing elit. </p>
+            </div>
+          </div>
+          
+          <div class="grid-item">
+            <a href="#grid5" class="grid-link" onclick="toggleGridItem(event, 'grid5')">
+              <div class="grid-image-placeholder">
+                <span class="grid-placeholder-text">Image 5</span>
+              </div>
+              <h3 class="grid-title">Article Title 5</h3>
+              <span class="grid-expand-icon">+</span>
+            </a>
+            <div id="grid5" class="grid-content">
+              <p>Expanded content for article 5. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            </div>
+          </div>
+          
+          <div class="grid-item">
+            <a href="#grid6" class="grid-link" onclick="toggleGridItem(event, 'grid6')">
+              <div class="grid-image-placeholder">
+                <span class="grid-placeholder-text">Image 6</span>
+              </div>
+              <h3 class="grid-title">Article Title 6</h3>
+              <span class="grid-expand-icon">+</span>
+            </a>
+            <div id="grid6" class="grid-content">
+              <p>Expanded content for article 6. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </section>
+
+    <section class="brooklyn-parallax-video" id="brooklyn-parallax">
+      <div class="parallax-overlay"></div>
+      <div class="parallax-content">
+        <h1 class="parallax-title">The artist who has never existed:<br>modern myths</h1>
+        <a href="https://vimeo.com/140798682" class="video-play-button" target="_blank" rel="noopener">
+          <div class="video-play-icon">
+            <span class="play-arrow">▶</span>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <section class="brooklyn-two-column">
+      <div class="container">
+        
+      </div>
+    </section>
+
+    <section class="brooklyn-section">
+      <div class="container">
+        
+      </div>
+    </section>
+
+    <section class="brooklyn-feature-section">
+      <div class="container">
+        <div class="brooklyn-feature-layout">
+          
+          <article class="brooklyn-feature-main">
+            <div class="brooklyn-feature-main-image">
+              <div style="background:#f0e68c;width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#999;font-size:64px;">🎭</div>
+            </div>
+            <h2 class="brooklyn-feature-main-title">
+              <a href="#">The Artist Who Has Never Existed: Modern Myths</a>
+            </h2>
+            <p class="brooklyn-feature-main-excerpt">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris molestie leo ipsum, at suscipit nisi gravida sit amet. Suspendisse potenti. Sed ac mauris quis nisi consequat tincidunt vel in eros.</p>
+          </article>
+          
+          <aside>
+            <ul class="brooklyn-list">
+              <li class="brooklyn-list-item">
+                <div class="brooklyn-list-content">
+                  <h3 class="brooklyn-list-title">
+                    <a href="#">A Yellow Dreamscape Totally Hidden from Reality</a>
+                  </h3>
+                  <p class="brooklyn-list-excerpt">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris molestie leo.</p>
+                </div>
+                <div class="brooklyn-list-image">
+                  <div style="background:#ffe4b5;width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#999;">🌟</div>
+                </div>
+              </li>
+              
+              <li class="brooklyn-list-item">
+                <div class="brooklyn-list-content">
+                  <h3 class="brooklyn-list-title">
+                    <a href="#">Violence in the Media: What Effects on Behavior</a>
+                  </h3>
+                  <p class="brooklyn-list-excerpt">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris molestie leo.</p>
+                </div>
+                <div class="brooklyn-list-image">
+                  <div style="background:#f0e68c;width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#999;">📺</div>
+                </div>
+              </li>
+              
+              <li class="brooklyn-list-item">
+                <div class="brooklyn-list-content">
+                  <h3 class="brooklyn-list-title">
+                    <a href="#">Spectacular Vegetables to Enjoy in the Winter Time</a>
+                  </h3>
+                  <p class="brooklyn-list-excerpt">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris molestie leo.</p>
+                </div>
+                <div class="brooklyn-list-image">
+                  <div style="background:#98fb98;width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#999;">🥬</div>
+                </div>
+              </li>
+            </ul>
+          </aside>
+          
+        </div>
+      </div>
+    </section>
+
+    <section class="brooklyn-list-section">
+      <div class="container">
+        <h2 class="section-title">Latest Stories</h2>
+        
+        <ul class="brooklyn-list">
+          <li class="brooklyn-list-item">
+            <div class="brooklyn-list-content">
+              <h3 class="brooklyn-list-title">
+                <a href="#">A Comprehensive List of the 50 Best Museums in the World</a>
+              </h3>
+              <p class="brooklyn-list-excerpt">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris molestie leo ipsum, at suscipit nisi gravida sit amet. Suspendisse potenti.</p>
+            </div>
+            <div class="brooklyn-list-image">
+              <div style="background:#e8e8e8;width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#999;font-size:32px;">🏛️</div>
+            </div>
+          </li>
+          
+          <li class="brooklyn-list-item">
+            <div class="brooklyn-list-content">
+              <h3 class="brooklyn-list-title">
+                <a href="#">Newcomers to Watch Out for on the NY Triathlon</a>
+              </h3>
+              <p class="brooklyn-list-excerpt">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris molestie leo ipsum, at suscipit nisi gravida sit amet. Suspendisse potenti.</p>
+            </div>
+            <div class="brooklyn-list-image">
+              <div style="background:#e8e8e8;width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#999;font-size:32px;">🏊</div>
+            </div>
+          </li>
+          
+          <li class="brooklyn-list-item">
+            <div class="brooklyn-list-content">
+              <h3 class="brooklyn-list-title">
+                <a href="#">Cloning Factories Could Save Species in the Future, But Is It Ethical</a>
+              </h3>
+              <p class="brooklyn-list-excerpt">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris molestie leo ipsum, at suscipit nisi gravida sit amet. Suspendisse potenti.</p>
+            </div>
+            <div class="brooklyn-list-image">
+              <div style="background:#e8e8e8;width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#999;font-size:32px;">🧬</div>
+            </div>
+          </li>
+          
+          <li class="brooklyn-list-item">
+            <div class="brooklyn-list-content">
+              <h3 class="brooklyn-list-title">
+                <a href="#">What Are the Best Plants to Have in Your Bedroom and Why</a>
+              </h3>
+              <p class="brooklyn-list-excerpt">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris molestie leo ipsum, at suscipit nisi gravida sit amet. Suspendisse potenti.</p>
+            </div>
+            <div class="brooklyn-list-image">
+              <div style="background:#e8e8e8;width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#999;font-size:32px;">🌿</div>
+            </div>
+          </li>
+        </ul>
+        
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="bk-footer">
+    <div class="container bk-footer-widgets">
+      <div class="bk-footer-col">
+        <h4 class="title">About Rex</h4>
+        <p>Placeholder copy for the Rex footer about section.</p>
+      </div>
+      <div class="bk-footer-col">
+        <h4 class="title">Categories</h4>
+        <ul class="bk-footer-list"><li>Updates</li><li>Sports</li><li>Technology</li><li>Lifestyle</li></ul>
+      </div>
+      <div class="bk-footer-col">
+        <h4 class="title">Follow</h4>
+        <ul class="bk-footer-social"><li>FB</li><li>TW</li><li>IG</li></ul>
+      </div>
+    </div>
+    <div class="container bk-copyright">
+      <p>© Rex Theme — placeholders only</p>
+    </div>
+  </footer>
+
+  <script>
+    // Minimal JS to make the "New Carousel" advance on prev/next without external libs
+    (function(){
+      var wrap = document.querySelector('#rex-home-carousel .bk-carousel');
+      if(!wrap) return;
+      var prev = document.querySelector('#rex-home-carousel .flex-prev');
+      var next = document.querySelector('#rex-home-carousel .flex-next');
+      function advance(dir){
+        var items = wrap.querySelectorAll('li');
+        if(items.length < 2) return;
+        if(dir>0){ wrap.appendChild(items[0]); }
+        else { wrap.insertBefore(items[items.length-1], items[0]); }
+      }
+      prev && prev.addEventListener('click', function(e){e.preventDefault(); advance(-1)});
+      next && next.addEventListener('click', function(e){e.preventDefault(); advance(1)});
+    })();
+
+    // Brooklyn Hero - Video playback on hover
+    (function(){
+      var heroItems = document.querySelectorAll('#brooklyn-hero .hero-item');
+      heroItems.forEach(function(item){
+        var video = item.querySelector('.hero-video');
+        if(video){
+          item.addEventListener('mouseenter', function(){
+            video.play();
+          });
+          item.addEventListener('mouseleave', function(){
+            video.pause();
+          });
+        }
+      });
+    })();
+
+    // Brooklyn Placeholder Toggle
+    function togglePlaceholder(event, id) {
+      event.preventDefault();
+      var content = document.getElementById(id);
+      var icon = event.currentTarget.querySelector('.placeholder-icon');
+      
+      // Toggle active class
+      if(content.classList.contains('active')) {
+        content.classList.remove('active');
+        icon.textContent = '+';
+      } else {
+        // Close all other placeholders
+        document.querySelectorAll('.placeholder-content').forEach(function(item){
+          item.classList.remove('active');
+        });
+        document.querySelectorAll('.placeholder-icon').forEach(function(item){
+          item.textContent = '+';
+        });
+        
+        // Open this placeholder
+        content.classList.add('active');
+        icon.textContent = '−';
+      }
+    }
+
+    // Brooklyn Grid Item Toggle
+    function toggleGridItem(event, id) {
+      event.preventDefault();
+      var content = document.getElementById(id);
+      var icon = event.currentTarget.querySelector('.grid-expand-icon');
+      
+      // Toggle active class
+      if(content.classList.contains('active')) {
+        content.classList.remove('active');
+        icon.textContent = '+';
+      } else {
+        // Close all other grid items
+        document.querySelectorAll('.grid-content').forEach(function(item){
+          item.classList.remove('active');
+        });
+        document.querySelectorAll('.grid-expand-icon').forEach(function(item){
+          item.textContent = '+';
+        });
+        
+        // Open this grid item
+        content.classList.add('active');
+        icon.textContent = '−';
+      }
+    }
+
+    // Brooklyn Parallax Effect
+    (function(){
+      var parallaxSection = document.getElementById('brooklyn-parallax');
+      if(!parallaxSection) return;
+      
+      window.addEventListener('scroll', function(){
+        var scrolled = window.pageYOffset;
+        var sectionTop = parallaxSection.offsetTop;
+        var sectionHeight = parallaxSection.offsetHeight;
+        
+        // Only apply parallax when section is in view
+        if(scrolled + window.innerHeight > sectionTop && scrolled < sectionTop + sectionHeight) {
+          var offset = (scrolled - sectionTop) * 0.5;
+          parallaxSection.style.backgroundPosition = 'center ' + (-offset) + 'px';
+        }
+      });
+    })();
+  </script>
+<script>
+    // =====================================================================
+    // CORE NEWS LOADING AND RENDERING LOGIC
+    // =====================================================================
     
     // Fallback demo items if feeds fail (kept short for file size)
     function createFallbackItems() {
@@ -2027,15 +2323,14 @@
           categoryColor: '#d32f2f',
           pubDate: new Date().toISOString(),
           author: 'MLB News Wire',
-          imageUrl: 'https://images.unsplash.com/photo-1566577739112-5180d4bf9390?w=1920&q=80',
+          imageUrl: 'https://images.unsplash.com/photo-1566577739112-5180d4bf9390?q=80&w=2000&auto=format&fit=crop',
           source: 'ESPN',
           sourceIcon: 'https://www.google.com/s2/favicons?domain=espn.com&sz=32'
         },
-        // ... (can add more if needed)
       ];
     }
     
-    // Get image - Using robust fallbacks to solve the black screen issue
+    // Get image - Enhanced to handle nulls and provide generic fallbacks
     function getImageUrl(item) {
       // 1. Try URL returned from server 
       if (item.imageUrl) return item.imageUrl;
@@ -2064,10 +2359,6 @@
       return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }).toUpperCase();
     }
 
-    // =====================================================================
-    // CORE FUNCTIONS TO LOAD DATA FROM API
-    // =====================================================================
-
     // Load articles from a specific API endpoint
     async function loadArticles(endpoint) {
       try {
@@ -2080,7 +2371,7 @@
       } catch (err) {
         console.error(`API fetch failed for ${endpoint}:`, err);
       }
-      return []; // Return empty array on failure
+      return []; 
     }
 
     // Function to populate Rex Sport section
@@ -2093,13 +2384,12 @@
         return;
       }
       
-      // Filter for Sports-related categories 
       const sportArticles = articles.filter(a => 
         a.category.includes('SPORTS') || 
         a.category.includes('GENERAL SPORTS') ||
         a.category.includes('FOX SPORTS') ||
         a.category.includes('COLLEGE SPORTS')
-      ).slice(0, 3); // Take top 3 for the list
+      ).slice(0, 3);
       
       if (sportArticles.length === 0) {
         return;
@@ -2111,7 +2401,6 @@
         const item = sportArticles[0];
         largePost.querySelector('.thumb').style.backgroundImage = `url('${getImageUrl(item)}')`;
         
-        // Ensure this structure exists in the HTML, or the JS fails silently
         const postCategory = largePost.querySelector('.post-category a');
         if (postCategory) postCategory.textContent = item.category;
         
@@ -2127,7 +2416,6 @@
 
       // Populate the small list with the remaining articles
       sportListElement.innerHTML = sportArticles.slice(0, 3).map(item => {
-        const dateStr = formatDate(item.pubDate);
         const sourceIconHtml = item.sourceIcon ? 
             `<img src="${item.sourceIcon}" alt="${item.source}" class="rex-source-icon" style="width: 12px; height: 12px; vertical-align: middle; margin-right: 4px;">` : 
             '';
@@ -2174,7 +2462,7 @@
       }).join('');
     }
 
-    // Function to populate Rex Hero Slider (re-using previous code)
+    // Function to populate Rex Hero Slider
     function createRexHeroSlider(items) {
       const container = document.querySelector('#rex-hero .flexslider .slides');
       if (!container) return;
@@ -2250,11 +2538,13 @@
     document.addEventListener('DOMContentLoaded', async () => {
       console.log('Initializing Everybody\'s News...');
       
+      // Load Hero Slider Content
       const heroItems = await loadArticles('/api/news');
       if (heroItems.length > 0) {
         createRexHeroSlider(heroItems); 
       }
 
+      // Load Rex Carousel and Sport Section Content
       populateRexCarousel();
       populateRexSport();
       
@@ -2266,5 +2556,5 @@
       }, 180000);
     });
   </script>
-
+</body>
 </html>
