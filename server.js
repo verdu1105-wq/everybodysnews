@@ -15,7 +15,7 @@ const parser = new Parser({
 });
 
 // =================================================================
-// FEEDS CONFIGURATION & DEFINITIONS (CRASH FIX: Defined in file)
+// FEEDS CONFIGURATION & DEFINITIONS (FINAL STABLE VERSION)
 // =================================================================
 const feedsConfig = {
   articlesPerFeed: 20, 
@@ -173,7 +173,8 @@ let heroArticlesCache = [];
 let heroLastFetch = 0;
 let rexArticlesCache = [];
 let rexLastFetch = 0;
-const CACHE_DURATION = 21600000; // 6 hours
+// CACHE_DURATION is defined at the top
+// const CACHE_DURATION = 21600000; // 6 hours (Removed to prevent redeclaration crash)
 
 // Get cached hero articles
 async function getCachedHeroArticles() {
