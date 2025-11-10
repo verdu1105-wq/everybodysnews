@@ -121,7 +121,7 @@
     /* Brooklyn Editor's Pick Hero - 2x3 Grid (3 top, 3 bottom) */
     #brooklyn-hero{background:#fff;padding:0;margin:60px auto}
     #brooklyn-hero .container{max-width:100%;padding:0}
-    .brooklyn-hero-title{color:#fe6c61;font-size:12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;margin:0 0 30px;text-align:center;padding:0 16px}
+    #brooklyn-hero .hero-title{color:#fe6c61;font-size:12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;margin:0 0 30px;text-align:center;padding:0 16px}
     
     /* 2x3 Grid: 3 columns, 2 rows */
     #brooklyn-hero .hero-grid{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,320px);gap:4px}
@@ -1142,7 +1142,84 @@
 </head>
 <body>
 
-<section id="double-cover" aria-label="Featured carousel" style="display: none;"></section>
+<section id="double-cover" aria-label="Featured carousel">
+  <div class="cover-wrap">
+    <div class="slide active" data-i="0" style="background-image:url('https://images.unsplash.com/photo-1516387938699-a93567ec168e?q=80&w=2000&auto=format&fit=crop');">
+      <div class="scrim"></div>
+      <div class="caption">
+        <div class="kicker">Top Story</div>
+        <div class="title">Japan — Neon nights and crosswalk symphonies</div>
+        <div class="meta">Thinkers · 6 min read</div>
+      </div>
+    </div>
+    <div class="slide" data-i="1" style="background-image:url('https://images.unsplash.com/photo-1502784444185-1a17bca6cf1a?q=80&w=2000&auto=format&fit=crop');">
+      <div class="scrim"></div>
+      <div class="caption">
+        <div class="kicker">Business</div>
+        <div class="title">New Zealand — A macro rebound surrounded by peaks</div>
+        <div class="meta">Wire · 4 min read</div>
+      </div>
+    </div>
+    <div class="slide" data-i="2" style="background-image:url('https://images.unsplash.com/photo-1512453979798-5ea266f8880c?q=80&w=2000&auto=format&fit=crop');">
+      <div class="scrim"></div>
+      <div class="caption">
+        <div class="kicker">Tech</div>
+        <div class="title">India — Networks scale as cities swell</div>
+        <div class="meta">Labs · 5 min read</div>
+      </div>
+    </div>
+    <div class="slide" data-i="3" style="background-image:url('https://images.unsplash.com/photo-1521292270410-a8c04f0f3d5b?q=80&w=2000&auto=format&fit=crop');">
+      <div class="scrim"></div>
+      <div class="caption">
+        <div class="kicker">Travel</div>
+        <div class="title">Switzerland — Alpine calm in high fidelity</div>
+        <div class="meta">Features · 7 min read</div>
+      </div>
+    </div>
+    <div class="slide" data-i="4" style="background-image:url('https://images.unsplash.com/photo-1439546743462-802cabef8e97?q=80&w=2000&auto=format&fit=crop');">
+      <div class="scrim"></div>
+      <div class="caption">
+        <div class="kicker">Culture</div>
+        <div class="title">Italy — Shores, shadows, and summer meals</div>
+        <div class="meta">Magazine · 8 min read</div>
+      </div>
+    </div>
+
+    <div class="ctrl">
+      <button class="prev" aria-label="Previous">‹</button>
+      <button class="next" aria-label="Next">›</button>
+    </div>
+
+    <div class="rail" aria-label="Next slide and queue">
+      <div class="next" data-target="1">
+        <div class="thumb">
+          <img src="https://images.unsplash.com/photo-1502784444185-1a17bca6cf1a?q=80&w=640&auto=format&fit=crop" alt="Next slide">
+        </div>
+        <div class="text">
+          <div class="label">Next</div>
+          <div class="name">New Zealand — A macro rebound surrounded by peaks</div>
+        </div>
+      </div>
+      <div class="queue">
+        <div class="qthumb active" data-i="0">
+          <img src="https://images.unsplash.com/photo-1516387938699-a93567ec168e?q=80&w=240&auto=format&fit=crop" alt="Japan">
+        </div>
+        <div class="qthumb" data-i="1">
+          <img src="https://images.unsplash.com/photo-1502784444185-1a17bca6cf1a?q=80&w=240&auto=format&fit=crop" alt="New Zealand">
+        </div>
+        <div class="qthumb" data-i="2">
+          <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?q=80&w=240&auto=format&fit=crop" alt="India">
+        </div>
+        <div class="qthumb" data-i="3">
+          <img src="https://images.unsplash.com/photo-1521292270410-a8c04f0f3d5b?q=80&w=240&auto=format&fit=crop" alt="Switzerland">
+        </div>
+        <div class="qthumb" data-i="4">
+          <img src="https://images.unsplash.com/photo-1439546743462-802cabef8e97?q=80&w=240&auto=format&fit=crop" alt="Italy">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
 
   <header class="rex-header">
@@ -2117,6 +2194,10 @@
         <h4 class="title">Categories</h4>
         <ul class="bk-footer-list"><li>Updates</li><li>Sports</li><li>Technology</li><li>Lifestyle</li></ul>
       </div>
+      <div class="bk-footer-col">
+        <h4 class="title">Follow</h4>
+        <ul class="bk-footer-social"><li>FB</li><li>TW</li><li>IG</li></ul>
+      </div>
     </div>
     <div class="container bk-copyright">
       <p>© Rex Theme — placeholders only</p>
@@ -2438,9 +2519,7 @@
       
       function showSlide(index) {
         slides.forEach(slide => slide.classList.remove('flex-active-slide'));
-        if (slides[index]) {
-             slides[index].classList.add('flex-active-slide');
-        }
+        slides[index].classList.add('flex-active-slide');
       }
       
       function nextSlide() {
@@ -2451,7 +2530,6 @@
       if (nextBtn) nextBtn.addEventListener('click', (e) => { e.preventDefault(); nextSlide(); });
       if (prevBtn) prevBtn.addEventListener('click', (e) => { e.preventDefault(); currentIndex = (currentIndex - 1 + slides.length) % slides.length; showSlide(currentIndex); });
       
-      // Start the animation loop
       setInterval(nextSlide, 6000);
     }
 
@@ -2472,6 +2550,7 @@
           let timer;
 
           // Note: The HTML is using placeholders here, which is why it's black. 
+          // We must ensure the animation runs even if the placeholder links are bad.
           const titles = slides.map(s => s.querySelector('.title').textContent.trim());
           const thumbs = slides.map(s => s.style.backgroundImage.replace(/url\(['"]?([^'"]+)['"]?\)/, '$1'));
 
@@ -2488,8 +2567,9 @@
             if (railNext) {
                 railNext.dataset.target = nextI;
                 const img = railNext.querySelector('.thumb img');
+                const name = railNext.querySelector('.name');
                 if (img && thumbs[nextI]) img.src = thumbs[nextI];
-                if (name) railNext.querySelector('.name').textContent = titles[nextI];
+                if (name) name.textContent = titles[nextI];
             }
           }
 
