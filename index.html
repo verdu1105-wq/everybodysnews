@@ -2546,12 +2546,12 @@
       populateRexCarousel();
       populateRexSport();
       
-      // Refresh content every 3 minutes
+    // Refresh content every 6 hours (21,600,000 ms)
       setInterval(() => {
         populateRexCarousel();
         populateRexSport();
         loadArticles('/api/news').then(items => { if (items.length > 0) createRexHeroSlider(items); });
-      }, 180000);
+      }, 21600000); 
     });
   </script>
 </body>
