@@ -3,7 +3,7 @@ const Parser = require('rss-parser');
 const cors = require('cors');
 const path = require('path');
 const axios = require('axios');
-// *** CRITICAL MISSING IMPORTS ADDED ***
+// CRITICAL MISSING IMPORTS ADDED
 const fs = require('fs');
 const { URL } = require('url'); 
 
@@ -392,6 +392,7 @@ app.listen(PORT, '0.0.0.0', async () => {
   
   // Set up background refresh
   const REFRESH_MS = feedsConfig.refreshInterval || 180000;
+  
   setInterval(async () => {
     try {
       await Promise.all([ getCachedHeroArticles(), getCachedRexArticles() ]);
