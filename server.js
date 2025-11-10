@@ -1,4 +1,4 @@
-onst express = require('express');
+const express = require('express');
 const Parser = require('rss-parser');
 const cors = require('cors');
 const path = require('path');
@@ -15,7 +15,7 @@ const parser = new Parser({
 });
 
 // =================================================================
-// FEEDS CONFIGURATION & DEFINITIONS (FINAL STABLE VERSION)
+// FEEDS CONFIGURATION & DEFINITIONS
 // =================================================================
 const feedsConfig = {
   articlesPerFeed: 20, 
@@ -36,9 +36,9 @@ const feedsConfig = {
     { url: 'http://feeds.abcnews.com/abcnews/topstories', category: 'ABC NEWS', source: 'ABC News', sourceIcon: 'https://www.google.com/s2/favicons?domain=abcnews.go.com&sz=32', enabled: true }
   ]
 };
-const CACHE_DURATION = feedsConfig.refreshInterval;
-// =================================================================
 
+// FIXED: Only ONE declaration of CACHE_DURATION
+const CACHE_DURATION = feedsConfig.refreshInterval;
 
 // =================================================================
 // MediaStack API Configuration
@@ -50,7 +50,7 @@ const MEDIASTACK_BASE_URL = 'http://api.mediastack.com/v1/news';
 app.use(cors());
 app.use(express.json());
 
-// Set correct paths for Cloud Run deployment (using root directory)
+// Set correct paths for Cloud Run deployment
 const publicPath = path.join(__dirname, '.'); 
 const indexPath = path.join(publicPath, 'index.html');
 
@@ -58,8 +58,8 @@ const indexPath = path.join(publicPath, 'index.html');
 app.use(express.static(publicPath));
 
 // Get enabled feeds for both carousels
-const heroFeeds = feedsConfig.heroFeeds ? feedsConfig.heroFeeds.filter(f => f.enabled) : [];
-const rexFeeds = feedsConfig.rexFeeds ? feedsConfig.rexFeeds.filter(f => f.enabled) : [];
+const heroFeeds = feedsConfig.heroFeeds.filter(f => f.enabled);
+const rexFeeds = feedsConfig.rexFeeds.filter(f => f.enabled);
 
 // =================================================================
 // HELPER FUNCTIONS 
@@ -207,7 +207,6 @@ async function getCachedRexArticles() {
   return rexArticlesCache.length > 0 ? rexArticlesCache : [];
 }
 
-
 // =================================================================
 // API ENDPOINTS
 // =================================================================
@@ -223,11 +222,12 @@ app.get('/api/news', async (req, res) => {
     }
     res.json({ status: 'error', message: 'No articles available', articles: [] });
   } catch (error) {
+    console.error('API Error:', error);
     res.status(500).json({ status: 'error', message: 'Failed to fetch news' });
   }
 });
 
-// Rex carousel endpoint (Used for Rex Carousel AND Sports Section)
+// Rex carousel endpoint
 app.get('/api/rex-carousel', async (req, res) => {
   try {
     const articles = await getCachedRexArticles();
@@ -238,11 +238,12 @@ app.get('/api/rex-carousel', async (req, res) => {
     }
     res.json({ status: 'error', message: 'No articles available', articles: [] });
   } catch (error) {
+    console.error('API Error:', error);
     res.status(500).json({ status: 'error', message: 'Failed to fetch carousel news' });
   }
 });
 
-// MediaStack API Integration - Function and Endpoints
+// MediaStack API Integration
 async function fetchMediaStackNews(params = {}) {
   try {
     const defaultParams = {
@@ -273,11 +274,12 @@ async function fetchMediaStackNews(params = {}) {
     }
     return [];
   } catch (error) {
+    console.error('MediaStack Error:', error.message);
     return [];
   }
 }
 
-// MediaStack Live News endpoint - supports all parameters
+// MediaStack endpoint
 app.get('/api/mediastack/live-news', async (req, res) => {
   try {
     const news = await fetchMediaStackNews(req.query);
@@ -295,7 +297,7 @@ app.get('/', (req, res) => {
   res.sendFile(indexPath);
 });
 
-// Health check (includes MediaStack check)
+// Health check
 app.get('/health', async (req, res) => {
   let mediastackStatus = 'n/a';
   try {
@@ -319,22 +321,23 @@ app.get('/health', async (req, res) => {
 
 const PORT = process.env.PORT || 8080;
 
-// Start server (Final working setup)
-app.listen(PORT, '0.0.0.0', async () => {
+// Start server
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`\n🚀 Everybody's News Server running on port: ${PORT}\n`);
   
-  // Set up background refresh
-  const REFRESH_MS = feedsConfig.refreshInterval || 180000;
-  
+  // Background refresh every 6 hours
   setInterval(async () => {
     try {
-      await Promise.all([ getCachedHeroArticles(), getCachedRexArticles() ]);
+      console.log('🔄 Background refresh starting...');
+      await Promise.all([getCachedHeroArticles(), getCachedRexArticles()]);
+      console.log('✅ Background refresh complete');
     } catch (e) {
-      console.error('Background refresh failed:', e.message);
+      console.error('❌ Background refresh failed:', e.message);
     }
-  }, REFRESH_MS);
+  }, CACHE_DURATION);
   
-  // Initial feed fetch (must happen *after* app.listen or server won't be ready)
-  await Promise.all([ getCachedHeroArticles(), getCachedRexArticles() ]);
-  console.log(`✅ Server ready.\n`);
+  // Initial fetch (non-blocking)
+  Promise.all([getCachedHeroArticles(), getCachedRexArticles()])
+    .then(() => console.log('✅ Initial feeds loaded\n'))
+    .catch(err => console.error('⚠️  Initial fetch error:', err.message));
 });
