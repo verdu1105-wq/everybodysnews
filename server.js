@@ -18,13 +18,9 @@ const parser = new Parser({
 // FEEDS CONFIGURATION & DEFINITIONS (CRASH FIX: Defined in file)
 // =================================================================
 const feedsConfig = {
-  // Increased to 20 for better article diversity
   articlesPerFeed: 20, 
+  refreshInterval: 21600000, // 6 hours
   
-  // Auto-refresh interval (milliseconds) - SET TO 6 HOURS (21,600,000 ms)
-  refreshInterval: 21600000, 
-  
-  // HERO CAROUSEL FEEDS
   heroFeeds: [
     { url: 'https://rss.app/feeds/tUqVtqZPdYfXDvOb.xml', category: 'BREAKING NEWS', source: 'Hero Feed 1', sourceIcon: 'https://www.google.com/s2/favicons?domain=rss.app&sz=32', enabled: true },
     { url: 'https://rss.app/feeds/tUo3SJ8AHWweCZGH.xml', category: 'BREAKING NEWS', source: 'Hero Feed 2', sourceIcon: 'https://www.google.com/s2/favicons?domain=rss.app&sz=32', enabled: true },
@@ -32,7 +28,6 @@ const feedsConfig = {
     { url: 'https://rss.app/feeds/tN6TfKaJzhcPYYkB.xml', category: 'BREAKING NEWS', source: 'Hero Feed 4', sourceIcon: 'https://www.google.com/s2/favicons?domain=rss.app&sz=32', enabled: true }
   ],
   
-  // REX CAROUSEL FEEDS (FOX SPORTS IS REMOVED HERE)
   rexFeeds: [
     { url: 'https://rss.app/feeds/t9YE5uF7k6PbmNn7.xml', category: 'SPORTS NEWS', source: 'Rex Feed 1', sourceIcon: 'https://www.google.com/s2/favicons?domain=rss.app&sz=32', enabled: true },
     { url: 'https://rss.app/feeds/tOMVwoo9puEGj8Fe.xml', category: 'COLLEGE SPORTS', source: 'College Sports', sourceIcon: 'https://www.google.com/s2/favicons?domain=rss.app&sz=32', enabled: true },
