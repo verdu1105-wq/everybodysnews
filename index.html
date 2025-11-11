@@ -663,6 +663,193 @@
     /* Visual guard rails so you can see what's happening even without theme CSS */
     #rex-music-news .module-title .main-title h2{font-weight:900}
   </style>
+  <style id="mobile-article-modal">
+    /* Mobile Article Card Modal */
+    .article-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      z-index: 9999;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    
+    .article-modal.active {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      animation: fadeIn 0.3s ease;
+    }
+    
+    .article-card {
+      background: #fff;
+      border-radius: 16px;
+      max-width: 600px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      position: relative;
+      transform: translateY(20px);
+      opacity: 0;
+      animation: slideUp 0.3s ease forwards;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    }
+    
+    .article-card-header {
+      position: relative;
+      height: 240px;
+      background: #e5e7eb;
+      border-radius: 16px 16px 0 0;
+      overflow: hidden;
+    }
+    
+    .article-card-header img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .article-card-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.7);
+      color: #fff;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+      transition: all 0.2s;
+    }
+    
+    .article-card-close:hover {
+      background: rgba(0, 0, 0, 0.9);
+      transform: rotate(90deg);
+    }
+    
+    .article-card-body {
+      padding: 24px;
+    }
+    
+    .article-card-source {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+      color: #666;
+      font-size: 13px;
+    }
+    
+    .article-card-source img {
+      width: 20px;
+      height: 20px;
+      border-radius: 4px;
+    }
+    
+    .article-card-category {
+      display: inline-block;
+      background: #d32f2f;
+      color: #fff;
+      padding: 4px 12px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    
+    .article-card-title {
+      font-size: 24px;
+      font-weight: 800;
+      line-height: 1.3;
+      margin: 0 0 16px;
+      color: #111;
+    }
+    
+    .article-card-description {
+      font-size: 16px;
+      line-height: 1.6;
+      color: #444;
+      margin: 0 0 20px;
+    }
+    
+    .article-card-date {
+      font-size: 13px;
+      color: #999;
+      margin-bottom: 20px;
+    }
+    
+    .article-card-actions {
+      display: flex;
+      gap: 12px;
+    }
+    
+    .article-card-btn {
+      flex: 1;
+      padding: 14px 24px;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+      text-align: center;
+    }
+    
+    .article-card-btn-primary {
+      background: #d32f2f;
+      color: #fff;
+    }
+    
+    .article-card-btn-primary:hover {
+      background: #b71c1c;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(211, 47, 47, 0.3);
+    }
+    
+    .article-card-btn-secondary {
+      background: #f5f5f5;
+      color: #111;
+    }
+    
+    .article-card-btn-secondary:hover {
+      background: #e0e0e0;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    @keyframes slideUp {
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+    
+    /* Desktop: Hide modal, use normal links */
+    @media (min-width: 769px) {
+      .article-modal {
+        display: none !important;
+      }
+    }
+  </style>
   <style id="rex-grid-sidebar-styles">
     /* ===== MAIN CONTENT + SIDEBAR LAYOUT ===== */
     .rex-content-sidebar {
@@ -1249,18 +1436,19 @@
         <h2><span>Sports</span></h2>
       </div>
       <div class="row">
-        <div class="large-post">
-          <div class="thumb"></div>
-          <div class="bk-calendar-meta">
-            <div class="day">29</div>
-            <div class="month">Sep</div>
-          </div>
-          <div class="post-c-wrap">
-            <div class="meta">
-              <div class="post-category"><a href="#">Sport</a></div>
-              <div class="post-date">September 29, 2015</div>
-            </div>
-            <h4 class="title"><a href="#">Taciti magnis praesent tortor lorem leo</a></h4>
+        <div class="large-post" style="position:relative;height:420px;padding:0;overflow:hidden;background:#000;border-radius:12px;">
+          <!-- ESPN Sports Video Player -->
+          <iframe id="sports-video-player" 
+            width="100%" 
+            height="100%" 
+            src="" 
+            frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowfullscreen
+            style="border-radius:12px;">
+          </iframe>
+          <div class="video-loading" style="position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:#1a1a1a;color:#666;font-size:18px;">
+            Loading ESPN Highlights...
           </div>
         </div>
         <div class="col-list">
@@ -2133,6 +2321,30 @@
     </div>
   </footer>
 
+  <!-- Mobile Article Modal -->
+  <div class="article-modal" id="articleModal">
+    <div class="article-card">
+      <div class="article-card-header">
+        <img id="modalImage" src="" alt="Article image">
+        <button class="article-card-close" onclick="closeArticleModal()">×</button>
+      </div>
+      <div class="article-card-body">
+        <div class="article-card-source">
+          <img id="modalSourceIcon" src="" alt="Source">
+          <span id="modalSource"></span>
+        </div>
+        <span class="article-card-category" id="modalCategory"></span>
+        <h2 class="article-card-title" id="modalTitle"></h2>
+        <p class="article-card-description" id="modalDescription"></p>
+        <p class="article-card-date" id="modalDate"></p>
+        <div class="article-card-actions">
+          <a id="modalReadMore" href="#" target="_blank" rel="noopener" class="article-card-btn article-card-btn-primary">Read Full Article</a>
+          <button onclick="closeArticleModal()" class="article-card-btn article-card-btn-secondary">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 <script>
 // =================================================================
 // API INTEGRATION & CAROUSEL CONTROLS
@@ -2140,6 +2352,66 @@
 
 // Fallback image for missing article images
 const FALLBACK_IMAGE = 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?q=80&w=2000&auto=format&fit=crop';
+
+// ESPN Sports Video - Latest highlights
+const ESPN_VIDEO_URL = 'https://www.youtube.com/embed/videoseries?list=PL9oKUrtC4qqyY6xMc-vBs3j1lLTMIcgdo'; // ESPN Top Plays playlist
+
+// Check if device is mobile
+function isMobileDevice() {
+  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 768;
+}
+
+// Open article modal (mobile only)
+function openArticleModal(article) {
+  if (!isMobileDevice()) return false;
+  
+  const modal = document.getElementById('articleModal');
+  const modalImage = document.getElementById('modalImage');
+  const modalSourceIcon = document.getElementById('modalSourceIcon');
+  const modalSource = document.getElementById('modalSource');
+  const modalCategory = document.getElementById('modalCategory');
+  const modalTitle = document.getElementById('modalTitle');
+  const modalDescription = document.getElementById('modalDescription');
+  const modalDate = document.getElementById('modalDate');
+  const modalReadMore = document.getElementById('modalReadMore');
+  
+  modalImage.src = article.imageUrl || FALLBACK_IMAGE;
+  modalImage.onerror = function() {
+    this.src = 'data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27600%27 height=%27240%27%3E%3Crect width=%27600%27 height=%27240%27 fill=%27%23e5e7eb%27/%3E%3Ctext x=%2750%25%27 y=%2750%25%27 fill=%27%23999%27 text-anchor=%27middle%27 dy=%27.3em%27 font-size=%2724%27%3ENews Article%3C/text%3E%3C/svg%3E';
+  };
+  modalSourceIcon.src = article.sourceIcon;
+  modalSourceIcon.onerror = function() { this.style.display = 'none'; };
+  modalSource.textContent = article.source;
+  modalCategory.textContent = article.category || 'NEWS';
+  modalTitle.textContent = article.title;
+  modalDescription.textContent = article.description || 'Click "Read Full Article" to view the complete story.';
+  modalDate.textContent = formatDate(article.pubDate);
+  modalReadMore.href = article.link || '#';
+  
+  modal.classList.add('active');
+  document.body.style.overflow = 'hidden';
+  
+  return true;
+}
+
+// Close article modal
+function closeArticleModal() {
+  const modal = document.getElementById('articleModal');
+  modal.classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+// Close modal when clicking outside card
+document.addEventListener('DOMContentLoaded', () => {
+  const modal = document.getElementById('articleModal');
+  if (modal) {
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        closeArticleModal();
+      }
+    });
+  }
+});
 
 // Helper: Format date
 function formatDate(dateString) {
@@ -2174,9 +2446,15 @@ async function loadDoubleCoverCarousel() {
       // Create slides with proper error handling for images
       const slidesHTML = articles.map((article, i) => {
         const imageUrl = article.imageUrl || FALLBACK_IMAGE;
+        const articleData = JSON.stringify(article).replace(/"/g, '&quot;');
         return `
         <div class="slide ${i === 0 ? 'active' : ''}" data-i="${i}" style="background-color:#1a1a1a;background-image:url('${imageUrl}');background-size:cover;background-position:center;">
-          <a href="${article.link || '#'}" class="slide-link" target="_blank" rel="noopener">
+          <a href="${article.link || '#'}" 
+             class="slide-link" 
+             data-article='${articleData}'
+             onclick="return handleArticleClick(event, this)"
+             target="_blank" 
+             rel="noopener">
             <div class="scrim"></div>
             <div class="caption">
               <div class="kicker">${article.category || 'Breaking News'}</div>
@@ -2294,19 +2572,33 @@ async function loadRexHeroSlider() {
       const slidesContainer = document.querySelector('#rex-hero .flexslider .slides');
       const articles = data.articles.slice(0, 5);
       
-      const slidesHTML = articles.map((article, i) => `
+      const slidesHTML = articles.map((article, i) => {
+        const articleData = JSON.stringify(article).replace(/"/g, '&quot;');
+        return `
         <li class="${i === 0 ? 'flex-active-slide' : ''}" style="background-image:url('${article.imageUrl || FALLBACK_IMAGE}');">
           <div class="rex-slide-content">
             <div class="rex-slide-card">
               <span class="rex-category-badge">${article.category || 'NEWS'}</span>
-              <div class="rex-slide-meta">${formatDate(article.pubDate)} • ${article.source}</div>
+              <div class="rex-slide-meta">
+                <img src="${article.sourceIcon}" 
+                     alt="${article.source}" 
+                     onerror="this.style.display='none'"
+                     style="width: 16px; height: 16px; border-radius: 3px; vertical-align: middle; margin-right: 6px;">
+                ${formatDate(article.pubDate)} • ${article.source}
+              </div>
               <h2 class="rex-slide-title">${truncate(article.title, 100)}</h2>
               <p class="rex-slide-excerpt">${truncate(article.description, 150)}</p>
-              <a href="${article.link || '#'}" class="rex-read-more" target="_blank">READ MORE</a>
+              <a href="${article.link || '#'}" 
+                 class="rex-read-more" 
+                 data-article='${articleData}'
+                 onclick="return handleArticleClick(event, this)"
+                 target="_blank" 
+                 rel="noopener">READ MORE</a>
             </div>
           </div>
         </li>
-      `).join('');
+      `;
+      }).join('');
       
       slidesContainer.innerHTML = slidesHTML;
       
@@ -2355,6 +2647,22 @@ function initRexSliderControls() {
 // =================================================================
 async function loadSportsSection() {
   try {
+    // Load ESPN Video
+    const videoPlayer = document.getElementById('sports-video-player');
+    const videoLoading = document.querySelector('.video-loading');
+    
+    if (videoPlayer && videoLoading) {
+      videoPlayer.src = ESPN_VIDEO_URL;
+      videoPlayer.onload = function() {
+        videoLoading.style.display = 'none';
+      };
+      // Hide loading after 2 seconds regardless
+      setTimeout(() => {
+        if (videoLoading) videoLoading.style.display = 'none';
+      }, 2000);
+    }
+    
+    // Load Articles
     const response = await fetch('/api/rex-carousel');
     const data = await response.json();
     
@@ -2364,22 +2672,58 @@ async function loadSportsSection() {
       
       const articles = data.articles.slice(0, 3);
       
-      sportsList.innerHTML = articles.map(article => `
+      sportsList.innerHTML = articles.map(article => {
+        const articleData = JSON.stringify(article).replace(/"/g, '&quot;');
+        return `
         <li>
           <div class="post-c-wrap">
-            <h4 class="title"><a href="${article.link || '#'}" target="_blank">${truncate(article.title, 80)}</a></h4>
-            <div class="rex-meta" style="font-size: 11px; color: #666; margin-top: 4px;">
-              <img src="${article.sourceIcon}" alt="${article.source}" class="rex-source-icon" style="width: 16px; height: 16px; vertical-align: middle; margin-right: 4px; border-radius: 3px;">
-              <span class="rex-source-name">${article.source}</span>
+            <h4 class="title">
+              <a href="${article.link || '#'}" 
+                 data-article='${articleData}'
+                 onclick="return handleArticleClick(event, this)"
+                 target="_blank" 
+                 rel="noopener">
+                ${truncate(article.title, 80)}
+              </a>
+            </h4>
+            <div class="rex-meta" style="font-size: 11px; color: #666; margin-top: 6px; display: flex; align-items: center; gap: 6px;">
+              <img src="${article.sourceIcon}" 
+                   alt="${article.source}" 
+                   onerror="this.style.display='none'"
+                   style="width: 16px; height: 16px; border-radius: 3px; vertical-align: middle;">
+              <span class="rex-source-name" style="font-weight: 600;">${article.source}</span>
+              <span style="color: #ccc;">•</span>
+              <span style="color: #999;">${formatDate(article.pubDate)}</span>
             </div>
           </div>
           <div class="thumb" style="background-image:url('${article.imageUrl || FALLBACK_IMAGE}');background-size:cover;background-position:center;"></div>
         </li>
-      `).join('');
+      `;
+      }).join('');
+      
+      console.log('✅ Sports section loaded with video + articles');
     }
   } catch (error) {
-    console.error('Failed to load sports section:', error);
+    console.error('❌ Failed to load sports section:', error);
   }
+}
+
+// Handle article click - show modal on mobile, open link on desktop
+function handleArticleClick(event, element) {
+  if (isMobileDevice()) {
+    event.preventDefault();
+    const articleData = element.getAttribute('data-article');
+    if (articleData) {
+      try {
+        const article = JSON.parse(articleData.replace(/&quot;/g, '"'));
+        openArticleModal(article);
+      } catch (e) {
+        console.error('Error parsing article data:', e);
+      }
+    }
+    return false;
+  }
+  return true; // Allow default link behavior on desktop
 }
 
 // =================================================================
